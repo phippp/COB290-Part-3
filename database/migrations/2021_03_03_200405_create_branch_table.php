@@ -14,7 +14,7 @@ class CreateBranchTable extends Migration
     public function up()
     {
         Schema::create('Branch', function (Blueprint $table) {
-            $table->uuid('branchId')->primary();            //branchId
+            $table->id('branchId')->unsigned();            //branchId
             $table->string('addressLine1');                 //addressLine1
             $table->string('addressLine2');                 //addressLine2
             $table->string('city');                         //city

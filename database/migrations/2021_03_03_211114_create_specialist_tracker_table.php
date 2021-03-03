@@ -15,11 +15,11 @@ class CreateSpecialistTrackerTable extends Migration
     {
         Schema::create('SpecialistTracker', function (Blueprint $table) {
             $table->id();                                                                               //id
-            $table->integer('empId')->unsigned();                                                       //empId
+            $table->foreignId('empId');                                                                 //empId
             $table->foreign('empId')->references('employeeId')->on('Employee');                         //empId - constraint
             $table->timestamp('assignedAt');                                                            //assignedAt
             $table->string('reason');                                                                   //reason
-            $table->integer('problemId')->unsigned();                                                   //problemId
+            $table->foreignId('problemId');                                                             //problemId
             $table->foreign('problemId')->references('problemId')->on('ProblemLog');                    //problemId - constraint
         });
     }

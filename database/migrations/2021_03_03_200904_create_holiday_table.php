@@ -14,11 +14,11 @@ class CreateHolidayTable extends Migration
     public function up()
     {
         Schema::create('Holiday', function (Blueprint $table) {
-            $table->uuid('leaveId');                                                //leaveId
+            $table->id('leaveId')->unsigned();                                      //leaveId
             $table->date('startDate');                                              //startDate
             $table->date('endDate');                                                //endDate
             $table->string('reason');                                               //reason
-            $table->integer('empId')->unsigned();                                   //empId
+            $table->foreignId('empId');                                             //empId
             $table->foreign('empId')->references('employeeId')->on('Employee');     //empId - contraint
         });
     }

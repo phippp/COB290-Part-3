@@ -14,8 +14,8 @@ class CreateSpecialistTable extends Migration
     public function up()
     {
         Schema::create('Specialist', function (Blueprint $table) {
-            $table->uuid('specialistId')->primary();                                                    //specialistId
-            $table->integer('empId')->unsigned();                                                       //empId                                                   //specialistId
+            $table->id('specialistId')->unsigned();                                                     //specialistId
+            $table->foreignId('empId');                                                                 //empId                                                   //specialistId
             $table->foreign('empId')->references('employeeId')->on('Employee');                         //empId - constraint
             $table->boolean('isAvailable');                                                             //isAvailable
             $table->string('workingDays');                                                              //workingDays

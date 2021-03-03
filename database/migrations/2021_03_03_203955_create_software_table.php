@@ -14,7 +14,7 @@ class CreateSoftwareTable extends Migration
     public function up()
     {
         Schema::create('Software', function (Blueprint $table) {
-            $table->uuid('softwareId')->primary();              //softwareId
+            $table->id('softwareId')->unsigned();               //softwareId
             $table->string('softwareName');                     //softwareName
             $table->string('softwareVersion');                  //softwareVersion
             $table->string('licenseKey');                       //licenseKey

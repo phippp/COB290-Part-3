@@ -14,7 +14,7 @@ class CreateProblemTable extends Migration
     public function up()
     {
         Schema::create('Problem', function (Blueprint $table) {
-            $table->uuid('problemTypeId')->primary();               //problemTypeId
+            $table->id('problemTypeId')->unsigned();                //problemTypeId
             $table->string('problemType');                          //problemType
             $table->string('problemGenericType')->nullable();       //problemGenericType
             $table->boolean('enabled');                             //enabled

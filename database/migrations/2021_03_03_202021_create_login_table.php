@@ -16,7 +16,7 @@ class CreateLoginTable extends Migration
         Schema::create('Login', function (Blueprint $table) {
             $table->string('username');                                             //username
             $table->string('passwordHash');                                         //passwordHash
-            $table->integer('empId')->unsigned();                                   //empId
+            $table->foreignId('empId');                                             //empId
             $table->foreign('empId')->references('employeeId')->on('Employee');     //empId - constraint
         });
     }

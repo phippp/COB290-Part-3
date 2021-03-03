@@ -14,13 +14,13 @@ class CreateEmployeeTable extends Migration
     public function up()
     {
         Schema::create('Employee', function (Blueprint $table) {
-            $table->uuid('employeeId')->primary();                                  //employeeId
+            $table->id('employeeId')->unsigned();                                   //employeeId
             $table->string('forename');                                             //forename
             $table->string('surname');                                              //surname
             $table->string('emailAddress')->unique();                               //emailAddress
-            $table->integer('jobId')->unsigned();                                   //jobId
+            $table->foreignId('jobId');                                             //jobId
             $table->foreign('jobId')->references('jobId')->on('Job');               //jobId - constraint
-            $table->integer('branchId')->unsigned();                                //branchId
+            $table->foreignId('branchId');                                          //branchId
             $table->foreign('branchId')->references('branchId')->on('Branch');      //branchId - constraint
             $table->string('phoneNumberExtension');                                 //phoneNumberExtension
             $table->string('language');                                             //language

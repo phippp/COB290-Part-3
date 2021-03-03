@@ -14,15 +14,15 @@ class CreateProblemLogTable extends Migration
     public function up()
     {
         Schema::create('ProblemLog', function (Blueprint $table) {
-            $table->uuid('problemId')->primary();                                                               //problemId
-            $table->integer('hardwareSerialNumber')->unsigned()->nullable();                                    //hardwareSerialNumber
+            $table->id('problemId')->unsigned();                                                                //problemId
+            $table->foreignId('hardwareSerialNumber')->nullable();                                              //hardwareSerialNumber
             $table->foreign('hardwareSerialNumber')->references('serialNum')->on('Hardware');                   //hardwareSerialNumber  - constraint
-            $table->integer('softwareId')->unsigned()->nullable();                                              //softwareId
+            $table->foreignId('softwareId')->nullable();                                                        //softwareId
             $table->foreign('softwareId')->references('softwareId')->on('Software');                            //softwareId  - constraint
             $table->boolean('specialistAssigned');                                                              //specialistAssigned
-            $table->integer('operatingSystemId')->unsigned()->nullable();                                       //operatingSystemId
+            $table->foreignId('operatingSystemId')->nullable();                                                 //operatingSystemId
             $table->foreign('operatingSystemId')->references('id')->on('OperatingSystem');                      //operatingSystemId  - constraint
-            $table->integer('problemTypeId')->unsigned()->nullable();                                           //problemTypeId
+            $table->foreignId('problemTypeId')->nullable();                                                     //problemTypeId
             $table->foreign('problemTypeId')->references('problemTypeId')->on('Problem');                       //problemTypeId - constraint
             $table->string('problemTitle');                                                                     //problemTitle
             $table->string('problemDescription');                                                               //problemDescription
@@ -30,7 +30,7 @@ class CreateProblemLogTable extends Migration
             $table->string('importanceLevel');                                                                  //importanceLevel
             $table->timestamps();                                                                               //created_at and updated_at
             $table->dateTime('solvedAt')->nullable();                                                           //solvedAt
-            $table->integer('solvedBy')->unsigned()->nullable();                                                //solvedBy
+            $table->foreignId('solvedBy')->nullable();                                                          //solvedBy
             $table->foreign('solvedBy')->references('employeeId')->on('Employee');                              //solvedBy - constraint
         });
     }
