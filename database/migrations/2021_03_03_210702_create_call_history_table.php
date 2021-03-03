@@ -17,9 +17,12 @@ class CreateCallHistoryTable extends Migration
             $table->id();                                                                       //id
             $table->timestamp('timeOfCall');                                                    //timeOfCall
             $table->string('description');                                                      //description
-            $table->foreign('callReceivedBy')->references('employeeId')->on('Employee');        //callReceivedBy
-            $table->foreign('callerId')->references('employeeId')->on('Employee');              //callerId
-            $table->foreign('problemId')->references('problemId')->on('ProblemLog');            //problemId
+            $table->integer('callReceivedBy')->unsigned();                                      //callReceivedBy
+            $table->foreign('callReceivedBy')->references('employeeId')->on('Employee');        //callReceivedBy - constraint
+            $table->integer('callerId')->unsigned();                                            //callerId
+            $table->foreign('callerId')->references('employeeId')->on('Employee');              //callerId - constraint
+            $table->integer('problemId')->unsigned();                                           //problemId
+            $table->foreign('problemId')->references('problemId')->on('ProblemLog');            //problemId - constraint
         });
     }
 

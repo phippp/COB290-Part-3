@@ -17,9 +17,11 @@ class CreateLogHistoryTable extends Migration
             $table->id();                                                               //id
             $table->string('description');                                              //description
             $table->string('solution')->nullable();                                     //solution
-            $table->foreign('editedBy')->references('employeeId')->on('Employee');      //editedBy
+            $table->integer('editedBy')->unsigned();                                    //editedBy
+            $table->foreign('editedBy')->references('employeeId')->on('Employee');      //editedBy - constraint
             $table->timestamp('editedAt');                                              //editedAt
-            $table->foreign('problemId')->references('problemId')->on('ProblemLog');    //problemId
+            $table->integer('problemId')->unsigned();                                   //problemId
+            $table->foreign('problemId')->references('problemId')->on('ProblemLog');    //problemId - constraint
         });
     }
 

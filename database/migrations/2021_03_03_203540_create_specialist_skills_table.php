@@ -14,8 +14,10 @@ class CreateSpecialistSkillsTable extends Migration
     public function up()
     {
         Schema::create('SpecialistSkills', function (Blueprint $table) {
-            $table->foreign('problemTypeId')->references('problemTypeId')->on('Problem');   //problemTypeId
-            $table->foreign('empId')->references('employeeId')->on('Employee');             //empId
+            $table->integer('problemTypeId')->unsigned();                                   //problemTypeId
+            $table->foreign('problemTypeId')->references('problemTypeId')->on('Problem');   //problemTypeId - constraint
+            $table->integer('empId')->unsigned();                                           //empId
+            $table->foreign('empId')->references('employeeId')->on('Employee');             //empId - constraint
         });
     }
 

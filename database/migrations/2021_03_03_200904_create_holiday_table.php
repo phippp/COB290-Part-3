@@ -18,7 +18,8 @@ class CreateHolidayTable extends Migration
             $table->date('startDate');                                              //startDate
             $table->date('endDate');                                                //endDate
             $table->string('reason');                                               //reason
-            $table->foreign('empId')->references('employeeId')->on('Employee');     //empId
+            $table->integer('empId')->unsigned();                                   //empId
+            $table->foreign('empId')->references('employeeId')->on('Employee');     //empId - contraint
         });
     }
 

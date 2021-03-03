@@ -18,8 +18,10 @@ class CreateEmployeeTable extends Migration
             $table->string('forename');                                             //forename
             $table->string('surname');                                              //surname
             $table->string('emailAddress')->unique();                               //emailAddress
-            $table->foreign('jobId')->references('jobId')->on('Job');               //jobId
-            $table->foreign('brachId')->references('branchId')->on('Branch');       //branchId
+            $table->integer('jobId')->unsigned();                                   //jobId
+            $table->foreign('jobId')->references('jobId')->on('Job');               //jobId - constraint
+            $table->integer('branchId')->unsigned();                                //branchId
+            $table->foreign('branchId')->references('branchId')->on('Branch');      //branchId - constraint
             $table->string('phoneNumberExtension');                                 //phoneNumberExtension
             $table->string('language');                                             //language
             $table->timestamps();                                                   //created_at and updated_at

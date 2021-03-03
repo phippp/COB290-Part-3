@@ -15,18 +15,23 @@ class CreateProblemLogTable extends Migration
     {
         Schema::create('ProblemLog', function (Blueprint $table) {
             $table->uuid('problemId')->primary();                                                               //problemId
-            $table->foreign('hardwareSerialNumber')->references('serialNum')->on('Hardware')->nullable();       //hardwareSerialNumber
-            $table->foreign('softwareId')->references('softwareId')->on('Software')->nullable();                //softwareId
+            $table->integer('hardwareSerialNumber')->unsigned()->nullable();                                    //hardwareSerialNumber
+            $table->foreign('hardwareSerialNumber')->references('serialNum')->on('Hardware');                   //hardwareSerialNumber  - constraint
+            $table->integer('softwareId')->unsigned()->nullable();                                              //softwareId
+            $table->foreign('softwareId')->references('softwareId')->on('Software');                            //softwareId  - constraint
             $table->boolean('specialistAssigned');                                                              //specialistAssigned
-            $table->foreign('operatingSystemId')->references('id')->on('OperatingSystem')->nullable();          //operatingSystemId
-            $table->foreign('problemTypeId')->references('problemTypeId')->on('Problem')->nullable();           //problemTypeId
+            $table->integer('operatingSystemId')->unsigned()->nullable();                                       //operatingSystemId
+            $table->foreign('operatingSystemId')->references('id')->on('OperatingSystem');                      //operatingSystemId  - constraint
+            $table->integer('problemTypeId')->unsigned()->nullable();                                           //problemTypeId
+            $table->foreign('problemTypeId')->references('problemTypeId')->on('Problem');                       //problemTypeId - constraint
             $table->string('problemTitle');                                                                     //problemTitle
             $table->string('problemDescription');                                                               //problemDescription
             $table->string('status');                                                                           //status
             $table->string('importanceLevel');                                                                  //importanceLevel
             $table->timestamps();                                                                               //created_at and updated_at
             $table->dateTime('solvedAt')->nullable();                                                           //solvedAt
-            $table->foreign('solvedBy')->references('employeeId')->on('Employee')->nullable();                  //solvedBy
+            $table->integer('solvedBy')->unsigned()->nullable();                                                //solvedBy
+            $table->foreign('solvedBy')->references('employeeId')->on('Employee');                              //solvedBy - constraint
         });
     }
 

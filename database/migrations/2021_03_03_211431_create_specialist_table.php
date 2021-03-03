@@ -15,7 +15,8 @@ class CreateSpecialistTable extends Migration
     {
         Schema::create('Specialist', function (Blueprint $table) {
             $table->uuid('specialistId')->primary();                                                    //specialistId
-            $table->foreign('empId')->references('employeeId')->on('Employee');                         //empId
+            $table->integer('empId')->unsigned();                                                       //empId                                                   //specialistId
+            $table->foreign('empId')->references('employeeId')->on('Employee');                         //empId - constraint
             $table->boolean('isAvailable');                                                             //isAvailable
             $table->string('workingDays');                                                              //workingDays
         });
