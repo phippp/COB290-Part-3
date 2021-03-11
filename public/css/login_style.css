@@ -1,0 +1,83 @@
+*{
+    margin : 0px;
+    padding : 0px;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-container{
+    /* This class will help us to center the element inside the container using flex property later on. */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.item{
+    /* Centering the element of the container horizontally and vertically  */
+    align-self: center;
+    width: 400px;
+    border:1px solid #D2D2D7;
+    padding: 2em;
+}
+
+#company-title{
+    /* This styles the title of the company */
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0.6em 0em;
+}
+
+#login-form{
+    /* Displaying the element in a column style, grid allows that by default, could be done with flex as well*/
+    display: grid;
+    width: 100%;
+    color: #1d1d1d;
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+/* ---- Styling the input fields and their labels ---- */
+#login-form label{
+    margin: 5px 0px;
+}
+
+.required-field{
+    color: red;
+}
+
+.inputfield{
+    margin-bottom: 15px;
+    padding-left: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
+    height: 35px;
+    border: 2px solid #E5E5E5;
+}
+
+#login-form button{
+    text-align: center;
+    font-size: 1rem;
+    background: #0077FF;
+    color: white;
+    outline: none;
+    border-radius: 8px;
+    border: 1px solid white;
+    height: 40px;
+    cursor: pointer;
+}
+
+.container-hide{
+    display: none;
+}
+
+
+/* Additional css
+--- Making it responsive so it can fit viewed with display that are less than 425 pixels wide  */
+@media screen and (max-width:425px){
+    .item{
+        width: 300px;
+    }
+}

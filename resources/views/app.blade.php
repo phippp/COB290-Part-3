@@ -6,6 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Make It All</title>
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/login_style.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/message_alert.css')}}">
     </head>
     <body>
         @yield('content')

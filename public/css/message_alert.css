@@ -1,0 +1,60 @@
+/* error handling */
+.highlight-invalid-input{
+    border: 2px solid red;
+    outline: red;
+}
+
+/* Error and information section */
+.multiple-error-container, .single-error-container{
+    margin: 20px 0px 10px 0px;
+    background-color: #FFE0E0;
+    border-radius: 8px;
+    padding: 18px;
+    color: #1d1d1f;
+    display: grid;
+    row-gap: 10px;
+}
+
+.error-child p, .single-error-container p, .information-container p{
+    font-size: 0.9rem;
+}
+
+.error-child b, .single-error-container b, .information-container b{
+    font-weight: 500;
+}
+
+/* error handling */
+.highlight-invalid-input{
+    border: 2px solid red;
+    outline:red;
+}
+
+.single-error-container, .error-child{
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: 10px;
+}
+
+
+.information-container{
+    margin: 20px 0px 10px 0px;
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    border-radius: 8px;
+    padding: 18px;
+    color: #1d1d1f;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: 10px;
+    text-align: left;
+}
+
+.information-container th{
+    font-weight: 500;
+    padding-right: 10px;
+}
+
+.container-hide{
+    display: none;
+}
