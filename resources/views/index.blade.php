@@ -1,5 +1,15 @@
 @extends('app')
 
 @section('content')
-    Yes
+    <h1>This is the index page</h1>
+    @auth
+        <p>You are logged in as: {{ auth()->user()->username }} </p>
+        <form action="{{ route('logout') }}" method="post">
+            @csrf
+            <button>Logout</button>
+        </form>
+    @endauth
+    @guest
+        <a href="{{ route('login')}}">Login</a>
+    @endguest
 @endsection
