@@ -13,11 +13,11 @@ class CreateLoginTable extends Migration
      */
     public function up()
     {
-        Schema::create('Login', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();                                                           //id
             $table->string('username');                                             //username
-            $table->string('passwordHash');                                         //passwordHash
-            $table->foreignId('empId');                                             //empId
-            $table->foreign('empId')->references('employeeId')->on('Employee');     //empId - constraint
+            $table->string('password');                                             //password
+            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();     //employee_id
         });
     }
 
@@ -28,6 +28,6 @@ class CreateLoginTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('login');
+        Schema::dropIfExists('users');
     }
 }

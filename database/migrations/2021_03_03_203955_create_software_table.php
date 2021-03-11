@@ -13,11 +13,11 @@ class CreateSoftwareTable extends Migration
      */
     public function up()
     {
-        Schema::create('Software', function (Blueprint $table) {
-            $table->id('softwareId')->unsigned();               //softwareId
-            $table->string('softwareName');                     //softwareName
-            $table->string('softwareVersion');                  //softwareVersion
-            $table->string('licenseKey');                       //licenseKey
+        Schema::create('software', function (Blueprint $table) {
+            $table->id();                               //id
+            $table->string('name');                     //name
+            $table->string('version');                  //version
+            $table->string('license_key');              //license_key
         });
     }
 
@@ -28,6 +28,6 @@ class CreateSoftwareTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Software');
+        Schema::dropIfExists('software');
     }
 }

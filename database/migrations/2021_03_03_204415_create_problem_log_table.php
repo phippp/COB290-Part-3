@@ -13,25 +13,20 @@ class CreateProblemLogTable extends Migration
      */
     public function up()
     {
-        Schema::create('ProblemLog', function (Blueprint $table) {
-            $table->id('problemId')->unsigned();                                                                //problemId
-            $table->foreignId('hardwareSerialNumber')->nullable();                                              //hardwareSerialNumber
-            $table->foreign('hardwareSerialNumber')->references('serialNum')->on('Hardware');                   //hardwareSerialNumber  - constraint
-            $table->foreignId('softwareId')->nullable();                                                        //softwareId
-            $table->foreign('softwareId')->references('softwareId')->on('Software');                            //softwareId  - constraint
-            $table->boolean('specialistAssigned');                                                              //specialistAssigned
-            $table->foreignId('operatingSystemId')->nullable();                                                 //operatingSystemId
-            $table->foreign('operatingSystemId')->references('id')->on('OperatingSystem');                      //operatingSystemId  - constraint
-            $table->foreignId('problemTypeId')->nullable();                                                     //problemTypeId
-            $table->foreign('problemTypeId')->references('problemTypeId')->on('Problem');                       //problemTypeId - constraint
-            $table->string('problemTitle');                                                                     //problemTitle
-            $table->string('problemDescription');                                                               //problemDescription
-            $table->string('status');                                                                           //status
-            $table->string('importanceLevel');                                                                  //importanceLevel
-            $table->timestamps();                                                                               //created_at and updated_at
-            $table->dateTime('solvedAt')->nullable();                                                           //solvedAt
-            $table->foreignId('solvedBy')->nullable();                                                          //solvedBy
-            $table->foreign('solvedBy')->references('employeeId')->on('Employee');                              //solvedBy - constraint
+        Schema::create('problem_logs', function (Blueprint $table) {
+            $table->id();                                                                                   //id
+            $table->foreignId('hardware_id')->nullable()->constrained()->cascadeOnDelete();;                //hardware_id
+            $table->foreignId('software_id')->nullable() ->constrained()->cascadeOnDelete();;               //software_id
+            $table->boolean('specialist_assigned');                                                         //specialist_assigned
+            $table->foreignId('operating_system_id')->nullable()->constrained()->cascadeOnDelete();;        //operating_system_id
+            $table->foreignId('problem_id')->nullable()->constrained()->cascadeOnDelete();;                 //problem_id
+            $table->string('title');                                                                        //title
+            $table->string('description');                                                                  //description
+            $table->string('status');                                                                       //status
+            $table->string('importance');                                                                   //importance
+            $table->timestamps();                                                                           //created_at and updated_at
+            $table->dateTime('solved_at')->nullable();                                                      //solved_at
+            $table->foreignId('employee_id')->nullable()->constrained()->cascadeOnDelete();;                //employee_id (solved_by)
         });
     }
 
@@ -42,6 +37,6 @@ class CreateProblemLogTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ProblemLog');
+        Schema::dropIfExists('problem_logs');
     }
 }

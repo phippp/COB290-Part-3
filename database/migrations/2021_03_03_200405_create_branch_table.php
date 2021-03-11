@@ -13,14 +13,14 @@ class CreateBranchTable extends Migration
      */
     public function up()
     {
-        Schema::create('Branch', function (Blueprint $table) {
-            $table->id('branchId')->unsigned();            //branchId
-            $table->string('addressLine1');                 //addressLine1
-            $table->string('addressLine2');                 //addressLine2
+        Schema::create('branches', function (Blueprint $table) {
+            $table->id();                                   //id
+            $table->string('address_line_1');               //address_line_1
+            $table->string('address_line_2');               //address_line_2
             $table->string('city');                         //city
             $table->string('country');                      //country
             $table->string('postCode');                     //postCode
-            $table->string('phoneNumberBase');              //phoneNumberBase
+            $table->string('phone_number_base');            //phone_number_base
         });
     }
 
@@ -31,6 +31,6 @@ class CreateBranchTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Branch');
+        Schema::dropIfExists('branches');
     }
 }

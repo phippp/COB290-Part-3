@@ -13,16 +13,14 @@ class CreateEmployeeTable extends Migration
      */
     public function up()
     {
-        Schema::create('Employee', function (Blueprint $table) {
-            $table->id('employeeId')->unsigned();                                   //employeeId
+        Schema::create('employees', function (Blueprint $table) {
+            $table->id();                                                           //id
             $table->string('forename');                                             //forename
             $table->string('surname');                                              //surname
-            $table->string('emailAddress')->unique();                               //emailAddress
-            $table->foreignId('jobId');                                             //jobId
-            $table->foreign('jobId')->references('jobId')->on('Job');               //jobId - constraint
-            $table->foreignId('branchId');                                          //branchId
-            $table->foreign('branchId')->references('branchId')->on('Branch');      //branchId - constraint
-            $table->string('phoneNumberExtension');                                 //phoneNumberExtension
+            $table->string('email_address')->unique();                              //email_address
+            $table->foreignId('job_id')->constrained()->cascadeOnDelete();          //job_id -> fk
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete();       //branch_id -> fk
+            $table->string('phone_number_extension');                               //phone_number_extension
             $table->string('language');                                             //language
             $table->timestamps();                                                   //created_at and updated_at
         });
@@ -35,6 +33,6 @@ class CreateEmployeeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Employee');
+        Schema::dropIfExists('employees');
     }
 }

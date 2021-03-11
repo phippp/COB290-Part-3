@@ -13,8 +13,9 @@ class CreateHardwareTable extends Migration
      */
     public function up()
     {
-        Schema::create('Hardware', function (Blueprint $table) {
-            $table->id('serialNum')->unsigned();                //serialNum
+        Schema::create('hardware', function (Blueprint $table) {
+            $table->id();                                       //id
+            $table->string('serial_num')->unique();             //serial_num
             $table->string('name');                             //name
             $table->string('type');                             //type
             $table->string('make');                             //make
@@ -28,6 +29,6 @@ class CreateHardwareTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Hardware');
+        Schema::dropIfExists('hardware');
     }
 }

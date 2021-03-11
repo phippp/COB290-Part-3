@@ -13,10 +13,10 @@ class CreateJobTable extends Migration
      */
     public function up()
     {
-        Schema::create('Job', function (Blueprint $table) {
-            $table->id('jobId')->unsigned();        //jobId
-            $table->string('jobTitle');             //jobTitle
-            $table->string('jobType');              //jobType
+        Schema::create('jobs', function (Blueprint $table) {
+            $table->id();                           //id
+            $table->string('title');                //title
+            $table->string('type');                 //type
         });
     }
 
@@ -27,6 +27,6 @@ class CreateJobTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Job');
+        Schema::dropIfExists('jobs');
     }
 }

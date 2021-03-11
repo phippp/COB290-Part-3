@@ -13,15 +13,15 @@ class CreateLogHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('LogHistory', function (Blueprint $table) {
+        Schema::create('log_histories', function (Blueprint $table) {
             $table->id();                                                               //id
             $table->string('description');                                              //description
             $table->string('solution')->nullable();                                     //solution
-            $table->foreignId('editedBy');                                              //editedBy
-            $table->foreign('editedBy')->references('employeeId')->on('Employee');      //editedBy - constraint
-            $table->timestamp('editedAt');                                              //editedAt
-            $table->foreignId('problemId');                                             //problemId
-            $table->foreign('problemId')->references('problemId')->on('ProblemLog');    //problemId - constraint
+            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();;        //employee_id (edited_by)
+            $table->timestamp('edited_at');                                             //edited_at
+            $table->foreignId('problem_log_id')
+            ->references('id')->on('problem_logs')
+            ->constrained()->cascadeOnDelete();                                         //problem_log_id
         });
     }
 
@@ -32,6 +32,6 @@ class CreateLogHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('LogHistory');
+        Schema::dropIfExists('log_histories');
     }
 }

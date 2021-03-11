@@ -13,11 +13,9 @@ class CreateSpecialistSkillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('SpecialistSkills', function (Blueprint $table) {
-            $table->foreignId('problemTypeId');                                             //problemTypeId
-            $table->foreign('problemTypeId')->references('problemTypeId')->on('Problem');   //problemTypeId - constraint
-            $table->foreignId('empId');                                                     //empId
-            $table->foreign('empId')->references('employeeId')->on('Employee');             //empId - constraint
+        Schema::create('specialist_skills', function (Blueprint $table) {
+            $table->foreignId('problem_id')->constrained()->cascadeOnDelete();              //problem_id
+            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();             //employee_id
         });
     }
 
@@ -28,6 +26,6 @@ class CreateSpecialistSkillsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('SpecialistSkills');
+        Schema::dropIfExists('specialist_skills');
     }
 }

@@ -13,12 +13,11 @@ class CreateSpecialistTable extends Migration
      */
     public function up()
     {
-        Schema::create('Specialist', function (Blueprint $table) {
-            $table->id('specialistId')->unsigned();                                                     //specialistId
-            $table->foreignId('empId');                                                                 //empId                                                   //specialistId
-            $table->foreign('empId')->references('employeeId')->on('Employee');                         //empId - constraint
-            $table->boolean('isAvailable');                                                             //isAvailable
-            $table->string('workingDays');                                                              //workingDays
+        Schema::create('specialists', function (Blueprint $table) {
+            $table->id();                                                                               //id
+            $table->foreignId('employee_id') ->constrained()->cascadeOnDelete();;                       //employee_id
+            $table->boolean('is_available');                                                            //is_available
+            $table->string('working_days');                                                             //working_days
         });
     }
 
@@ -29,6 +28,6 @@ class CreateSpecialistTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Specialist');
+        Schema::dropIfExists('specialists');
     }
 }

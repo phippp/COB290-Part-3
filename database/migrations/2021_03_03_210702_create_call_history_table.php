@@ -13,16 +13,19 @@ class CreateCallHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('CallHistory', function (Blueprint $table) {
+        Schema::create('problem_notes', function (Blueprint $table) {
             $table->id();                                                                       //id
-            $table->timestamp('timeOfCall');                                                    //timeOfCall
+            $table->timestamps();                                                               //created_at and updated_at
             $table->string('description');                                                      //description
-            $table->foreignId('callReceivedBy');                                                //callReceivedBy
-            $table->foreign('callReceivedBy')->references('employeeId')->on('Employee');        //callReceivedBy - constraint
-            $table->foreignId('callerId');                                                      //callerId
-            $table->foreign('callerId')->references('employeeId')->on('Employee');              //callerId - constraint
-            $table->foreignId('problemId');                                                     //problemId
-            $table->foreign('problemId')->references('problemId')->on('ProblemLog');            //problemId - constraint
+            $table->foreignId('call_received_by')
+            ->references('id')->on('employees')
+            ->constrained()->cascadeOnDelete()->nullable();                                     //call_received_by
+            $table->foreignId('caller_id')
+            ->references('id')->on('employees')
+            ->constrained()->cascadeOnDelete()->nullable();                                     //caller_id
+            $table->foreignId('problem_log_id')
+            ->references('id')->on('problem_logs')
+            ->constrained()->cascadeOnDelete();                                                 //problem_log_id
         });
     }
 
@@ -33,6 +36,6 @@ class CreateCallHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('CallHistory');
+        Schema::dropIfExists('problem_notes');
     }
 }

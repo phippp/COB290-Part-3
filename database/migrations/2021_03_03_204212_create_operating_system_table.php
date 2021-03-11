@@ -13,9 +13,9 @@ class CreateOperatingSystemTable extends Migration
      */
     public function up()
     {
-        Schema::create('OperatingSystem', function (Blueprint $table) {
+        Schema::create('operating_systems', function (Blueprint $table) {
             $table->id();                               //id
-            $table->string('operatingSystemName');      //operatingSystemName
+            $table->string('operating_system_name');    //operatingSystemName
         });
     }
 
@@ -26,6 +26,6 @@ class CreateOperatingSystemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('OperatingSystem');
+        Schema::dropIfExists('operating_systems');
     }
 }

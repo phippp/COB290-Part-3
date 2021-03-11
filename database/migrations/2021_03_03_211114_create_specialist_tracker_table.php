@@ -13,14 +13,14 @@ class CreateSpecialistTrackerTable extends Migration
      */
     public function up()
     {
-        Schema::create('SpecialistTracker', function (Blueprint $table) {
+        Schema::create('specialist_trackers', function (Blueprint $table) {
             $table->id();                                                                               //id
-            $table->foreignId('empId');                                                                 //empId
-            $table->foreign('empId')->references('employeeId')->on('Employee');                         //empId - constraint
-            $table->timestamp('assignedAt');                                                            //assignedAt
+            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();                         //employee_id
+            $table->timestamps();                                                                       //created_at and updated_at
             $table->string('reason');                                                                   //reason
-            $table->foreignId('problemId');                                                             //problemId
-            $table->foreign('problemId')->references('problemId')->on('ProblemLog');                    //problemId - constraint
+            $table->foreignId('problem_log_id')
+            ->references('id')->on('problem_logs')
+            ->constrained()->cascadeOnDelete();                                                         //problem_log_id
         });
     }
 
@@ -31,6 +31,6 @@ class CreateSpecialistTrackerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('SpecialistTracker');
+        Schema::dropIfExists('specialist_trackers');
     }
 }

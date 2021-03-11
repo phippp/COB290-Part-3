@@ -13,13 +13,12 @@ class CreateHolidayTable extends Migration
      */
     public function up()
     {
-        Schema::create('Holiday', function (Blueprint $table) {
-            $table->id('leaveId')->unsigned();                                      //leaveId
-            $table->date('startDate');                                              //startDate
-            $table->date('endDate');                                                //endDate
+        Schema::create('holidays', function (Blueprint $table) {
+            $table->id();                                                           //id
+            $table->date('start_date');                                             //startDate
+            $table->date('end_date');                                               //endDate
             $table->string('reason');                                               //reason
-            $table->foreignId('empId');                                             //empId
-            $table->foreign('empId')->references('employeeId')->on('Employee');     //empId - contraint
+            $table->foreignId('employee_id')->constrained()->cascadeOnDelete();     //employee_id
         });
     }
 
@@ -30,6 +29,6 @@ class CreateHolidayTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Holiday');
+        Schema::dropIfExists('holidays');
     }
 }

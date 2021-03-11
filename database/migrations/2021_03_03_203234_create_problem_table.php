@@ -13,11 +13,11 @@ class CreateProblemTable extends Migration
      */
     public function up()
     {
-        Schema::create('Problem', function (Blueprint $table) {
-            $table->id('problemTypeId')->unsigned();                //problemTypeId
-            $table->string('problemType');                          //problemType
-            $table->string('problemGenericType')->nullable();       //problemGenericType
-            $table->boolean('enabled');                             //enabled
+        Schema::create('problems', function (Blueprint $table) {
+            $table->id();                                                                       //id
+            $table->string('problem_type');                                                     //problem_type
+            $table->foreignId('problem_id')->nullable()->constrained()->cascadeOnDelete();      //problem_id
+            $table->boolean('enabled')->default(true);                                          //enabled
         });
     }
 
@@ -28,6 +28,6 @@ class CreateProblemTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('Problem');
+        Schema::dropIfExists('problems');
     }
 }
