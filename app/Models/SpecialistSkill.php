@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\ProblemLog;
+use App\Models\Problem;
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class OperatingSystem extends Model
+class SpecialistSkill extends Model
 {
     use HasFactory;
 
@@ -16,7 +17,8 @@ class OperatingSystem extends Model
      * @var array
      */
     protected $fillable = [
-        'operating_system_name'
+        'problem_id',
+        'employee_id'
     ];
 
     /*
@@ -26,7 +28,11 @@ class OperatingSystem extends Model
      */
     protected $hidden = [];
 
-    public function problemlog(){
-        return $this->hasMany(ProblemLog::class);
+    public function problem(){
+        return $this->belongsTo(Problem::class);
+    }
+
+    public function specialist(){
+        return $this->belongsTo(Employee::class);
     }
 }

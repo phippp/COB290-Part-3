@@ -10,20 +10,18 @@ class Branch extends Model
 {
     use HasFactory;
 
-    protected $table = 'Branch';
-
     /*
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'addressLine1',
-        'addressLine2',
+        'address_line_1',
+        'address_line_2',
         'city',
         'country',
-        'postCode',
-        'phoneNumberBase'
+        'postcode',
+        'phone_number_base'
     ];
 
     /*
@@ -34,6 +32,6 @@ class Branch extends Model
     protected $hidden = [];
 
     public function employee(){
-        return $this->hasMany(Employee::class, 'branchId', 'branchId');
+        return $this->hasMany(Employee::class);
     }
 }

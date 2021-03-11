@@ -10,16 +10,14 @@ class Job extends Model
 {
     use HasFactory;
 
-    protected $table = 'Job';
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'jobTitle',
-        'jobType'
+        'title',
+        'type'
     ];
 
     /**
@@ -30,6 +28,6 @@ class Job extends Model
     protected $hidden = [];
 
     public function employee(){
-        return $this->hasMany(Employee::class, 'jobId', 'jobId');
+        return $this->hasMany(Employee::class);
     }
 }

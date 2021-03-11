@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ProblemLog;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Software extends Model
 {
     use HasFactory;
-
-    protected $table = 'Software';
 
     /*
      * The attributes that are mass assignable.
@@ -17,9 +16,9 @@ class Software extends Model
      * @var array
      */
     protected $fillable = [
-        'softwareName',
-        'softwareVersion',
-        'licenseKey'
+        'name',
+        'version',
+        'license_key'
     ];
 
     /*
@@ -30,6 +29,6 @@ class Software extends Model
     protected $hidden = [];
 
     public function problemlog(){
-        return $this->hasMany(ProblemLog::class, 'softwareId');
+        return $this->hasMany(ProblemLog::class);
     }
 }

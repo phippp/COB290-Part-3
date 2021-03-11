@@ -10,18 +10,16 @@ class Holiday extends Model
 {
     use HasFactory;
 
-    protected $table = 'Holiday';
-
     /*
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'startDate',
-        'endDate',
+        'start_date',
+        'end_date',
         'reason',
-        'empId'
+        'employee_id'
     ];
 
     /*
@@ -37,8 +35,8 @@ class Holiday extends Model
      * @var array
      */
     protected $casts = [
-        'startDate' => 'date',
-        'endDate' => 'date'
+        'start_date' => 'date',
+        'end_date' => 'date'
     ];
 
     public function user(){

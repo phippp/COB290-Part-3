@@ -19,7 +19,7 @@ class CreateBranchTable extends Migration
             $table->string('address_line_2');               //address_line_2
             $table->string('city');                         //city
             $table->string('country');                      //country
-            $table->string('postCode');                     //postCode
+            $table->string('postcode');                     //postCode
             $table->string('phone_number_base');            //phone_number_base
         });
     }

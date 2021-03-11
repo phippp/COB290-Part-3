@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Models\Employee;
+use App\Models\ProblemLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Specialist extends Model
+class LogHistory extends Model
 {
     use HasFactory;
 
@@ -16,9 +17,11 @@ class Specialist extends Model
      * @var array
      */
     protected $fillable = [
+        'description',
+        'solution',
         'employee_id',
-        'is_available',
-        'working_days'
+        'edited_at',
+        'problem_log_id'
     ];
 
     /*
@@ -28,7 +31,21 @@ class Specialist extends Model
      */
     protected $hidden = [];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'edited_at' => 'datetime',
+    ];
+
     public function employee(){
         return $this->belongsTo(Employee::class);
     }
+
+    public function problemLog(){
+        return $this->belongsTo(ProblemLog::class);
+    }
+
 }

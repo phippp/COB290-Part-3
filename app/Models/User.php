@@ -8,12 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-// This represents the Login table
 class User extends Authenticatable
 {
     use HasFactory,Notifiable;
-
-    protected $table = 'Login';
 
     /**
      * The attributes that are mass assignable.
@@ -21,9 +18,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'empId',
+        'employee_id',
         'username',
-        'passwordHash'
+        'password'
     ];
 
     /**
@@ -32,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'passwordHash',
+        'password',
     ];
 
     public function employee(){

@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ProblemLog;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Hardware extends Model
 {
     use HasFactory;
-
-    protected $table = 'Hardware';
 
     /*
      * The attributes that are mass assignable.
@@ -17,7 +16,7 @@ class Hardware extends Model
      * @var array
      */
     protected $fillable = [
-        'serialNum',
+        'serial_num',
         'name',
         'type',
         'make'
@@ -31,7 +30,7 @@ class Hardware extends Model
     protected $hidden = [];
 
     public function problemlog(){
-        return $this->hasMany(ProblemLog::class, 'hardwareSerialNumber');
+        return $this->hasMany(ProblemLog::class);
     }
 
 }
