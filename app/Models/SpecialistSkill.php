@@ -11,6 +11,8 @@ class SpecialistSkill extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     /*
      * The attributes that are mass assignable.
      *
