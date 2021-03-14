@@ -1,4 +1,4 @@
-<!DOCTYPE htyml>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/login_style.css')}}">
         <link rel="stylesheet" href="{{ asset('css/message_alert.css')}}">
+        <link rel="stylesheet" href="{{ asset('css/client_style.css')}}">
     </head>
     <body>
         @yield('content')
