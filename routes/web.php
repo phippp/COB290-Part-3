@@ -24,8 +24,11 @@ Route::post('/login', [LoginController::class, 'store']);
 // These only exist so that I could create an initial Hashed password
 // Route::get('/test/register', [RegisterController::class, 'index'])->name('register');
 // Route::post('/test/register', [RegisterController::class, 'store']);
-
-
 Route::get('/client ', function () {
     return view('client');
 })->name('client');
+
+
+Route::get('/ ', function () {
+    return view('index');
+})->name('index');
