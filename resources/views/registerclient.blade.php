@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <<head>
+    <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,9 +38,103 @@
                         <a href="#"> Logout </a>
                     </div>
                 </div>
-        
+
             </nav>
         </div>
-    <!-- end of navigation -->
+        <!-- end of navigation -->
+        
+
+        <!-- Input Section, the client enters the required fields to proceed with registering a new problem -->
+        <div class="page-container">
+            <form action="#" method="get">
+                <h1>Register</h1>
+                <hr class="line">
+                <!-- Input details -->
+                <h3>Enter the appropriate equipment details</h3>
+                <br>
+                <div class="inputcollection">
+                    <div class="inputs">
+                        <h4>Application Software</h4>
+                        <input class="inputText" type="text" name="" id="ApplicationSoftware-input">
+                    </div>
+
+                    <div class="inputs">
+                        <h4>Operating System</h4>
+                        <input class="inputText" type="text" name="" id="operatingSystem-input">
+                    </div>
+                </div>
+                <p class="either">Either</p>
+                <br>
+                <div class="inputs">
+                    <h4>Serial Number</h4>
+                    <input class="inputText" type="text" name="" id="serialNumber-input">
+                </div>
+                <hr class="line">
+                <h3>Notes</h3>
+                <br>
+                <div class="inputs">
+                    <h4>Title</h4>
+                    <input class="inputText" type="text" name="" id="title-input">
+                </div>
+                <div class="inputs">
+                    <h4>Description</h4>
+                    <input class="inputText" type="text" name="" id="description-input">
+                </div>
+
+                <hr class="line">
+                <h3>Category</h3>
+                <br>
+                <div class="inputcollection">
+                    <div class="inputs">
+                        <h4>General Category</h4>
+                        <input class="inputText" type="text" name="" id="generalCategory-input">
+                    </div>
+
+                    <div class="inputs">
+                        <h4>Specific Category</h4>
+                        <input class="inputText" type="text" name="" id="specificCategory-input">
+                    </div>
+                </div>
+                <!-- Reset Button -->
+                <button class="reset" type="reset"> <img src="{{ asset('images/recycle.png')}}" alt="reset" srcset=""> Reset </button>
+                <hr class="line">
+
+                <!-- End of input section -->
+
+                <!-- Table Section -->
+                <div class="scrolltable-x">
+                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the 
+                        scroll feature so they view all the fields in the table  -->
+
+                    <table class="normal-table hover-cursor-on-table">
+                        <tr>
+                            <th></th>
+                            <th> Problem ID </th>
+                            <th style="width:30%">Problem Title</th>
+                            <th> Equipment </th>
+                            <th> Solution </th>
+                        </tr>
+        
+                        <tr>
+                            <td><input type="checkbox" id="check" name="check" value="check"></td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" id="check1" name="check" value="check1"></td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                            <td> Lorem ipsum dolor sit amet. </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+
+            <!-- Btn to submit the whole fom to register the problem -->
+            <button class="submit" type="submit"> Submit </button>
+        </div>
     </body>
 @endsection
