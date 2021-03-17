@@ -1,0 +1,315 @@
+
+
+body{
+    background-color: #F4F5F7;
+}
+
+/* ###################################  */
+/*  Displaying the stat's card          */
+/* ###################################  */
+.stats-card-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    grid-gap: 1rem;
+    margin: 1% 0%;
+}
+
+.stats-card{
+    padding: 1.25rem 1.5rem; 
+    margin: 1% 0px; 
+    border-radius: 0.5rem;
+    background: #fff;
+}
+
+.stats-card h4{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.stats-card h3{
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+
+.importance-info-container{
+    /* this is one of the stats card but this is responsible for displaying low,
+    medium and high importance. 
+    I have kept a gap between the 3 categories of importance and assigned a space-between so 
+    it can make use of the space efficiently 
+    */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center;
+    gap: 0.5em;
+    margin-top: 0.5rem;
+}
+
+.importance-item{
+    /* Telling the all the 3 category to take space if available  */
+    flex: 1;
+    padding: 0.3em;
+}
+
+/* The section below just provides a border bottom to each of the 3 importance category */
+#low-importance{
+    border-bottom: 2px solid green;
+}
+
+#medium-importance{
+    border-bottom: 2px solid #ff9800;
+}
+
+#high-importance{
+    border-bottom: 2px solid red;
+}
+
+
+/* ###################################  */
+/*  Displaying all the cases reported by the logged in client  */
+/* ###################################  */
+
+.cases-reported-section{
+    /* this simply adds a white background and act as a container */
+    background: #ffffff;
+    padding: 1em 1.5em;
+    border-radius: 0.5em;
+}
+
+.section-title{
+    /* informing the user what the section is about by making it stand out */
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+/* #####***************##### 
+    Displaying the search by option so the user can search through any cases they want
+   #####***************##### 
+*/
+.search-section{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 2em;
+    margin-bottom: 1rem;
+}
+
+#search-by-form label{
+    padding: 0.5rem 0.5rem;
+}
+
+
+#search-type{
+    font-size: 1rem;
+    height: inherit;
+    background: #eee;
+    border: none;
+    font-weight: 500;
+    border-right: 0.2rem solid #d2d2d2;
+    cursor: pointer;
+}
+
+#search-type option{
+    background-color: white;
+}
+
+#search-input{
+    border: 1px solid #d2d2d2;
+    border-right: 0.2rem solid #d2d2d2;
+    padding: 0px 0.5rem;
+    font-size: 1rem;
+}
+
+#search-by-form button{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    overflow: hidden;
+    padding-right: 0.6rem;
+    padding-left: 0.6rem;
+}
+
+#search-by-form button:hover, #search-type:hover{
+    background:  #d4d4d4;
+}
+
+#search-by-form{
+    display: flex;
+    justify-content: flex-start;
+    /* margin: 1.2em 0rem; */
+    background: #EEEEEE;
+    align-items: center;
+    border: 0.1rem solid #d2d2d2;
+    border-radius: 10px;
+    align-items: stretch;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+
+/* #####***************##### 
+    Displaying the filter by button option so the user view all the filter they can apply
+   #####***************##### 
+*/
+#filter-btn-section{
+    display: flex;
+    padding: 0.5rem;
+    background-color: #EEEEEE;
+    border-radius: 10px;
+    cursor: pointer;
+    justify-content: center;
+    white-space: nowrap;
+    align-items: center;
+}
+
+#filter-btn-section p{
+    padding: 0rem 0.5rem;
+    width: 100%;
+}
+
+
+#filter-btn-section:hover{
+    background:  #d4d4d4;
+}
+
+.filter-btn-active{
+    font-weight: bold;
+}
+
+
+
+/* #####***************##### 
+    Displaying the filter options so the user can filter through any cases they want
+   #####***************##### 
+*/
+
+
+/* Displaying sort-by filter */
+
+.show-filter-options{
+    display: grid !important;
+}
+#display-filter-container{
+    display: none;
+    grid-row: auto;
+    grid-gap: 1rem;
+    grid-template-columns: 50% 50%;
+    grid-template-areas: 
+    "date problem-id"
+    "other other";
+    justify-content: center;
+}
+
+
+.sortby-title{
+    font-weight: 500;
+}
+#date-filter-container{
+    grid-area: date;
+}
+
+#display-filter-container input{
+    margin: 0.5rem 0rem;
+}
+
+#date-filter-container input, #problem-id-container input{
+    padding: 0.2rem;
+}
+
+#problem-id-container{
+    grid-area: problem-id;
+}
+
+#other-attribute-container{
+    grid-area: other;
+}
+
+#organise-other-attribute{
+    display: flex;
+    flex-wrap:  wrap;
+    gap: 1rem;
+}
+
+.dropdown-attribute > select{
+    padding: 0.35rem 0.4rem;
+    color: #1d1d1d;
+    font-weight: 400;
+    min-width: 12rem;
+    max-width: 12rem;
+    background: #fff;
+}
+
+#display-filter-container > div{
+    background: #F7F7FA;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+#filter-apply-container{
+    background: transparent !important;
+    padding: 0rem;
+}
+
+#apply-filter-button{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    width: 7rem;
+    text-align: center;
+    border: none;
+    font-size: 1rem;
+    margin-right: 1.5rem;
+    background-color: #0077FF;
+    color: white;
+}
+
+#reset-filter-button{
+    padding: 0.5rem;
+    width: 7rem;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 0.8px solid #0077FF;
+    color: #0077FF;
+}
+
+
+
+
+
+
+@media screen and (max-width:768px){
+    #display-filter-container{
+        grid-template-columns: 1fr;
+        grid-template-areas: "date"
+        "problem-id"
+        "other";
+    }
+
+    #organise-other-attribute{
+        justify-self: stretch;
+        justify-items: center;
+    }
+
+}
+
+@media screen and (max-width:575px){
+    #search-by-form label{
+        border-right: 0.2rem solid #d2d2d2;
+        border-bottom: 0.2rem solid #d2d2d2;
+    }
+    #search-type, #search-input{
+        flex:1;
+        border-right: none !important;
+    }
+
+    #search-type{
+        border-bottom: 0.2rem solid #d2d2d2;
+    }
+
+    #search-input{
+        padding: 0.2rem 0.5rem;
+        min-height: 2.5rem;
+    }
+}
