@@ -28,6 +28,9 @@ Route::get('/client ', function () {
     return view('client');
 })->name('client');
 
+Route::get('/register ', function () {
+    return view('registerclient');
+})->name('registerclient');
 
 Route::get('/ ', function () {
     return view('index');
