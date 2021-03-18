@@ -1,4 +1,4 @@
-/* 
+/*
 This file handles how the navigation bar will be displayed (in terms of styling)
 Nitesh: I made it responsive using the media query and flex box method to give
 our navigation a dynamic look.
@@ -29,7 +29,7 @@ Table of content
 
 .nav-container{
     /* Adding the background styling to navigation */
-    padding: 0 4vw; 
+    padding: 0 4vw;
     height: 55px;
     background:  white;
     justify-content: space-between;
@@ -39,12 +39,12 @@ Table of content
 }
 
 nav{
-    /* Aligning all the element inside navigation horizontally + putting a limit to 
+    /* Aligning all the element inside navigation horizontally + putting a limit to
     how wide the navigation can be  */
     display: flex;
     height: 100%;
     justify-content: space-between;
-    max-width: 76rem;  
+    max-width: 76rem;
     margin: 0 auto;
     font-size: 1.6rem;
 }
@@ -128,9 +128,9 @@ nav a:hover {
     .nav-container{
         height: auto;
     }
-    
+
     nav{
-        /* Changing the layout of navigation link from horizontal to vertical so the content is 
+        /* Changing the layout of navigation link from horizontal to vertical so the content is
         easily viewable in small display */
         flex-direction: column;
     }
@@ -149,7 +149,7 @@ nav a:hover {
     }
 
     #primary-nav-links, #secondary-nav-links {
-        /* Changing the layout of navigation link from horizontal to vertical so the content is 
+        /* Changing the layout of navigation link from horizontal to vertical so the content is
         easily viewable in small display */
         display: none;
         flex-direction: column;
@@ -161,8 +161,8 @@ nav a:hover {
     }
 
     .drop-down-nav{
-        /* 
-        Changing the layout of navigation link from horizontal to vertical so the content is 
+        /*
+        Changing the layout of navigation link from horizontal to vertical so the content is
         easily viewable in small display */
         display: flex;
         flex-direction: column;
@@ -189,7 +189,7 @@ nav a:hover {
     }
 
     #current-emp-name{
-        /* We are not displaying their name, since that was a placeholder so the user 
+        /* We are not displaying their name, since that was a placeholder so the user
         can view the drop-down option */
         display: none;
     }
@@ -204,8 +204,8 @@ nav a:hover {
     }
 
 
-    
-} 
+
+}
 
 .page-container{
     margin: 0 auto;
@@ -219,7 +219,7 @@ nav a:hover {
     #primary-nav-links, #secondary-nav-links {
         display: flex;
     }
-    
+
     #nav-state-icon > *  {
         display: none;
     }

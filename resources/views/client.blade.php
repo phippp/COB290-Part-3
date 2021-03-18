@@ -18,17 +18,21 @@
 
             <!-- All the main navigation links goes here -->
             <div id="primary-nav-links">
-                <a href="#" class="nav-link-active"> Dashboard </a>
-                <a href="#"> Register </a>
+                <a href="{{route('client')}}" class="nav-link-active"> Dashboard </a>
+                <a href="{{route('registerProblem')}}"> Register </a>
             </div>
 
             <!-- All the secondary navigation link goes here -->
             <div id="secondary-nav-links">
-                <a href="#" id="current-emp-name"> Forename surname </a>
+                <a href="#" id="current-emp-name"> {{auth()->user()->employee->forename}} {{auth()->user()->employee->surname}} </a>
                 <!-- The div contains all the navigation link we want to show when the user hovers over nav section-->
                 <div class="drop-down-nav">
                     <a href="#"> Language </a>
                     <a href="#"> Logout </a>
+                    <form method="post" action="{{route('logout')}}">
+                        @csrf
+                        <button> Logout </button>
+                    </form>
                 </div>
             </div>
 
