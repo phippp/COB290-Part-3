@@ -1,4 +1,4 @@
-@extends('app')
+@extends('base')
 
 @section('content')
     {{-- This shows an error message if the login is invalid --}}

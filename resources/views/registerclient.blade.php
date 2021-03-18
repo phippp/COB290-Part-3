@@ -1,18 +1,11 @@
-@extends('app')
+@extends('base')
 
 @section('content')
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
     <!-- Navigation  -->
         <div class="nav-container"> <!-- this class applies background styling to our navigation-->
 
             <nav> <!-- This is a flex container and it will centers all the content that we will be showing-->
-                
+
                 <div class="logo">
                     <h1 id="logo-name"> Make-It-All </h1>
                     <!-- The div below will store icon/images which will be displayed if the user screen is small -->
@@ -26,9 +19,9 @@
                 <!-- All the main navigation links goes here -->
                 <div id="primary-nav-links">
                     <a href="#" class="nav-link-active"> Dashboard </a>
-                    <a href="#"> Register </a>        
+                    <a href="#"> Register </a>
                 </div>
-                
+
                 <!-- All the secondary navigation link goes here -->
                 <div id="secondary-nav-links">
                     <a href="#" id="current-emp-name"> Forename surname </a>
@@ -42,7 +35,7 @@
             </nav>
         </div>
         <!-- end of navigation -->
-        
+
 
         <!-- Input Section, the client enters the required fields to proceed with registering a new problem -->
         <div class="page-container">
@@ -103,7 +96,7 @@
 
                 <!-- Table Section -->
                 <div class="scrolltable-x">
-                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the 
+                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                         scroll feature so they view all the fields in the table  -->
 
                     <table class="normal-table hover-cursor-on-table">
@@ -114,7 +107,7 @@
                             <th> Equipment </th>
                             <th> Solution </th>
                         </tr>
-        
+
                         <tr>
                             <td><input type="checkbox" id="check" name="check" value="check"></td>
                             <td> Lorem ipsum dolor sit amet. </td>
@@ -136,5 +129,4 @@
             <!-- Btn to submit the whole fom to register the problem -->
             <button class="submit" type="submit"> Submit </button>
         </div>
-    </body>
 @endsection

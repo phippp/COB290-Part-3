@@ -1,18 +1,11 @@
-@extends('app')
+@extends('base')
 
 @section('content')
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
     <!-- Navigation  -->
     <div class="nav-container"> <!-- this class applies background styling to our navigation-->
 
         <nav> <!-- This is a flex container and it will centers all the content that we will be showing-->
-            
+
             <div class="logo">
                 <h1 id="logo-name"> Make-It-All </h1>
                 <!-- The div below will store icon/images which will be displayed if the user screen is small -->
@@ -26,9 +19,9 @@
             <!-- All the main navigation links goes here -->
             <div id="primary-nav-links">
                 <a href="#" class="nav-link-active"> Dashboard </a>
-                <a href="#"> Register </a>        
+                <a href="#"> Register </a>
             </div>
-            
+
             <!-- All the secondary navigation link goes here -->
             <div id="secondary-nav-links">
                 <a href="#" id="current-emp-name"> Forename surname </a>
@@ -38,7 +31,7 @@
                     <a href="#"> Logout </a>
                 </div>
             </div>
-    
+
         </nav>
     </div>
     <!-- end of navigation -->
@@ -46,9 +39,9 @@
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
 
-        <!-- 
+        <!--
             ######################################################################################
-            STATS SECTION - aim is to provide a status on the reports which are currently ongoing 
+            STATS SECTION - aim is to provide a status on the reports which are currently ongoing
             ######################################################################################
          -->
 
@@ -56,8 +49,8 @@
         <div class="stats-card-section">
             <h2> Your Summary </h2>
 
-            <div class="stats-card-container"> 
-                <div class="stats-card"> 
+            <div class="stats-card-container">
+                <div class="stats-card">
                     <h4> Cases reported today. </h4>
                     <h3>  15 </h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
                 </div>
@@ -95,9 +88,9 @@
             </div>
         </div>
         <!-- end of displaying stats data -->
-        <!-- 
+        <!--
             ######################################################################################
-            END OF STATS SECTION 
+            END OF STATS SECTION
             ######################################################################################
          -->
 
@@ -106,9 +99,9 @@
         <div class="cases-reported-section">
             <h3 class="section-title"> Cases Issued  </h3>
 
-            <!-- 
+            <!--
                 ######################################################################################
-                Filter section 
+                Filter section
                 Giving them the option to filter  or search through cases (which the client have reported)
                 ######################################################################################
             -->
@@ -146,26 +139,26 @@
                 <!-- filter-option-display -->
                 <div id="display-filter-container">
                     <div id="date-filter-container">
-                        <p class="sortby-title"> Date</p> 
+                        <p class="sortby-title"> Date</p>
                         <input type="radio" name="sort-date" value="oldest-newest" id="oldest-newest">  Oldest to newest <br>
                         <input type="radio" name="sort-date" value="newest-oldest" id="newest-oldest">  Newest to oldest  <br>
                         <input type="radio" name="sort-date" value="custom-date" id="date-custom">
-                        <input type="date" id="date-custom-start" name="start-date" placeholder="Start"> 
+                        <input type="date" id="date-custom-start" name="start-date" placeholder="Start">
                         To
                         <input type="date" id="date-custom-finish" name="finish-date" placeholder="End">
                     </div>
-    
+
                     <div id="problem-id-container">
                         <p class="sortby-title">Problem ID</p>
                         <input type="radio" name="problemIDToggle" value="smallest-to-largest" id="smallest-to-largest">  Smallest to largest  <br>
                         <input type="radio" name="problemIDToggle" value="largest-to-smallest" id="largest-to-smallest">  Largest to smallest <br>
-                        <input type="radio" name="problemIDToggle" value="custom-problem-ID" id="custom-problem-ID"> 
-                        <input type="text" name="start-id" id="custom-problemID-start" placeholder="Start"> 
+                        <input type="radio" name="problemIDToggle" value="custom-problem-ID" id="custom-problem-ID">
+                        <input type="text" name="start-id" id="custom-problemID-start" placeholder="Start">
                         To
                         <input type="text" name="finish-id" id="custom-problemID-end" placeholder="End">
                     </div>
-    
-                    <div id="other-attribute-container">   
+
+                    <div id="other-attribute-container">
                         <div id="organise-other-attribute">
                             <div class="dropdown-attribute">
                                 <!-- got this select tag template from w3 school -->
@@ -179,7 +172,7 @@
                                     <option value="high">High</option>
                                 </select>
                             </div>
-                            
+
                             <div class="dropdown-attribute">
                                 <!-- got this select tag template from w3 school -->
                                 <label for="problemTitle" class="sortby-title">Title</label> <br>
@@ -189,7 +182,7 @@
                                     <option value="Z-A">Sort by Z-A</option>
                                 </select>
                             </div>
-                            
+
                             <div class="dropdown-attribute">
                                 <!-- got this select tag template from w3 school -->
                                 <label for="status" class="sortby-title">Status</label> <br>
@@ -200,28 +193,28 @@
                                     <option value="Solved">Solved</option>
                                 </select>
                             </div>
-                            
+
                         </div> <!-- end of organise-other-attribute | flex component -->
                     </div> <!-- end of other-attribute-container -->
-                    
+
                     <div id="filter-apply-container">
-                        <button id="apply-filter-button" name="applyFilter"> Apply </button> 
+                        <button id="apply-filter-button" name="applyFilter"> Apply </button>
                         <button id="reset-filter-button" name="resetFilter"> Reset Filter </button>
                     </div>
                 </div> <!-- end of display-filter section | a grid component -->
             </form>
-            
-            <!-- 
+
+            <!--
                 ######################################################################################
-                END OF FILTER/ SEARCH SECTION 
+                END OF FILTER/ SEARCH SECTION
                 ######################################################################################
 
             -->
-            
 
 
 
-            <!-- 
+
+            <!--
                 ######################################################################################
                 RECORDS - Displaying all the records that was issued by them in a table format
                 ######################################################################################
@@ -229,7 +222,7 @@
 
             <!-- Displaying all the records they have registered in the system -->
             <div class="scrolltable-x">
-                <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the 
+                <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                     scroll feature so they view all the fields in the table  -->
 
                 <table class="normal-table hover-cursor-on-table">
@@ -242,7 +235,7 @@
                         <th> Importance </th>
                         <th> Assign To </th>
                     </tr>
-    
+
                     <tr>
                         <td> Lorem ipsum dolor sit amet.</td>
                         <td> Lorem ipsum dolor sit amet. </td>
@@ -262,7 +255,7 @@
                         <td> Lorem ipsum dolor sit amet. </td>
                     </tr>
                 </table>
-        
+
             </div>
 
 
@@ -287,16 +280,13 @@
                 </div>
             </div>
 
-            <!-- 
+            <!--
                 ######################################################################################
-                END OF RECORDS/ TABLE SECTION 
+                END OF RECORDS/ TABLE SECTION
                 ######################################################################################
             -->
         </div>
     </div>
 
-    
     <script type="text/javascript" src="{{ URL::asset('js/client.js') }}"></script>
-</body>
 @endsection
-    
