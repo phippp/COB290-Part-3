@@ -78,7 +78,15 @@ nav{
     font-size: 1.125rem;
 }
 
-nav a {
+#nav-logout, nav form{
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+nav a, #nav-logout {
     /* this applies style to all the navigation links */
     color: #1d1d1d;
     padding: 0.5em;
@@ -113,11 +121,11 @@ nav a {
 }
 
 /* The styles changes the colour on the navigation link we are hovering over*/
-nav a:hover {
+nav a:hover, #nav-logout:hover {
     color: #5d5d5d;
 }
 
-.drop-down-nav a:hover{
+.drop-down-nav a:hover, nav form:hover{
     background: #f9f9f9;
 }
 
@@ -181,7 +189,7 @@ nav a:hover {
     }
 
 
-    nav a{
+    nav a, #nav-logout{
         /* Adds a space around each link to give some room for it to breath */
         width: 100%;
         text-align: right;
