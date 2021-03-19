@@ -1,44 +1,20 @@
 @extends('base')
 
+@section('style')
+    <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <style>
+        body{
+            background-color: #F4F5F7;
+        }
+    </style>
+@endsection
+
 @section('content')
-    <!-- Navigation  -->
-    <div class="nav-container"> <!-- this class applies background styling to our navigation-->
 
-        <nav> <!-- This is a flex container and it will centers all the content that we will be showing-->
-
-            <div class="logo">
-                <h1 id="logo-name"> Make-It-All </h1>
-                <!-- The div below will store icon/images which will be displayed if the user screen is small -->
-                <div id="nav-state-icon">
-                    <!-- FUTURE NOTE: may want to replace the character code into image -->
-                    <span id="close-nav" class="container-hide">&#10005;</span>
-                    <span id="open-nav">&#8801;</span>
-                </div>
-            </div>
-
-            <!-- All the main navigation links goes here -->
-            <div id="primary-nav-links">
-                <a href="#" class="nav-link-active"> Dashboard </a>
-                <a href="#"> Register </a>
-            </div>
-
-            <!-- All the secondary navigation link goes here -->
-            <div id="secondary-nav-links">
-                <a href="#" id="current-emp-name"> Forename surname </a>
-                <!-- The div contains all the navigation link we want to show when the user hovers over nav section-->
-                <div class="drop-down-nav">
-                    <a href="#"> Language </a>
-                    <a href="#"> Logout </a>
-                </div>
-            </div>
-
-        </nav>
-    </div>
-    <!-- end of navigation -->
-
+    <!-- Inserting the navigation on our page -->
+    @include('client_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
-
         <!--
             ######################################################################################
             STATS SECTION - aim is to provide a status on the reports which are currently ongoing
@@ -120,16 +96,16 @@
                       <option value="assigned">Assigned To</option>
                     </select>
                     <input type="text" name="" id="search-input">
-                    <button type="submit"> <img src="search icon.svg" alt="Search" srcset=""> </button>
+                    <button type="submit"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
                 </form>
 
-                <!-- Filter btn (Nitesh: i  had to place it here due to the styling of the page )
+                <!-- Filter btn (:Was place here here due to the styling of the page )
                     The section below is simple filter btn in which they client click on to see all the filter they can sort through
                 -->
                 <div id="filter-btn-section">
-                    <img src="filter.svg" alt="">
+                    <img src="{{ asset('images/filter.svg') }}" alt="">
                     <p> Filter by  </p>
-                    <img src="dropdown_arrow.svg" alt="" id="filter-dropdown-arrow">
+                    <img src="{{ asset('images/dropdown_arrow.svg') }}" alt="" id="filter-dropdown-arrow">
                 </div>
             </div>
 
@@ -201,6 +177,7 @@
                         <button id="apply-filter-button" name="applyFilter"> Apply </button>
                         <button id="reset-filter-button" name="resetFilter"> Reset Filter </button>
                     </div>
+                    <br><br>
                 </div> <!-- end of display-filter section | a grid component -->
             </form>
 
@@ -288,5 +265,5 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{{ URL::asset('js/client.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
 @endsection

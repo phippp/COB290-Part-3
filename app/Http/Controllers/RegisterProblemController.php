@@ -16,6 +16,6 @@ class RegisterProblemController extends Controller
     }
 
     public function index(){
-        return view('registerclient');
+        return view('client_register',['navTitle'=>'register']);
     }
 }

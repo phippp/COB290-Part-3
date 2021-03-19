@@ -1,4 +1,9 @@
-@extends('base')
+@extends('../base')
+
+@section('style')
+    <link rel="stylesheet" href="{{ asset('css/login_style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/message_alert.css')}}">
+@endsection
 
 @section('content')
     {{-- This shows an error message if the login is invalid --}}
@@ -17,9 +22,9 @@
             <form id="login-form" action="{{ route('login') }}" method="post">
                 @csrf
                 <label for="username">Username<span class="required-field">*</span></label>
-                <input type="text" name="username" id="username" placeholder="Your username" value="{{ old('username') }}" class="inputfield">
+                <input type="text" name="username" id="username" value="{{ old('username') }}" class="inputfield">
                 <label for="password">Password<span class="required-field">*</span></label>
-                <input type="password" name="password" id="password" placeholder="Choose a password" class="inputfield">
+                <input type="password" name="password" id="password" class="inputfield">
 
                 <button type="submit">Login</button>
 
