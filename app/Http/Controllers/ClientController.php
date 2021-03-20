@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\ProblemLog;
+use App\Models\Employee;
 
 class ClientController extends Controller
 {
@@ -18,6 +20,12 @@ class ClientController extends Controller
     }
 
     public function index(){
-        return view('client_dashboard', ['navTitle'=>'dashboard']);
+        $id = auth()->user()->employee_id;
+        $employee = Employee::find($id);
+        $problemlogs = $employee->problemLogs()->get();
+
+        return view('client_dashboard', ['navTitle'=>'dashboard'], [
+            'problemlogs' => $problemlogs
+        ]);
     }
 }

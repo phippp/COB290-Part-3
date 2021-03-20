@@ -74,7 +74,7 @@ class Employee extends Model
     }
 
     public function problemLogs(){
-        return $this->hasMany(ProblemLog::class);
+        return $this->hasMany(ProblemLog::class, 'employee_id');
     }
 
     public function logHistories(){

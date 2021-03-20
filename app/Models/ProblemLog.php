@@ -65,7 +65,7 @@ class ProblemLog extends Model
     }
 
     public function problemType(){
-        return $this->belongsTo(Problem::class);
+        return $this->belongsTo(Problem::class, 'problem_id');
     }
 
     public function notes(){
@@ -82,5 +82,13 @@ class ProblemLog extends Model
 
     public function solvedBy(){
         return $this->belongsTo(Employee::class);
+    }
+
+    public function assignedSpecialist(){
+        return $this->belongsTo(Employee::class, 'specialist_assigned');
+    }
+
+    public function reportedBy(){
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 }

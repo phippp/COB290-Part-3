@@ -70,7 +70,7 @@
             ######################################################################################
          -->
 
-
+        @if ($problemlogs->count())
         <!-- This section will be concerned with displaying all the cases the client has issued   -->
         <div class="cases-reported-section">
             <h3 class="section-title"> Cases Issued  </h3>
@@ -212,25 +212,17 @@
                         <th> Importance </th>
                         <th> Assign To </th>
                     </tr>
-
+                @foreach ($problemlogs as $problemlog)
                     <tr>
-                        <td> Lorem ipsum dolor sit amet.</td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
+                        <td> {{ $problemlog->created_at }}</td>
+                        <td> {{ $problemlog->id }} </td>
+                        <td> {{ $problemlog->title}} </td>
+                        <td> {{ $problemlog->problemType->problem_type }} </td>
+                        <td> {{ $problemlog->status }} </td>
+                        <td> {{ $problemlog->importance }} </td>
+                        <td> {{ $problemlog->assignedSpecialist->surname}} </td>
                     </tr>
-                    <tr>
-                        <td> Lorem ipsum dolor sit amet.</td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                        <td> Lorem ipsum dolor sit amet. </td>
-                    </tr>
+                @endforeach
                 </table>
 
             </div>
@@ -256,6 +248,11 @@
                     </select>
                 </div>
             </div>
+            @else
+                <div>
+                    No problems reported.
+                </div>
+            @endif
 
             <!--
                 ######################################################################################
