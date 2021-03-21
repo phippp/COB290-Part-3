@@ -248,6 +248,9 @@
                     </select>
                 </div>
             </div>
+
+            <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
+
             @else
                 <div>
                     No problems reported.
@@ -262,5 +265,5 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
+
 @endsection
