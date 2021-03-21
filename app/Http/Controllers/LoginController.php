@@ -29,6 +29,11 @@ class LoginController extends Controller
             return back()->with('status', 'Invalid login details');
         }
 
-        return redirect()->route('client');
+        if(auth()->user()->employee->job->type == "Specialist"){
+            return redirect()->route('index'); //Route for specialist home doesnt exist currently so this is temporary
+        } else if(auth()->user()->employee->job->type == "User"){
+            return redirect()->route('client');
+        }
+
     }
 }

@@ -21,7 +21,6 @@ class LogHistory extends Model
     protected $fillable = [
         'description',
         'solution',
-        'employee_id',
         'edited_at',
         'problem_log_id'
     ];
@@ -41,10 +40,6 @@ class LogHistory extends Model
     protected $casts = [
         'edited_at' => 'datetime',
     ];
-
-    public function employee(){
-        return $this->belongsTo(Employee::class);
-    }
 
     public function problemLog(){
         return $this->belongsTo(ProblemLog::class);

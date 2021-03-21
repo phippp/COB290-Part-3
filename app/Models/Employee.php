@@ -50,11 +50,11 @@ class Employee extends Model
     }
 
     public function notesCreated(){
-        return $this->hasMany(ProblemNote::class,'call_received_by');
+        return $this->hasMany(ProblemNote::class,'call_received_by'); //gets all the notes the user called about
     }
 
     public function notesCreator(){
-        return $this->hasMany(ProblemNote::class, 'caller_id');
+        return $this->hasMany(ProblemNote::class, 'caller_id'); //gets all the notes where the user answered the call (specialist picked up phone)
     }
 
     public function specialistSkills(){
@@ -74,11 +74,11 @@ class Employee extends Model
     }
 
     public function problemLogs(){
-        return $this->hasMany(ProblemLog::class, 'employee_id');
+        return $this->hasMany(ProblemLog::class, 'client_id'); // this gets the columns where they reported the problem
     }
 
-    public function logHistories(){
-        return $this->hasMany(LogHistory::class);
+    public function solved(){
+        return $this->hasMany(ProblemLog::class, 'employee_id'); // this gets the columns where they solved the problem
     }
 
     public function trackers(){

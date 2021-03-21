@@ -33,7 +33,8 @@ class ProblemLog extends Model
         'status',
         'importance',
         'solved_at',
-        'employee_id'
+        'employee_id',
+        'client_id'
     ];
 
     /*
@@ -81,14 +82,10 @@ class ProblemLog extends Model
     }
 
     public function solvedBy(){
-        return $this->belongsTo(Employee::class);
-    }
-
-    public function assignedSpecialist(){
-        return $this->belongsTo(Employee::class, 'specialist_assigned');
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     public function reportedBy(){
-        return $this->belongsTo(Employee::class, 'employee_id');
+        return $this->belongsTo(Employee::class, 'client_id');
     }
 }
