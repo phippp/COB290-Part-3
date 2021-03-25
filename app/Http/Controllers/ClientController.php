@@ -10,9 +10,7 @@ class ClientController extends Controller
 {
     //
     public function __construct(){
-
         $this->middleware(['auth','check.user']);
-
     }
 
     public function store(Request $request){
@@ -20,14 +18,8 @@ class ClientController extends Controller
     }
 
     public function index(){
-        // $id = auth()->user()->employee_id;
-        // $employee = Employee::find($id);
-        // $problemlogs = $employee->problemLogs()->get();
-
-        $problemlogs = auth()->user()->employee->problemLogs()->get();
-
         return view('client_dashboard', ['navTitle'=>'dashboard'], [
-            'problemlogs' => $problemlogs
+            'problemlogs' => ProblemLog::where('client_id',auth()->user()->employee->id)->paginate(10)
         ]);
     }
 }

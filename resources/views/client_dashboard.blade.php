@@ -216,7 +216,7 @@
                     <tr>
                         <td> {{ $problemlog->created_at->toDateString() }}</td>
                         <td> {{ $problemlog->id }} </td>
-                        <td> {{ $problemlog->title}} </td>
+                        <td><a href="{{ route('client_problem_view',$problemlog) }}"> {{ $problemlog->title}} </a></td>
                         <td> {{ $problemlog->problemType->problem_type }} </td>
                         <td> {{ $problemlog->status }} </td>
                         <td> {{ $problemlog->importance }} </td>

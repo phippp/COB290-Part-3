@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegisterProblemController;
+use App\Http\Controllers\ClientProblemEditController;
+use App\Http\Controllers\ClientProblemOverviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,12 @@ Route::post('/login', [LoginController::class, 'store']);
 // These only exist so that I could create an initial Hashed password
 // Route::get('/test/register', [RegisterController::class, 'index'])->name('register');
 // Route::post('/test/register', [RegisterController::class, 'store']);
+
+Route::get('/client/{problemlog:id}/view', [ClientProblemOverviewController::class, 'index'])->whereNumber('id')->name('client_problem_view');
+
+Route::get('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'index'])->whereNumber('id')->name('client_problem_edit');
+Route::post('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'store']);
+
 Route::get('/client', [ClientController::class, 'index'])->name('client');
 Route::post('/client', [ClientController::class, 'store']);
 
