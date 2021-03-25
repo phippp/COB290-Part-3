@@ -20,9 +20,11 @@ class ClientController extends Controller
     }
 
     public function index(){
-        $id = auth()->user()->employee_id;
-        $employee = Employee::find($id);
-        $problemlogs = $employee->problemLogs()->get();
+        // $id = auth()->user()->employee_id;
+        // $employee = Employee::find($id);
+        // $problemlogs = $employee->problemLogs()->get();
+
+        $problemlogs = auth()->user()->employee->problemLogs()->get();
 
         return view('client_dashboard', ['navTitle'=>'dashboard'], [
             'problemlogs' => $problemlogs

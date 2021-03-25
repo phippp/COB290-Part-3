@@ -214,13 +214,14 @@
                     </tr>
                 @foreach ($problemlogs as $problemlog)
                     <tr>
-                        <td> {{ $problemlog->created_at }}</td>
+                        <td> {{ $problemlog->created_at->toDateString() }}</td>
                         <td> {{ $problemlog->id }} </td>
                         <td> {{ $problemlog->title}} </td>
                         <td> {{ $problemlog->problemType->problem_type }} </td>
                         <td> {{ $problemlog->status }} </td>
                         <td> {{ $problemlog->importance }} </td>
-                        <td> {{ $problemlog->assignedSpecialist->surname}} </td>
+                        <td> specialist name here </td>
+                        {{-- <td> {{ $problemlog->assignedSpecialist->surname}} </td> --}}
                     </tr>
                 @endforeach
                 </table>
