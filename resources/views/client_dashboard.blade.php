@@ -15,65 +15,11 @@
     @include('client_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
-        <!--
-            ######################################################################################
-            STATS SECTION - aim is to provide a status on the reports which are currently ongoing
-            ######################################################################################
-         -->
-
-        <!-- Showing the numeric stat's data in card format -->
-        <div class="stats-card-section">
-            <h2> Your Summary </h2>
-
-            <div class="stats-card-container">
-                <div class="stats-card">
-                    <h4> Cases reported today. </h4>
-                    <h3>  15 </h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
-                </div>
-                <div class="stats-card">
-                    <h4> Total ongoing cases . </h3>
-                    <h3>  15 </h3>
-                </div>
-                <div class="stats-card">
-                    <h4> Cases on verify </h4>
-                    <h3>  15 </h3>
-                </div>
-
-                <div class="stats-card">
-                    <!-- this section will show all importance level assigned to the cases that client has reported (which are ongoing) -->
-                    <h4> Importance  Level </h4>
-                    <div class="importance-info-container">
-                        <div class="importance-item" id="low-importance">
-                            <h5> Low </h5>
-                            <h4> 5 </h4>
-                        </div>
-
-                        <div class="importance-item" id="medium-importance">
-                            <h5> Medium </h5>
-                            <h4> 5 </h4>
-                        </div>
-
-                        <div class="importance-item" id="high-importance">
-                            <h5> High </h5>
-                            <h4> 5 </h4>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-        <!-- end of displaying stats data -->
-        <!--
-            ######################################################################################
-            END OF STATS SECTION
-            ######################################################################################
-         -->
 
         @if ($problemlogs->count())
         <!-- This section will be concerned with displaying all the cases the client has issued   -->
         <div class="cases-reported-section">
-            <h3 class="section-title"> Cases Issued  </h3>
+            <h1 class="section-title"> Cases Issued  </h1>
 
             <!--
                 ######################################################################################
@@ -210,7 +156,6 @@
                         <th> Category </th>
                         <th> Status </th>
                         <th> Importance </th>
-                        <th> Assign To </th>
                     </tr>
                 @foreach ($problemlogs as $problemlog)
                     <tr>
@@ -220,33 +165,22 @@
                         <td> {{ $problemlog->problemType->problem_type }} </td>
                         <td> {{ $problemlog->status }} </td>
                         <td> {{ $problemlog->importance }} </td>
-                        <td> specialist name here </td>
-                        {{-- <td> {{ $problemlog->assignedSpecialist->surname}} </td> --}}
                     </tr>
                 @endforeach
                 </table>
-
             </div>
-
 
             <!-- This section will handle pagination and the number of rows to show in a table -->
             <div class="table-property-container">
                 <div class="pagination">
-                    <a href=""> &#x276E </a>
-                    <input type="number" id="page-number" value="" min="1" max="1" onchange="validatePagination()">
-                    <span> / 2 </span>
-                    <a href=""> &#x276F </a>
-                </div>
-
-
-                <div class="row-property">
-                    <label for="row-limit">Rows per page:</label>
-                    <select name="row-limit" id="row-limit">
-                        <option value="25">  25</option>
-                        <option value="50">  50</option>
-                        <option value="100">100</option>
-                        <option value="200"> 200</option>
-                    </select>
+                    @if (!$problemlogs->onFirstPage())
+                        <a href="{{ $problemlogs->previousPageUrl() }}"> &#x276E </a>
+                    @endif
+                    <span id="page-number">{{ $problemlogs->currentPage() }}</span>
+                    <span> / {{ $problemlogs->lastPage() }}</span>
+                    @if ($problemlogs->hasMorePages())
+                        <a href="{{ $problemlogs->nextPageUrl() }}"> &#x276F </a>
+                    @endif
                 </div>
             </div>
 

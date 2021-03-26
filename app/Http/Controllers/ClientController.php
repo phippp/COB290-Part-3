@@ -19,7 +19,7 @@ class ClientController extends Controller
 
     public function index(){
         return view('client_dashboard', ['navTitle'=>'dashboard'], [
-            'problemlogs' => ProblemLog::where('client_id',auth()->user()->employee->id)->paginate(10)
+            'problemlogs' => ProblemLog::where('client_id',auth()->user()->employee->id)->paginate(5)
         ]);
     }
 }
