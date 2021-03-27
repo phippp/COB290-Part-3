@@ -15,7 +15,7 @@ class ClientProblemOverviewController extends Controller
     }
 
     public function index(ProblemLog $problemlog){
-        dd($problemlog);
-        return view('client_view_problem',['navTitle'=>''],['problemlog' => $problemlog]);
+        // dd($problemlog);
+        return view('client_view_problem',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
     }
 }

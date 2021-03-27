@@ -21,60 +21,63 @@
 
             <!-- ########################################################################### -->
             <!-- Hardware and Software section -->
-            <h3 class="section-heading">  Enter the appropriate equipment details <span class="required-field">*</span>  </h3>
-        
-            <!-- Asking the user for their input on software and hardware so we can check if they are licensed or not -->
-            <div id="equip-check-section">
+            <div class="input-group-holder">
+                <h3 class="section-heading">  Enter the appropriate equipment details <span class="required-field">*</span>  </h3>
+            
+                <!-- Asking the user for their input on software and hardware so we can check if they are licensed or not -->
 
-                <div class="software-section">
-                    <!-- Operating system input -->
-                    <div id="select-os">
-                        <label for="operating-system" class="label-default">Operating system</label> <br>
-                        <select name="operating-system" id="os-system" class="select-default" >
-                        <option selected> - </option>
-                        </select>
-                    </div>
-                        
-                    <!-- Application software input -->
-                    <div id="select-app-software">
-                        <label for="app-software" class="label-default">Application Software</label> <br>
-                        <select name="app-software" id="app-software" class="select-default" >
+
+                    <div class="flex-input-container">
+                        <!-- Operating system input -->
+                        <div id="select-os">
+                            <label for="operating-system" class="label-default">Operating system</label> <br>
+                            <select name="operating-system" id="os-system" class="select-default" >
                             <option selected> - </option>
-                        </select>
+                            </select>
+                        </div>
+                            
+                        <!-- Application software input -->
+                        <div id="select-app-software">
+                            <label for="app-software" class="label-default">Application Software</label> <br>
+                            <select name="app-software" id="app-software" class="select-default" >
+                                <option selected> - </option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <h4 class="italic-light"><em> Either </em></h4>
+                    <h4 class="italic-light"><em> OR </em></h4>
 
-                <!-- Hardware input section -->
-                <div id="hardware-section">
-                    <label for="serial-num" class="label-default">Serial Number</label> <br>
-                    <input type="text" name="serial-num" id="hardware-input" class="input-default">
-                </div>
-            </div>
-            <br> <hr>
+                    <!-- Hardware input section -->
+                    <div id="hardware-section">
+                        <label for="serial-num" class="label-default">Serial Number</label> <br>
+                        <input type="text" name="serial-num" id="hardware-input" class="small-text-input">
+                    </div>
+    
+            </div> <hr>
             
             <!-- ########################################################################### -->
             <!-- Problem Title and description section -->
-            <h3 class="section-heading" class="label-default">  Notes   </h3>            
-           
-            <!-- Input field for title -->
-            <label for="title" class="label-default"> Title <span class="required-field">*</span> </label> <br>
-            <input type="text" name="title" id="query-title-input"class="input-default" > <br>
+            <div class="input-group-holder">
+                <h3 class="section-heading" class="label-default">  Notes   </h3>            
             
+                <!-- Input field for title -->
+                <label for="title" class="label-default"> Title <span class="required-field">*</span> </label> <br>
+                <input type="text" name="title" id="query-title-input"class="small-text-input" > <br>
+                
 
-            <!-- Input field for Description -->
-            <label for="description" class="label-default">Description <span class="required-field">*</span></label> <br>
-            <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
-            <textarea name="description" id="query-description-input" class="large-text-input"></textarea>
-            <br> <hr>
+                <!-- Input field for Description -->
+                <label for="description" class="label-default">Description <span class="required-field">*</span></label> <br>
+                <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
+                <textarea name="description" id="query-description-input" class="large-text-input"></textarea>
+            </div>
+            <hr>
 
 
             <!-- ########################################################################### -->
             <!-- Problem categorization section -->         
-            <div id="categorization-section">
+            <div id="input-group-holder">
                 <h3 class="section-heading">  Category   </h3>            
-                <div id="category-input-section">
+                <div class="flex-input-container">
                     <!-- Input section -->
                     <div id="generic-categorization-container">  <!-- this div is CSS flex child   -->
                         <label for="generic-category" class="label-default">General category <span class="required-field">*</span> </label> <br>

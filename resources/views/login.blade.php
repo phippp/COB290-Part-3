@@ -15,7 +15,7 @@
                 <div class="single-error-container">
                     <span> &#10006 </span>
                     <div id="call-reason-error-msg">
-                        <p>{{ session('status') }}</p>
+                        <b>{{ session('status') }}</b>
                     </div>
                 </div>
             @endif

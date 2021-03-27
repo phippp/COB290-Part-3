@@ -21,7 +21,7 @@
         2.7 Input fields 
         2.8 Toggle button
         2.9 ....
-
+    3. Problem Overview and Edit page 
 */
 /* ============================================================== */
 
@@ -264,6 +264,100 @@ nav a:hover, #nav-logout:hover {
 }
 
 
+/* Content layout for overview */
+
+.heading-flex-end{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+#problem-id-info h4{
+    font-weight: 500;
+}
+
+
+
+#problem-status-title{
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+#pervious-record-history-btn {
+    width: 100%;
+}
+
+.pervious-info-container{
+    background-color: #F4F5F7;
+    border-radius: 8px;
+    border: 2px solid#d4d4d4;
+    padding: 10px 5px;
+    margin: 15px 5px;
+}
+
+.pervious-info-container textarea{
+    min-height: 4rem;
+    max-width: 100%;
+}
+
+
+#modified-info{
+    grid-area: modified-info;
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
+.pervious-description{
+    grid-area: description;
+}
+.pervious-solution{
+    grid-area: solution;
+}
+
+#pervious-description-title{
+    grid-area: description-title;
+}
+#pervious-solution-title{
+    grid-area: solution-title;
+}
+
+.solution-description-msg{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 5px;
+    grid-template-areas:
+    "modified-info modified-info"
+    "description-title solution-title"
+    "description solution";
+    margin: 1rem 0rem;
+}
+
+#pervious-record-history-btn{
+    width: 100%;
+}
+
+
+#specialist-id-info{
+    font-size: small;
+}
+/* Tablet */
+@media screen and (max-width:768px){
+    .solution-description-msg{
+        display: grid;
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+        grid-template-areas:
+        "modified-info"
+        "description-title"
+        "description"
+        "solution-title"
+        "solution";
+    }
+
+}
+
 
 /* -------------- 2.1 Displaying the stat's card -------------- */        
 .stats-card-container{
@@ -433,7 +527,7 @@ nav a:hover, #nav-logout:hover {
 }
 
 
-/* -------------- 2.3.2 Layout for sort by functionality --------------*/
+/* -------------- 2.3.2 Layout for "sort by" functionality --------------*/
 .show-filter-options{
     display: grid !important;
 }
@@ -571,7 +665,9 @@ nav a:hover, #nav-logout:hover {
     outline: 0;
     margin-top: 20px;
 }
-
+.primary-form-button:focus{
+    box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 50%);
+}
 
 .secondary-btn{
     margin: 10px 0px;
@@ -592,7 +688,24 @@ nav a:hover, #nav-logout:hover {
     color: #ffffff;
 }
 
+/* This styling is used in overview page */
+#edit-overview-btn{
+    padding: 10px 25px;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0px 5px;
+    color: #fff;
+    text-decoration: none;
+}
 
+
+#edit-overview-btn:focus{
+    box-shadow: 0 0 0 0.2rem #aaa;
+    /* box-shadow:  0 0 0 0.2rem rgb(180 186 191 / 50%); */
+}
 
 
 /* -------------- 2.5 Table --------------*/
@@ -639,6 +752,72 @@ nav a:hover, #nav-logout:hover {
     background-color: #e2e2e2;
     border-radius: 0px;
 }
+
+/* Employee info table */
+
+#emp-info-parent{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+#emp-info-parent table{
+    border-collapse: collapse;
+    justify-self: stretch;
+    width: 100%;
+}
+
+/* Generic detail tables */
+#emp-generic-detail tr{
+    border-bottom: 2px solid #d8d8d8;
+}
+
+#emp-generic-detail th{
+    padding: 5px 15px;
+    border-right: 3px solid #4d4d4d;
+    background: #F4F5F7;
+    font-weight: 600;
+    text-align: left;
+}
+
+#emp-generic-detail td{
+    padding: 5px 15px;
+}
+
+.emp-info-child{
+    text-align: left;
+    border: 2px solid#d4d4d4;
+}
+
+
+/* Branch details table  */
+#emp-branch-detail td, #emp-branch-detail th{
+    padding: 5px 15px;
+}
+
+#emp-branch-detail th{
+    background: #F4F5F7;
+    border-bottom: 3px solid #4d4d4d;
+    font-weight: 500;
+}
+
+#emp-branch-detail td{
+    border-bottom: none;
+}
+
+/* Laptop Screen Small */
+
+@media screen and (max-width:768px){
+    #emp-info-parent{
+        grid-template-columns: 1fr;
+        grid-gap: 0rem;
+    }
+}
+
+
+
+
+
 
 /* Pagination  and Rows per page*/
 
@@ -720,7 +899,7 @@ nav a:hover, #nav-logout:hover {
     cursor: pointer;
 }
 
-.input-default, .select-default, textarea {
+.small-text-input, .select-default, textarea {
     border-radius: .25rem;
     border: 1px solid #7d7d7d;
 }
@@ -733,7 +912,7 @@ hr{
 }
 
 
-.software-section, #category-input-section{
+.flex-input-container{
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -741,10 +920,11 @@ hr{
 }
 
 
-#hardware-input{
+.small-text-input{
     padding: 5px;
     width: 250px;
     height: 38px;
+    margin: 5px 0px;
     font-size: 0.9rem;
 }
 
@@ -752,6 +932,11 @@ hr{
     font-weight: normal;
     margin: 0.5rem 0rem;
     color: #5d5d5d;
+}
+
+
+.input-group-holder{
+    margin: 1.5rem 0rem;
 }
 
 /* -- notes section ==> title and description */

@@ -159,7 +159,7 @@
                     </tr>
                 @foreach ($problemlogs as $problemlog)
                     <tr>
-                        <td> {{ $problemlog->created_at->toDateString() }}</td>
+                        <td> {{ $problemlog->created_at->format('d/m/Y') }}</td>
                         <td> {{ $problemlog->id }} </td>
                         <td><a href="{{ route('client_problem_view',$problemlog) }}"> {{ $problemlog->title}} </a></td>
                         <td> {{ $problemlog->problemType->problem_type }} </td>
