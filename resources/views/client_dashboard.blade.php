@@ -158,10 +158,11 @@
                         <th> Importance </th>
                     </tr>
                 @foreach ($problemlogs as $problemlog)
-                    <tr>
+                    <?php $a = route('client_problem_view', $problemlog); ?>
+                    <tr onclick= "window.location.href='<?=$a?>' " >
                         <td> {{ $problemlog->created_at->format('d/m/Y') }}</td>
                         <td> {{ $problemlog->id }} </td>
-                        <td><a href="{{ route('client_problem_view',$problemlog) }}"> {{ $problemlog->title}} </a></td>
+                        <td> {{ $problemlog->title}} </td>
                         <td> {{ $problemlog->problemType->problem_type }} </td>
                         <td> {{ $problemlog->status }} </td>
                         <td> {{ $problemlog->importance }} </td>
