@@ -30,7 +30,7 @@ class SpecialistTracker extends Model
     protected $hidden = [];
 
     public function specialist(){
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     public function problemLog(){
