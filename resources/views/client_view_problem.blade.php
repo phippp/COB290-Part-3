@@ -122,34 +122,28 @@
 
             <!-- Only render the stuff below if description/solution has been modified from their initial input -->
             <!-- View history of description and solution btn  -->
-            <button type="button" class="secondary-btn" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
 
-            <div class="pervious-info-container container-hide" id="pervious-history-container"> <!-- This is container which will show all the pervious description and solution -->
+            @if($problemlog->notes->count())
 
-                @if($problemlog->notes->count())
+                <button type="button" class="secondary-btn" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
+
+                <div class="pervious-info-container container-hide" id="pervious-history-container"> <!-- This is container which will show all the pervious description and solution -->
 
                     @foreach($problemlog->notes as $note)
 
-                    <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
-                        <h4 id="modified-info"> Last edited @ {{ $note->created_at }} by Team 9 (ID:9)</h4>
-                        <h4 id="pervious-description-title"> Description </h4>
-                        <textarea readonly class="pervious-description"> {{ $note->description }} </textarea>
-                        <h4 id="pervious-solution-title"> Solution </h4>
-                        <textarea readonly class="pervious-solution"> {{ $note->solution}} </textarea>
-                    </div> <hr>
+                        <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
+                            <h4 id="modified-info"> Last edited @ {{ $note->created_at }} by Team 9 (ID:9)</h4>
+                            <h4 id="pervious-description-title"> Description </h4>
+                            <textarea readonly class="pervious-description"> {{ $note->description }} </textarea>
+                            <h4 id="pervious-solution-title"> Solution </h4>
+                            <textarea readonly class="pervious-solution"> {{ $note->solution}} </textarea>
+                        </div> <hr>
 
                     @endforeach
 
-                @else
+                </div>
 
-                    <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
-                        <h4>There are no comments yet.</h4>
-                    </div>
-
-                @endif
-            </div>
-
-
+            @endif
 
         </div>
         <hr>
@@ -313,37 +307,36 @@
             <br> <br>
         </div>
 
-        <div class="input-group-holder">
-            <h3 class="section-heading"> Call Records </h3>
-            <button type="button" class="secondary-btn" id="call-record-btn" onclick="callRecords()">&#x2706 View Call Records ({{$problemlog->calls->count()}})</button>
-            <div id="call-record-table" class="scrolltable-x container-hide">
-                @if($problemlog->calls->count())
+        @if($problemlog->calls->count())
 
-                <table class="normal-table">
-                    <tr>
-                        <th> Call Time </th>
-                        <th> Received By </th>
-                        <th id="call-record-description"> Record </th>
-                    </tr>
+            <div class="input-group-holder">
+                <h3 class="section-heading"> Call Records </h3>
+                <button type="button" class="secondary-btn" id="call-record-btn" onclick="callRecords()">&#x2706 View Call Records ({{$problemlog->calls->count()}})</button>
+                <div id="call-record-table" class="scrolltable-x container-hide">
 
-                    @foreach($problemlog->calls as $call)
 
+                    <table class="normal-table">
                         <tr>
-                            <td> {{ $call->edited_at->format('H:i:s d-m-Y') }} </td>
-                            <td> {{ $call->specialist->forename }} {{ $call->specialist->surname }} </td>
-                            <td> {{ $call->description }} </td>
+                            <th> Call Time </th>
+                            <th> Received By </th>
+                            <th id="call-record-description"> Record </th>
                         </tr>
 
-                    @endforeach
-                </table>
+                        @foreach($problemlog->calls as $call)
 
-                @else
+                            <tr>
+                                <td> {{ $call->edited_at->format('H:i:s d-m-Y') }} </td>
+                                <td> {{ $call->specialist->forename }} {{ $call->specialist->surname }} </td>
+                                <td> {{ $call->description }} </td>
+                            </tr>
 
-                    <h4> No history </h4>
+                        @endforeach
 
-                @endif
+                    </table>
+                </div>
             </div>
-        </div>
+
+        @endif
 
     </div>
 
