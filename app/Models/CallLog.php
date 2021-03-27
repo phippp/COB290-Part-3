@@ -7,7 +7,7 @@ use App\Models\ProblemLog;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class LogHistory extends Model
+class CallLog extends Model
 {
     use HasFactory;
 
@@ -22,7 +22,9 @@ class LogHistory extends Model
         'description',
         'solution',
         'edited_at',
-        'problem_log_id'
+        'problem_log_id',
+        'specialist_id',
+        'client_id'
     ];
 
     /*
@@ -43,6 +45,14 @@ class LogHistory extends Model
 
     public function problemLog(){
         return $this->belongsTo(ProblemLog::class);
+    }
+
+    public function client(){
+        return $this->belongsTo(Employee::class,'client_id');
+    }
+
+    public function specialist(){
+        return $this->belongsTo(Employee::class,'specialist_id');
     }
 
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\Branch;
+use App\Models\CallLog;
 use App\Models\Holiday;
 use App\Models\LogHistory;
 use App\Models\ProblemLog;
@@ -49,12 +50,12 @@ class Employee extends Model
         return $this->hasMany(Holiday::class);
     }
 
-    public function notesCreated(){
-        return $this->hasMany(ProblemNote::class,'call_received_by'); //gets all the notes the user called about
+    public function callWhereClient(){
+        return $this->hasMany(CallLog::class,'client_id'); //gets all the notes the user called about
     }
 
-    public function notesCreator(){
-        return $this->hasMany(ProblemNote::class, 'caller_id'); //gets all the notes where the user answered the call (specialist picked up phone)
+    public function callWhereSpecialsit(){
+        return $this->hasMany(CallLog::class, 'specialist_id'); //gets all the notes where the user answered the call (specialist picked up phone)
     }
 
     public function specialistSkills(){

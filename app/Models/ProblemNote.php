@@ -18,8 +18,7 @@ class ProblemNote extends Model
      */
     protected $fillable = [
         'description',
-        'call_recieved_by',
-        'caller_id',
+        'solution',
         'problem_log_id'
     ];
 
@@ -32,13 +31,5 @@ class ProblemNote extends Model
 
     public function problemLog(){
         return $this->belongsTo(ProblemLog::class);
-    }
-
-    public function recievedBy(){
-        return $this->belongsTo(Employee::class,'call_recieved_by');
-    }
-
-    public function caller(){
-        return $this->belongsTo(Employee::class,'caller_id');
     }
 }

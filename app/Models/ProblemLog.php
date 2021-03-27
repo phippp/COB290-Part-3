@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CallLog;
 use App\Models\Problem;
 use App\Models\Employee;
 use App\Models\Hardware;
@@ -77,8 +78,8 @@ class ProblemLog extends Model
         return $this->hasMany(SpecialistTracker::class);
     }
 
-    public function history(){
-        return $this->hasMany(LogHistory::class);
+    public function calls(){
+        return $this->hasMany(CallLog::class);
     }
 
     public function solvedBy(){
