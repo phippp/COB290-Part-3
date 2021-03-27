@@ -33,7 +33,7 @@
 
         <div class="heading-flex-end">
             <h2 class="page-title"> Overview </h2>
-            <a href="#" id="edit-overview-btn">
+            <a href="{{route('client_problem_edit',$problemlog)}}" id="edit-overview-btn">
                 &#x270E; Edit
             </a>
         </div>
@@ -49,7 +49,7 @@
                 <div class="information-container" >
                     <span> &#x1F6C8 </span>
                     <div>
-                        This problem has been marked as <b> SOLVED </b> by Specialist Name (ID)
+                        This problem has been marked as <b> SOLVED </b>
                     </div>
                 </div> <br>
             @endif
@@ -58,9 +58,9 @@
 
             <div id="problem-id-info">
                 <h2> Problem ID : {{ $problemlog->id }} </h2>
-                <h4> Issued : 26/11/2000 11:30pm </h4>
+                <h4> Issued : {{$problemlog->created_at->format('d/m/Y g:ia')}} </h4>
                 <!-- BACKEND: Only show a solved date here if the problem is marked as solved -->
-                @if($problemlog->status === "Solved") <h4> Solved : 26/11/2021 11:22pm </h4> @endif
+                @if($problemlog->status === "Solved") <h4> Solved : {{$problemlog->solved_at->format('d/m/Y g:ia')}} </h4> @endif
                 <br>
             </div>
 
@@ -122,7 +122,7 @@
 
             <!-- Only render the stuff below if description/solution has been modified from their initial input -->
             <!-- View history of description and solution btn  -->
-            <button type="button" class="secondary-btn" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History (1) </button>
+            <button type="button" class="secondary-btn" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
 
             <div class="pervious-info-container container-hide" id="pervious-history-container"> <!-- This is container which will show all the pervious description and solution -->
 
@@ -315,7 +315,7 @@
 
         <div class="input-group-holder">
             <h3 class="section-heading"> Call Records </h3>
-            <button type="button" class="secondary-btn" id="call-record-btn" onclick="callRecords()">&#x2706 View Call Records (1)</button>
+            <button type="button" class="secondary-btn" id="call-record-btn" onclick="callRecords()">&#x2706 View Call Records ({{$problemlog->calls->count()}})</button>
             <div id="call-record-table" class="scrolltable-x container-hide">
                 @if($problemlog->calls->count())
 
