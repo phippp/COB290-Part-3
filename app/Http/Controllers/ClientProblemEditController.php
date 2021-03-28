@@ -12,7 +12,7 @@ class ClientProblemEditController extends Controller
     }
 
     public function index(ProblemLog $problemlog){
-        $solved = ProblemLog::where([['status','Solved'],['id','<>',$problemlog->id]])->get();  //gets all solved problems excluding the current one
+        $solved = ProblemLog::where([['status','Solved'],['id','<>',$problemlog->id]])->paginate(10);  //gets all solved problems excluding the current one
         return view('client_edit_problem',['navTitle'=>''],['problemlog' => $problemlog, 'logs'=> $solved]);
     }
 }

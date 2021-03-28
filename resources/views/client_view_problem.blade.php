@@ -83,19 +83,19 @@
                 <!-- Operating system input -->
                 <div id="select-os">
                     <label for="operating-system" class="label-default">Operating system</label> <br>
-                    <input type="text" name="operating-system" id="os-system" class="small-text-input" value="{{ $problemlog->operatingSystem->operating_system_name }}" readonly>
+                    <input type="text" name="operating-system" id="os-system" class="small-text-input" value="@if($problemlog->operating_system_id != null){{ $problemlog->operatingSystem->operating_system_name }}@endif" readonly>
                 </div>
 
                 <!-- Application software input -->
                 <div id="select-app-software">
                     <label for="app-software" class="label-default">Application Software</label> <br>
-                    <input type="text" name="app-software" id="app-software" class="small-text-input" value="{{ $problemlog->software->name }} {{ $problemlog->software->version }}" readonly >
+                    <input type="text" name="app-software" id="app-software" class="small-text-input" value="@if($problemlog->software_id != null){{ $problemlog->software->name }} {{ $problemlog->software->version }}@endif" readonly >
                 </div>
 
                 <!-- Hardware input section -->
                 <div id="hardware-section">
                     <label for="serial-num" class="label-default">Serial Number</label> <br>
-                    <input type="text" name="serial-num" id="hardware-input" class="small-text-input" value="{{ $problemlog->hardware->serial_num}}" readonly>
+                    <input type="text" name="serial-num" id="hardware-input" class="small-text-input" value="@if($problemlog->hardware_id != null){{ $problemlog->hardware->serial_num}}@endif" readonly>
                 </div>
 
             </div>

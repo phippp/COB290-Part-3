@@ -45,13 +45,13 @@
                     <!-- Operating system input -->
                     <div id="select-os">
                         <label for="operating-system" class="label-default">Operating system</label> <br>
-                        <input type="text" name="operating-system" id="os-system" class="small-text-input" placeholder="{{ $problemlog->operatingSystem->operating_system_name }}" value="{{ $problemlog->operatingSystem->operating_system_name }}">
+                        <input type="text" name="operating-system" id="os-system" class="small-text-input" placeholder="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"-" }}" value="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"" }}">
                     </div>
 
                     <!-- Application software input -->
                     <div id="select-app-software">
                         <label for="app-software" class="label-default">Application Software</label> <br>
-                        <input type="text" name="app-software" id="app-software" class="small-text-input" placeholder="{{ $problemlog->software->name }}" value="{{ $problemlog->software->name }}">
+                        <input type="text" name="app-software" id="app-software" class="small-text-input" placeholder="{{ ($problemlog->software_id != null)?$problemlog->software->name:"-" }}" value="{{ ($problemlog->software_id != null)?$problemlog->software->name:"" }}">
                     </div>
                 </div>
                 <br>
@@ -60,7 +60,7 @@
                     <!-- Hardware input section -->
                     <div id="hardware-section">
                         <label for="serial-num" class="label-default">Serial Number</label> <br>
-                        <input type="text" name="serial-num" id="hardware-input" class="small-text-input" placeholder="{{ $problemlog->hardware->serial_num }}" value="{{ $problemlog->hardware->serial_num }}">
+                        <input type="text" name="serial-num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"-" }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"" }}">
                     </div>
                 </div>
             </div>
@@ -147,22 +147,24 @@
                     <table class="normal-table">
                         <tr>
                             <th>  </th> <!-- this columns is for the checkbox so the user is able to select any solution that could have helped them -->
-                            <th style="width:30%" > Problem ID </th>
+                            <th style="width:10%" > Problem ID </th>
                             <th style="width:40%"> Problem Title </th>
                             <th> Equipment </th>
                             <th> Solution </th>
                         </tr>
 
                         @foreach($logs as $solution)
-                        <tr>
-
-                            <td><input type="checkbox" name="name1"  class="solution-checkbox"/></td>
-                            <td> {{ $solution->id }} </td>
-                            <td> {{ $solution->title}} </td>
-                            <td> {{ $solution->software->name }} </td>
-                            <td> Lorem ipsum dolor sit amet. </td>
-                        </tr>
-
+                            @php($last = $solution->notes->last())
+                            <tr>
+                                <td><input type="checkbox" name="name1"  class="solution-checkbox"/></td>
+                                <td> {{ $solution->id }} </td>
+                                <td> {{ $solution->title}} </td>
+                                @if($solution->software_id != null && $solution->hardware_id != null) <td> {{ $solution->software->name }} & {{ $solution->hardware->name }}</td>
+                                @elseif($solution->software_id != null) <td> {{ $solution->software->name }} </td>
+                                @else <td> {{ $solution->hardware->name }} </td>
+                                @endif
+                                <td> @if(!empty($last)){{ $last->solution }}@endif </td>
+                            </tr>
                         @endforeach
                     </table>
 
