@@ -112,27 +112,14 @@ class ProblemSeeder extends Seeder
 
                 $solutions = ProblemLog::with(['notes'])->where([['status','Solved'],['id','<>',$newproblem->id]])->get();
 
-                //check for matching id
-                foreach($solutions as $sol){
+                //add random solution
+                $random = $solutions->random();
+                $last = $random->notes->last();
 
-                    $last = $sol->notes->last();
+                $solution = \App\models\ProblemNote::factory()->create(
+                    ['problem_log_id' => $newproblem->id, 'solution' => $last->solution]
+                );
 
-                    if($sol->problem_id == $newproblem->problem_id){
-
-                        $solution = \App\models\ProblemNote::factory()->create(
-                            ['problem_log_id' => $newproblem->id, 'solution' => $last->solution]
-                        );
-                        break;
-
-                    }
-
-                }
-                //if no matchin ID's we use another random one
-                if(empty($solution)){
-                    $solution = \App\models\ProblemNote::factory()->create(
-                        ['problem_log_id' => $newproblem->id, 'solution' => $solutions->random()->notes->solution]
-                    );
-                }
 
             }else{
                 //comments should be made
