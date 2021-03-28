@@ -2,19 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Employee;
-use App\Models\User;
+use App\Models\Specialist;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
-class UserFactory extends Factory
+class SpecialistFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = User::class;
+    protected $model = Specialist::class;
 
     /**
      * Define the model's default state.
@@ -24,9 +22,9 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'username' => $this->faker->userName,
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'employee_id' => null
+            'employee_id' => null,
+            'is_available' => true,
+            'working_days' => $this->faker->randomElement(array("mo,tu,we,th,fr","sa,su,mo,we","mo,we,fr,sa","mo,fr,sa,su"))
         ];
     }
 }
