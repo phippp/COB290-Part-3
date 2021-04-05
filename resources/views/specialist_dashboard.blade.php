@@ -12,7 +12,7 @@
 @section('content')
 
     <!-- Inserting the navigation on our page -->
-    @include('client_navigation')
+    @include('specialist_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
         
@@ -213,7 +213,7 @@
                     <!--To fill pagination stuff -->
                 </div>
             </div>
-            
+
             <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
             <!--
                 ######################################################################################
