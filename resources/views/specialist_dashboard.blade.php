@@ -208,6 +208,12 @@
                 </table>
             </div>
 
+            <div class="table-property-container">
+                <div class="pagination">
+                    <!--To fill pagination stuff -->
+                </div>
+            </div>
+            
             <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
             <!--
                 ######################################################################################
