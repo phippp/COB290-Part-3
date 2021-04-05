@@ -38,7 +38,7 @@ Route::post('/client/{problemlog:id}/edit', [ClientProblemEditController::class,
 Route::get('/client', [ClientController::class, 'index'])->name('client');
 Route::post('/client', [ClientController::class, 'store']);
 
-Route::get('/specialist', [SpecialistController::class, 'index'])->name('client');
+Route::get('/specialist', [SpecialistController::class, 'index'])->name('specialist');
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
