@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegisterProblemController;
@@ -36,6 +37,9 @@ Route::post('/client/{problemlog:id}/edit', [ClientProblemEditController::class,
 
 Route::get('/client', [ClientController::class, 'index'])->name('client');
 Route::post('/client', [ClientController::class, 'store']);
+
+Route::get('/specialist', [SpecialistController::class, 'index'])->name('client');
+Route::post('/specialist', [SpecialistController::class, 'store']);
 
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
 Route::post('/register', [RegisterProblemController::class, 'store']);
