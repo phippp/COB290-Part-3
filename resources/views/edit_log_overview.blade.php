@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->    
+            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
                 <h3 class="section-heading"> Employee Details </h3>
 
                 <div id="emp-info-parent">
@@ -41,27 +41,23 @@
                             <tbody>
                                 <tr>
                                     <th>ID</th>
-                                    <td></td>
+                                    <td>{{$problemlog->client_id}}</td>
                                 </tr>
                                 <tr>
                                     <th>Name</th>
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->forename}} {{$problemlog->reportedBy->surname}}</td>
                                 </tr>
                                 <tr>
                                     <th>Email</th>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>Department</th> <!-- could remove this data row if you wish to -->
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->email_address}}</td>
                                 </tr>
                                 <tr>
                                     <th>Job Title</th>
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->job->title}}</td>
                                 </tr>
                                 <tr>
                                     <th>Telephone</th>
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->branch->phone_number_base}} ext. {{$problemlog->reportedBy->phone_number_extension}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -75,6 +71,11 @@
                                 </tr>
                                 <tr>
                                     <td>
+                                        {{$problemlog->reportedBy->branch->address_line_1}} <br/>
+                                        {{$problemlog->reportedBy->branch->address_line_2}} <br/>
+                                        {{$problemlog->reportedBy->branch->city}} <br/>
+                                        {{$problemlog->reportedBy->branch->country}} <br/>
+                                        {{$problemlog->reportedBy->branch->postcode}}
                                     </td>
                                 </tr>
 
@@ -85,7 +86,7 @@
             </div>
 
             <hr>
-            
+
             <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
                 <button type="button" class="secondary-btn" id="add-call" > + Add Call Records </button>
                 <button type="button" class="secondary-btn" id="prev-call-records" onclick="callRecords()">&#x2706 View Previous Call Records ({{$problemlog->calls->count()}})</button>
@@ -125,7 +126,7 @@
                         </select>
                     </div>
                 </div>
-                
+
 
                 <h4 class="italic-light"> <em> OR </em> </h4>
 
@@ -144,7 +145,7 @@
                 <!-- Input field for title -->
                 <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
                 <input type="text" name="title" id="query-title-input"class="small-text-input"> <br>
-                
+
 
                 <!-- Input field for Description -->
                 <label for="description" class="label-default">Description <span class="required-field">*</span> </label> <br>
@@ -176,7 +177,7 @@
                             <option selected> - </option>
                         </select>
                     </div>
-                </div>  
+                </div>
             </div>
 
             <hr>
@@ -236,7 +237,7 @@
                             </tr>
                         </table>
                     </div>
-                    
+
                     <button type="button" class="primary-form-button" id="change-specialist" onclick=""> Change Specialist </button>
                 </div>
                 <br>

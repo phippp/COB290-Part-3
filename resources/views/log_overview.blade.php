@@ -1,3 +1,10 @@
+{{-- PN:
+    Can someone look at the overflow on the hardware input, the values are being entered
+    Its just not showing up on the page for me (only tried on firefox)
+
+    --}}
+
+
 @extends('base')
 
 @section('style')
@@ -14,7 +21,7 @@
 
         <div class="heading-flex-end">
             <h2 class="page-title"> Overview </h2>
-            <a id="edit-overview-btn">
+            <a id="edit-overview-btn" href = "{{ route('specialist_edit_problem',$problemlog) }}">
                 &#x270E; Edit
             </a>
         </div>
@@ -32,11 +39,11 @@
             <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
                 <div class="problem-status ">
                     <div id="problem-status-title"> Problem Status </div>
-                    <input type="text" name="query-status" class="small-text-input">
+                    <input type="text" name="query-status" class="small-text-input" value="{{ $problemlog->status }}" readonly>
                 </div>
             </div>
 
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->    
+            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
                 <h3 class="section-heading"> Employee Details </h3>
 
                 <div id="emp-info-parent">
@@ -45,27 +52,24 @@
                             <tbody>
                                 <tr>
                                     <th>ID</th>
-                                    <td></td>
+                                    <td>{{$problemlog->client_id}}</td>
                                 </tr>
                                 <tr>
                                     <th>Name</th>
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->forename}} {{$problemlog->reportedBy->surname}}</td>
                                 </tr>
                                 <tr>
                                     <th>Email</th>
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->email_address}}</td>
                                 </tr>
-                                <tr>
-                                    <th>Department</th> <!-- could remove this data row if you wish to -->
-                                    <td></td>
-                                </tr>
+                                {{-- PN: I removed the department row because I wasn't sure exactly what to put in it --}}
                                 <tr>
                                     <th>Job Title</th>
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->job->title}}</td>
                                 </tr>
                                 <tr>
                                     <th>Telephone</th>
-                                    <td></td>
+                                    <td>{{$problemlog->reportedBy->branch->phone_number_base}} ext. {{$problemlog->reportedBy->phone_number_extension}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -79,6 +83,11 @@
                                 </tr>
                                 <tr>
                                     <td>
+                                        {{$problemlog->reportedBy->branch->address_line_1}} <br/>
+                                        {{$problemlog->reportedBy->branch->address_line_2}} <br/>
+                                        {{$problemlog->reportedBy->branch->city}} <br/>
+                                        {{$problemlog->reportedBy->branch->country}} <br/>
+                                        {{$problemlog->reportedBy->branch->postcode}}
                                     </td>
                                 </tr>
 
@@ -101,19 +110,19 @@
                     <!-- Operating system input -->
                     <div id="select-os">
                         <label for="operating-system" class="label-default">Operating system</label> <br>
-                        <input type="text" name="operating-system" id="os-system" class="small-text-input">
+                        <input type="text" name="operating-system" id="os-system" class="small-text-input" value="@if($problemlog->operating_system_id != null){{ $problemlog->operatingSystem->operating_system_name }}@endif" readonly>
                     </div>
 
                     <!-- Application software input -->
                     <div id="select-app-software">
                         <label for="app-software" class="label-default">Application Software</label> <br>
-                        <input type="text" name="app-software" id="app-software" class="small-text-input">
+                        <input type="text" name="app-software" id="app-software" class="small-text-input" value="@if($problemlog->software_id != null){{ $problemlog->software->name }} {{ $problemlog->software->version }}@endif" readonly>
                     </div>
 
                     <!-- Hardware input section -->
                     <div id="hardware-section">
                         <label for="serial-num" class="label-default">Serial Number</label> <br>
-                        <input type="text" name="serial-num" id="hardware-input" class="small-text-input">
+                        <input type="text" name="serial-num" id="hardware-input" class="small-text-input" value="@if($problemlog->hardware_id != null){{ $problemlog->hardware->serial_num }}@endif" readonly>
                     </div>
 
                 </div>
@@ -128,13 +137,13 @@
 
                 <!-- Input field for title -->
                 <label for="title" class="label-default"> Title </label><br>
-                <input type="text" name="title" id="query-title-input"class="small-text-input"><br>
+                <input type="text" name="title" id="query-title-input"class="small-text-input" value="{{$problemlog->title}}" readonly><br>
 
 
                 <!-- Input field for Description -->
                 <label for="description" class="label-default">Description </label> <br>
                 <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
-                <textarea name="description" id="query-description-input" class="large-text-input"></textarea>
+                <textarea name="description" id="query-description-input" class="large-text-input" readonly>{{$problemlog->description}}</textarea>
 
                 <button type="button" class="prev-call-btn" id="log-overview-btn" onclick=""> View Previous History </button>
             </div>
@@ -150,13 +159,13 @@
                     <!-- Input section -->
                     <div id="generic-categorization-container">
                         <label for="generic-category" class="label-default"> General category </label> <br>
-                        <input type="text" name="generic-category" id="generic-category" class="small-text-input">
+                        <input type="text" name="generic-category" id="generic-category" class="small-text-input" readonly>
 
                     </div>
 
                     <div id="specific-categorization-container">
                         <label for="specific-category" class="label-default"> Specific category</label> <br>
-                        <input type="text" name="specific-category" id="specific-category" class="small-text-input">
+                        <input type="text" name="specific-category" id="specific-category" class="small-text-input" readonly>
 
                     </div>
                 </div>
@@ -180,66 +189,70 @@
 
             <!-- ########################################################################### -->
             <!-- Specialist Details section -->
-            <div class="input-group-holder">
-                <h3 class="section-heading">  Specialist Details  </h3>
+            @if($problemlog->specialist_assigned)
+                @php($lastTracker = $problemlog->trackers->last())
+                <div class="input-group-holder">
+                    <h3 class="section-heading">  Specialist Details  </h3>
 
-                <div id="emp-info-parent">
-                    <div class="emp-info-child">
-                        <table id="emp-generic-detail">
-                            <tbody>
-                                <tr>
-                                    <th>ID</th>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-                                    <th>Name</th>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-                                    <th>Email</th>
-                                    <td>  </td>
-                                </tr>
-                                <tr>
-                                    <th>Department</th> <!-- could remove this data row if you wish to -->
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th>Job Title</th>
-                                    <td> </td>
-                                </tr>
-                                <tr>
-                                    <th>Telephone</th>
-                                    <td>  </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div id="emp-info-parent">
+                        <div class="emp-info-child">
+                            <table id="emp-generic-detail">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td> {{$lastTracker->specialist->id}} </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Name</th>
+                                        <td> {{$lastTracker->specialist->forename}} {{$lastTracker->specialist->surname}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td> {{$lastTracker->specialist->email_address}} </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <td> {{$lastTracker->specialist->job->title}} </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Telephone</th>
+                                        <td> {{$lastTracker->specialist->branch->phone_number_base}} ext. {{$lastTracker->specialist->phone_number_extension}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="emp-info-child">
+                            <table id="emp-branch-detail">
+                                <tbody>
+                                    <tr>
+                                        <th>Branch Address</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            {{$lastTracker->specialist->branch->address_line_1}} <br/>
+                                            {{$lastTracker->specialist->branch->address_line_2}} <br/>
+                                            {{$lastTracker->specialist->branch->city}} <br/>
+                                            {{$lastTracker->specialist->branch->country}} <br/>
+                                            {{$lastTracker->specialist->branch->postcode}}
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <div class="emp-info-child">
-                        <table id="emp-branch-detail">
-                            <tbody>
-                                <tr>
-                                    <th>Branch Address</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
+                    <button type="button" class="secondary-btn" id="prev-specialist"> View Specialist Record </button>
+                    <br><br>
+                    <h3 class="section-heading"> Importance Level </h3>
+                    <input type="text" class="small-text-input" value="{{$problemlog->importance}}" readonly>
+                    <br>
                 </div>
 
-                <button type="button" class="secondary-btn" id="prev-specialist"> View Specialist Record </button>
-                <br><br>
-                <h3 class="section-heading"> Importance Level </h3>
-                <input type="text" class="small-text-input">
-                <br>
-            </div>
 
-            
-            <hr>
+                <hr>
+            @endif
 
             <!-- ########################################################################### -->
             <!-- Call Log section -->
