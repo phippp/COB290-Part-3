@@ -44,7 +44,7 @@ Route::get('/specialist', [SpecialistController::class, 'index'])->name('special
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
 Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'index'])->whereNumber('id')->name('log_overview');
-
+Route::get('/specialist/{problemlog:id}/edit', [LogOverviewController::class, 'edit'])->whereNumber('id')->name('log_overview'); // change this if necessary, this was done for testing purpose-> frontend
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
 Route::post('/register', [RegisterProblemController::class, 'store']);
 
