@@ -30,3 +30,19 @@ function displayPerviousRecords(){
     }
 
 }
+
+//  ########################################################################### 
+//  Specialist History
+function displaySpecialistRecords(){
+    var recordContainer = document.querySelector('#specialist-record-container')
+    var recordBtn = document.querySelector('#specialist-record-btn')
+    
+    if(recordContainer.classList.contains('container-hide')){
+        recordContainer.classList.remove('container-hide')
+        recordBtn.innerHTML = "Hide Pervious Specialist"
+    } else {
+        recordContainer.classList.add('container-hide')
+        recordBtn.innerHTML = "View Pervious Specialist"
+    }
+
+}

@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 class LogOverviewController extends Controller
 {
     //
-    public function __construct(){
+    // public function __construct(){
 
-        $this->middleware(['auth','check.user']);
+    //     $this->middleware(['auth','check.user']);
 
-    }
+    // }
 
     public function index(ProblemLog $problemlog){
         // dd($problemlog);
-        return view('log_overview',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
+        return view('specialist\specialist_view_problem',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
     }
 }
