@@ -10,7 +10,7 @@ class LogOverviewController extends Controller
     //
     public function __construct(){
 
-        $this->middleware(['auth','check.user']);
+        $this->middleware(['auth','check.specialist']);
 
     }
 

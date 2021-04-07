@@ -62,6 +62,13 @@
                         <label for="operating-system" class="label-default">Operating system</label> <br>
                         <select name="operating-system" id="os-system" class="select-default" >
                             <option selected> - </option>
+                            @foreach($operatingSystems as $option)
+                                @if($option->id == $problemlog->operating_system_id)
+                                    <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
+                                @else
+                                    <option value = "{{$option->id}}"> {{$option->operating_system_name}} </option>
+                                @endif
+                            @endforeach
                         </select>
 
 
@@ -72,11 +79,18 @@
                     <div id="select-app-software">
                         <label for="app-software" class="label-default">Application Software</label> <br>
                         <select name="app-software" id="app-software" class="select-default" >
-                                <option selected> - </option>
+                            <option selected> - </option>
+                            @foreach($software as $option)
+                                @if($option->id == $problemlog->software_id)
+                                    <option value = "{{$option->id}}" selected> {{$option->name}} </option>
+                                @else
+                                    <option value = "{{$option->id}}"> {{$option->name}} </option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
                 </div>
-                
+
 
                 <h4 class="italic-light"> <em> OR </em> </h4>
 
@@ -97,7 +111,7 @@
                 <!-- Input field for title -->
                 <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
                 <input type="text" name="title" id="query-title-input"class="small-text-input" placeholder="{{ $problemlog->title }}" value="{{ $problemlog->title }}"> <br>
-                
+
 
                 <!-- Input field for Description -->
                 <label for="description" class="label-default">Description <span class="required-field">*</span> </label> <br>
@@ -119,8 +133,8 @@
                             <option selected> - </option>
                             @foreach($genericCategory as $thisCategory)
                                 @if((
-                                    $problemlog->problemType->problem_id != null && 
-                                    $problemlog->problemType->parentProblem->problem_type == $thisCategory 
+                                    $problemlog->problemType->problem_id != null &&
+                                    $problemlog->problemType->parentProblem->problem_type == $thisCategory
                                     ) ||
                                     $problemlog->problemType->problem_type == $thisCategory
                                 )
@@ -139,7 +153,7 @@
                             <option selected> - </option>
                             @foreach($specificCategory as $thisCategory)
                                 @if(
-                                    $problemlog->problemType->problem_id != null && 
+                                    $problemlog->problemType->problem_id != null &&
                                     $problemlog->problemType->problem_type == $thisCategory
                                 )
                                     <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
@@ -149,7 +163,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>  
+                </div>
 
 
                 <button type="button" id="reset-category-list" class="secondary-btn" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>

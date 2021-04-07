@@ -10,7 +10,7 @@ class SpecialistController extends Controller
 {
     //
     public function __construct(){
-        $this->middleware(['auth','check.user']);
+        $this->middleware(['auth','check.specialist']);
     }
 
     public function store(Request $request){

@@ -30,7 +30,7 @@ class LoginController extends Controller
         }
 
         if(auth()->user()->employee->job->type == "Specialist"){
-            return redirect()->route('index'); //Route for specialist home doesnt exist currently so this is temporary
+            return redirect()->route('specialist');
         } else if(auth()->user()->employee->job->type == "User"){
             return redirect()->route('client');
         }
