@@ -13,46 +13,52 @@ use Illuminate\Support\Facades\DB;
 
 class ClientProblemEditController extends Controller
 {
-    // This controller enables a privileged user to edit problem. 
+    // This controller enables a privileged user to edit problem.
     public function __construct(){
         $this->middleware(['auth','check.user']);
     }
 
     public function index(ProblemLog $problemlog){
-        
+
         // load all the hardware and software data here and place it in the return view() array
+
+        $software = Software::get();
+
+        $hardware = Hardware::get();
+
+        $operatingSystems = OperatingSystem::get();
 
 
         // gets all the valid category option which will be displayed on the front-end
         $category = Problem::select('problem_type', 'problem_id')->where('enabled', 1)->orderBy('problem_type')->get();
-        
+
         $genericCategory = $category
                             ->where('problem_id', NULL)
                             ->sortBy('problem_type')
                             ->pluck('problem_type')
                             ->toArray();
-        
+
         $specificCategory = $category
                             ->where('problem_id', '<>', NULL)
                             ->sortBy('problem_type')
                             ->pluck('problem_type')
                             ->toArray();
-        
 
-        $organizedCategory = array(); // associative array to keep track of generic and specific category  
-        
+
+        $organizedCategory = array(); // associative array to keep track of generic and specific category
+
         foreach($category as $thisCategory){
             // for each category type, it will check if its generic or not and based on that it will create the appropriate element in the array
 
             if( is_null($thisCategory->problem_id)){
                 // checking if the category type is generic, if so then we create key with that name
-                
+
                 if(!array_key_exists($thisCategory->problem_type, $organizedCategory)){ // having this if statement as a safety check
                     $organizedCategory[$thisCategory->problem_type] = array();
                 }
 
 
-            } 
+            }
             else{
                 // if it's a specific category
                 $key = $thisCategory->parentProblem->problem_type;
@@ -61,7 +67,7 @@ class ClientProblemEditController extends Controller
                 } else {
                     $organizedCategory[$key] = array($thisCategory->problem_type);
                 }
-                
+
             }
         }
 
@@ -82,7 +88,10 @@ class ClientProblemEditController extends Controller
                 'genericCategory' => $genericCategory,
                 'specificCategory' => $specificCategory,
                 'organizedCategory' => $organizedCategory,
-                'logs' => $solved
+                'logs' => $solved,
+                'software' => $software,
+                'operatingSystems' => $operatingSystems,
+                'hardware' => $hardware
             ]
         );
     }

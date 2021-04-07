@@ -359,8 +359,17 @@
                 @endif
 
             </div>
+            <hr>
 
+            <div class="input-group-holder">
+                <label for="importance-level" class="label-default">Importance level </label> <br>
+                <select name="importance-level" id="importance-level-input" class="select-default" >
+                    <option value="Low" {{ $problemlog->importance == "Low" ? 'selected' : '' }}> Low </option>
+                    <option value="Medium" {{ $problemlog->importance == "Medium" ? 'selected' : '' }}> Medium </option>
+                    <option value="High"{{ $problemlog->importance == "High" ? 'selected' : '' }}> High </option>
+                </select>
 
+            </div>
             <!-- Submit button for form -->
             <button id="query-submit-btn" class="primary-form-button" type="submit" name="submit"> Submit  &#8594; </button>
 

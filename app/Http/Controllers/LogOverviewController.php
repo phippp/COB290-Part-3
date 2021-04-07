@@ -9,12 +9,9 @@ use Illuminate\Http\Request;
 
 class LogOverviewController extends Controller
 {
-    //
-    // public function __construct(){
-
-    //     $this->middleware(['auth','check.user']);
-
-    // }
+    public function __construct(){
+        $this->middleware(['auth','check.specialist']);
+    }
 
     public function index(ProblemLog $problemlog){
         // dd($problemlog);
@@ -22,6 +19,8 @@ class LogOverviewController extends Controller
     }
 
     public function edit(ProblemLog $problemlog){
+        // ************ BACKEND TEAM: can we store all the input we are going to display in 1 file so we don't have to repeat the code in every file that requires it "
+
         // gets all the valid category option which will be displayed on the front-end
         $category = Problem::select('problem_type', 'problem_id')->where('enabled', 1)->orderBy('problem_type')->get();
         

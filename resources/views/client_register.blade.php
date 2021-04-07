@@ -2,6 +2,12 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <script>
+        // needed this data so we can automatically select & load generic and specific category.
+        const genericCategory = @json($genericCategory, JSON_PRETTY_PRINT);
+        const specificCategory = @json($specificCategory, JSON_PRETTY_PRINT);
+        const organizedCategory = @json($organizedCategory, JSON_PRETTY_PRINT);
+    </script>
 @endsection
 
 @section('content')
@@ -23,7 +29,7 @@
             <!-- Hardware and Software section -->
             <div class="input-group-holder">
                 <h3 class="section-heading">  Enter the appropriate equipment details <span class="required-field">*</span>  </h3>
-            
+
                 <!-- Asking the user for their input on software and hardware so we can check if they are licensed or not -->
 
 
@@ -33,14 +39,20 @@
                             <label for="operating-system" class="label-default">Operating system</label> <br>
                             <select name="operating-system" id="os-system" class="select-default" >
                             <option selected> - </option>
+                            @foreach($operatingSystems as $option)
+                                <option value = "{{ $option->id }}"> {{ $option->operating_system_name }} </option>
+                            @endforeach
                             </select>
                         </div>
-                            
+
                         <!-- Application software input -->
                         <div id="select-app-software">
                             <label for="app-software" class="label-default">Application Software</label> <br>
                             <select name="app-software" id="app-software" class="select-default" >
                                 <option selected> - </option>
+                                @foreach($software as $option)
+                                    <option value = "{{ $option->id }}"> {{ $option->name }} </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -52,18 +64,18 @@
                         <label for="serial-num" class="label-default">Serial Number</label> <br>
                         <input type="text" name="serial-num" id="hardware-input" class="small-text-input">
                     </div>
-    
+
             </div> <hr>
-            
+
             <!-- ########################################################################### -->
             <!-- Problem Title and description section -->
             <div class="input-group-holder">
-                <h3 class="section-heading" class="label-default">  Notes   </h3>            
-            
+                <h3 class="section-heading" class="label-default">  Notes   </h3>
+
                 <!-- Input field for title -->
                 <label for="title" class="label-default"> Title <span class="required-field">*</span> </label> <br>
                 <input type="text" name="title" id="query-title-input"class="small-text-input" > <br>
-                
+
 
                 <!-- Input field for Description -->
                 <label for="description" class="label-default">Description <span class="required-field">*</span></label> <br>
@@ -74,22 +86,28 @@
 
 
             <!-- ########################################################################### -->
-            <!-- Problem categorization section -->         
+            <!-- Problem categorization section -->
             <div id="input-group-holder">
-                <h3 class="section-heading">  Category   </h3>            
+                <h3 class="section-heading">  Category   </h3>
                 <div class="flex-input-container">
                     <!-- Input section -->
                     <div id="generic-categorization-container">  <!-- this div is CSS flex child   -->
                         <label for="generic-category" class="label-default">General category <span class="required-field">*</span> </label> <br>
-                        <select name="generic-category" id="generic-category" class="select-default">
+                        <select name="generic-category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
                             <option selected> - </option>
+                            @foreach($genericCategory as $thisCategory)
+                                <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div id="specific-categorization-container">
                         <label for="specific-category" class="label-default"> Specific category</label> <br>
-                        <select name="specific-category" id="specific-category" class="select-default">
+                        <select name="specific-category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
                         <option selected> - </option>
+                        @foreach($specificCategory as $thisCategory)
+                            <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                        @endforeach
                         </select>
                     </div>
                 </div>
@@ -103,7 +121,7 @@
 
             <!-- ########################################################################### -->
             <!-- Option: provide a solution or allocate to a specialist -->
-            <div class="toggle-button-container"> 
+            <div class="toggle-button-container">
                 <input type="button" id="toggle-provide-solution" class="toggle-button toggle-selected" value="Provide solution" onclick="displayAppropriateInputField('Solution')">
                 <input type="hidden" id="option-selected" name="option-selected" value="Solution"> <!-- this tag is there to help the backend team determine which section to validate-->
                 <input type="button" id="toggle-assign-specialist" class="toggle-button" value="Assign specialist" onclick="displayAppropriateInputField('Specialist')">
@@ -116,7 +134,7 @@
 
                 <!-- Displaying all the records they have registered in the system -->
                 <div class="scrolltable-x">
-                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the 
+                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                         scroll feature so they view all the fields in the table  -->
 
                     <table class="normal-table">
@@ -127,9 +145,9 @@
                             <th> Category </th>
                             <th> Date solved </th>
                         </tr>
-        
+
                         <tr>
-        
+
                             <td><input type="checkbox" name="name1"  class="solution-checkbox"/></td>
                             <td> Lorem ipsum dolor sit amet. </td>
                             <td> Lorem ipsum dolor sit amet. </td>
@@ -144,7 +162,7 @@
                             <td> Lorem ipsum dolor sit amet. </td>
                         </tr>
                     </table>
-            
+
                 </div>
             </div>
 
@@ -168,8 +186,8 @@
 
             <!-- Submit button for form -->
             <button id="query-submit-btn" class="primary-form-button" type="submit" name="submit"> Submit  &#8594; </button>
-            
-            
+
+
         </form>
     </div>
 
