@@ -15,6 +15,6 @@ class LogOverviewController extends Controller
 
     public function index(ProblemLog $problemlog){
         // dd($problemlog);
-        return view('specialist\specialist_view_problem',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
+        return view('specialist.specialist_view_problem',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
     }
 }

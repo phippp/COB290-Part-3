@@ -15,11 +15,11 @@
 @section('content')
 
     <!-- Inserting the navigation on our page -->
-    @include('specialist\specialist_navigation')
+    @include('specialist.specialist_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
-        
-        
+
+
         <div class="heading-flex-end">
             <h2 class="page-title"> Overview </h2>
             <!-- BACKEND:
@@ -36,11 +36,11 @@
         </div>
         <hr class="page-title-hr">
 
-        
+
         <!-- ########################################################################### -->
         <!-- Displaying id, date and status of the problem -->
         <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
-    
+
             <!-- Display this section if the problem is marked as solved -->
             @if($problemlog->status === "Solved")
                 <div class="information-container" >
@@ -50,7 +50,7 @@
                     </div>
                 </div> <br>
             @endif
-            
+
             <!-- Displaying problem id, date issued and (solved) if marked as solved -->
             <div id="problem-id-info">
                 <h2> Problem ID : {{ $problemlog->id }} </h2>
@@ -70,7 +70,7 @@
 
         <!-- ########################################################################### -->
         <!-- Client information section -->
-        <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->    
+        <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
             <h3 class="section-heading"> Employee Details </h3>
 
             <div id="emp-info-parent">
@@ -91,7 +91,7 @@
                             </tr>
 
                             {{-- PN: I removed the department row because I wasn't sure exactly what to put in it --}}
-                            
+
                             <tr>
                                 <th>Job Title</th>
                                 <td>{{ $problemlog->reportedBy->job->title }}</td>
@@ -335,7 +335,7 @@
                         </table>
                     </div>
                 </div>
-                
+
                 @if( $problemlog->trackers->count() > 0)
                     <br>
                     <button type="button" class="secondary-btn" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Specialist Record </button>

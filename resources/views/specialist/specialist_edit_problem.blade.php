@@ -13,7 +13,7 @@
 @section('content')
 
     <!-- Inserting the navigation on our page -->
-    @include('specialist\specialist_navigation')
+    @include('specialist.specialist_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
 
@@ -42,10 +42,10 @@
             </div>
         </div>
 
-        
+
         <!-- ########################################################################### -->
         <!-- Client information section -->
-        <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->    
+        <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
             <h3 class="section-heading"> Employee Details </h3>
 
             <div id="emp-info-parent">
@@ -124,7 +124,7 @@
                     <h3 class="section-heading"> Call Description </h3>
                     <textarea name="description" id="call-description-input" class="large-text-input" placeholder="Please describe the call here."></textarea>
                 </div>
-                
+
                 @if($problemlog->calls->count())
                     <div id="call-record-table" class="scrolltable-x container-hide">
                         <br>
@@ -183,7 +183,7 @@
                         </select>
                     </div>
                 </div>
-                
+
 
                 <h4 class="italic-light"> <em> OR </em> </h4>
 
@@ -251,8 +251,8 @@
                             <option selected> - </option>
                             @foreach($genericCategory as $thisCategory)
                                 @if((
-                                    $problemlog->problemType->problem_id != null && 
-                                    $problemlog->problemType->parentProblem->problem_type == $thisCategory 
+                                    $problemlog->problemType->problem_id != null &&
+                                    $problemlog->problemType->parentProblem->problem_type == $thisCategory
                                     ) ||
                                     $problemlog->problemType->problem_type == $thisCategory
                                 )
@@ -271,7 +271,7 @@
                             <option selected> - </option>
                             @foreach($specificCategory as $thisCategory)
                                 @if(
-                                    $problemlog->problemType->problem_id != null && 
+                                    $problemlog->problemType->problem_id != null &&
                                     $problemlog->problemType->problem_type == $thisCategory
                                 )
                                     <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
@@ -281,7 +281,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>  
+                </div>
 
 
                 <button type="button" id="reset-category-list" class="secondary-btn" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
@@ -305,11 +305,11 @@
 
             <div id="assign-specialist-section" class="container-hide">
                 <br>
-                
+
                 <label for="specialist-id" class="label-default"> Specialist ID </label> <br>
-                <input type="number" name="specialist-id" id="specialist-id-input" class="small-text-input" min="1" readonly> 
-                <button type="button" id="edit-specialist-btn" class="secondary-btn" onclick="displayModifySpecialistSection()">  
-                    &#x270E; Edit  
+                <input type="number" name="specialist-id" id="specialist-id-input" class="small-text-input" min="1" readonly>
+                <button type="button" id="edit-specialist-btn" class="secondary-btn" onclick="displayModifySpecialistSection()">
+                    &#x270E; Edit
                 </button>
 
                 <div id="edit-specialist-container" class="container-hide">
@@ -319,7 +319,7 @@
                     <textarea name="specialist-reason" id="specialist-reason-input" class="large-text-input"></textarea>
                     <br>
 
-                    <button type="button" class="primary-inverse" onclick="validateSpecialistChange()"> Save changes </button> 
+                    <button type="button" class="primary-inverse" onclick="validateSpecialistChange()"> Save changes </button>
                     <button type="button" class="secondary-btn" onclick="displayRecommendedSpecialist()"> View Recommended Specialist  </button>
 
                     <div class="recommended-specialist-table container-hide scrolltable-x">
@@ -334,11 +334,11 @@
                                 <th> Skills </th>
                         </table>
                     </div>
-                    
-                    
+
+
                     <hr>
                 </div>
-                
+
                 @if( $problemlog->trackers->count() > 0)
                     <br>
                     <button type="button" class="secondary-btn" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Pervious Specialist </button>

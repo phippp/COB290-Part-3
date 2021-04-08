@@ -41,8 +41,8 @@ class SpecialistController extends Controller
                         ->where('importance', 'high')
                         ->count();
 
-        return view('specialist_dashboard', 
-        ['navTitle'=>'dashboard', 
+        return view('specialist.specialist_dashboard',
+        ['navTitle'=>'dashboard',
             'problemlogs' => $problemlogs,
             'cases_today' => $cases_today,
             'solved_cases' => $solved_cases,

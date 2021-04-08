@@ -12,15 +12,15 @@
 @section('content')
 
     <!-- Inserting the navigation on our page -->
-    @include('specialist_navigation')
+    @include('specialist.specialist_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
-        
+
         <div class="stats-card-section">
             <h2> Your Summary </h2>
 
-            <div class="stats-card-container"> 
-                <div class="stats-card"> 
+            <div class="stats-card-container">
+                <div class="stats-card">
                     <h4> Cases assigned today. </h4>
                     <h3>  {{ $cases_today }} </h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
                 </div>
@@ -56,9 +56,9 @@
             </div>
         </div>
         <!-- end of displaying stats data -->
-        <!-- 
+        <!--
             ######################################################################################
-            END OF STATS SECTION 
+            END OF STATS SECTION
             ######################################################################################
          -->
 
@@ -205,7 +205,7 @@
                         <th> Importance </th>
                     </tr>
                     @foreach ($problemlogs as $problemlog)
-                    <?php $a = route('client_problem_view', $problemlog); ?>
+                    <?php $a = route('log_overview', $problemlog); ?>
                     <tr onclick= "window.location.href='<?=$a?>' " >
                         <td> {{ $problemlog->created_at->format('d/m/Y') }}</td>
                         <td> {{ $problemlog->id }} </td>
