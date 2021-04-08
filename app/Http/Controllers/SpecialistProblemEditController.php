@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Problem;
 use App\Models\Hardware;
 use App\Models\Software;
@@ -9,7 +10,9 @@ use App\Models\ProblemLog;
 use App\Models\ProblemNote;
 use Illuminate\Http\Request;
 use App\Models\OperatingSystem;
+use App\Models\SpecialistTracker;
 use App\Http\Controllers\Controller;
+use App\Models\CallLog;
 
 class SpecialistProblemEditController extends Controller
 {
@@ -17,9 +20,92 @@ class SpecialistProblemEditController extends Controller
         $this->middleware(['auth','check.specialist']);
     }
 
+    public function store(Request $request, ProblemLog $problemlog){
+
+        //needs to have data validation
+
+        //update title and description
+        $problemlog->description = $request->description;
+        $problemlog->title = $request->title;
+
+        //update OS
+        if($request->operating_system != "-"){
+            $problemlog->operating_system_id = $request->operating_system;
+        }
+
+        //update software
+        if($request->app_software != "-"){
+            $problemlog->operating_system_id = $request->operating_system;
+        }
+
+        //update serial num
+        if($request->serial_num != null){
+            $hardware = Hardware::where('serial_num',$request->serial_num)->first();
+            if($hardware->count()){
+                $problemlog->hardware_id = $hardware->id;
+            }
+        }
+
+        //update categories
+        if($request->specific_category != "-"){
+            $category = Problem::where('problem_type',$request->specific_category)->first();
+            $problemlog->problem_id = $category->id;
+        } else {
+            $category = Problem::where('problem_type',$request->generic_category)->first();
+            $problemlog->problem_id = $category->id;
+        }
+
+        //add solution or add specialist
+        if($request->option_selected == "Specialist"){
+            //assign a new specialist
+            if($request->specialist_id != null){
+                SpecialistTracker::create([
+                    'employee_id' => $request->specialist_id,
+                    'reason' => $request->specialist_reason,
+                    'problem_log_id' => $problemlog->id
+                ]);
+            } else {
+                //need to have a way to work out best person to assign
+            }
+        } else {
+            //create a solution
+            $problemlog->status = "Verify";
+            $problemlog->solved_at = Carbon::now();
+            $problemlog->employee_id = auth()->user()->employee->id;
+            ProblemNote::create([
+                'solution' => $request->solution,
+                'problem_log_id' => $problemlog->id
+            ]);
+        }
+
+        //update importance
+        $problemlog->importance = $request->importance_level;
+
+        //create new call
+        if($request->call_description != null){
+            CallLog::create([
+                'description' => $request->call_description,
+                'specialist_id' => auth()->user()->employee->id,
+                'problem_log_id' => $problemlog->id,
+                'client_id' => $problemlog->client_id,
+                'edited_at' => Carbon::now()
+            ]);
+        }
+
+        $problemlog->save();
+
+        return back();
+    }
+
     public function index(ProblemLog $problemlog){
 
         // ************ BACKEND TEAM: can we store all the input we are going to display in 1 file so we don't have to repeat the code in every file that requires it "
+
+        $software = Software::get();
+
+        $hardware = Hardware::get();
+
+        $operatingSystems = OperatingSystem::get();
 
         // gets all the valid category option which will be displayed on the front-end
         $category = Problem::select('problem_type', 'problem_id')->where('enabled', 1)->orderBy('problem_type')->get();
@@ -66,8 +152,6 @@ class SpecialistProblemEditController extends Controller
         // getting the history of problem description and solution
         $problemHistory = ProblemNote::where('problem_log_id', $problemlog->id)->get();
 
-
-
         // this is for dummy purpose to show existing solution, TODO : but this needs to be modify so it is dynamic to input provided
         $solved = ProblemLog::where([['status','Solved'],['id','<>',$problemlog->id]])->paginate(10);
 
@@ -81,7 +165,10 @@ class SpecialistProblemEditController extends Controller
                 'genericCategory' => $genericCategory,
                 'specificCategory' => $specificCategory,
                 'organizedCategory' => $organizedCategory,
-                'logs' => $solved
+                'logs' => $solved,
+                'hardware' => $hardware,
+                'software' => $software,
+                'operatingSystems' => $operatingSystems,
             ]
         );
     }

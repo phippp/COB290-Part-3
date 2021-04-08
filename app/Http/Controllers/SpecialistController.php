@@ -26,7 +26,9 @@ class SpecialistController extends Controller
         //Now displays any jobs that a specialist was ever assigned to
 
         $specialist_cases = ProblemLog::where('employee_id',auth()->user()->employee->id)->get();
-        $cases_today = ProblemLog::where('employee_id',auth()->user()->employee->id)
+        $cases_today = ProblemLog::with('trackers')->whereHas('trackers',function($query){
+                            $query->where('employee_id',auth()->user()->employee->id);
+                        })
                         ->whereDate('created_at', '=', Carbon::now()->toDateString())
                         ->count();
         $solved_cases = $specialist_cases

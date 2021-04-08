@@ -107,10 +107,10 @@
 
         <!-- ########################################################################### -->
         <!-- Creating a form section so we can retrieve their input in the backend once it is submitted -->
-        <form action="#" method="post">
+        <form action="{{ route('specialist_edit_problem',$problemlog) }}" method="post">
             @csrf
 
-
+            <input name="hidden_id" value="{{$problemlog->id}}" readonly style="display: none">
 
             <!-- ########################################################################### -->
             <!-- Add Call and view pervious call record section -->
@@ -122,7 +122,7 @@
                 <div id="add-call" class="container-hide">
                     <br>
                     <h3 class="section-heading"> Call Description </h3>
-                    <textarea name="description" id="call-description-input" class="large-text-input" placeholder="Please describe the call here."></textarea>
+                    <textarea name="call_description" id="call-description-input" class="large-text-input" placeholder="Please describe the call here."></textarea>
                 </div>
 
                 @if($problemlog->calls->count())
@@ -167,8 +167,15 @@
                     <!-- Operating system input -->
                     <div id="select-os">
                         <label for="operating-system" class="label-default">Operating system</label> <br>
-                        <select name="operating-system" id="os-system" class="select-default" >
+                        <select name="operating_system" id="os-system" class="select-default" >
                             <option selected> - </option>
+                            @foreach($operatingSystems as $option)
+                                @if($option->id == $problemlog->operating_system_id)
+                                    <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
+                                @else
+                                    <option value = "{{$option->id}}"> {{$option->operating_system_name}} </option>
+                                @endif
+                            @endforeach
                         </select>
 
 
@@ -178,8 +185,15 @@
                     <!-- Application software input -->
                     <div id="select-app-software">
                         <label for="app-software" class="label-default">Application Software</label> <br>
-                        <select name="app-software" id="app-software" class="select-default" >
+                        <select name="app_software" id="app-software" class="select-default" >
                                 <option selected> - </option>
+                                @foreach($software as $option)
+                                @if($option->id == $problemlog->software_id)
+                                    <option value = "{{$option->id}}" selected> {{$option->name}} </option>
+                                @else
+                                    <option value = "{{$option->id}}"> {{$option->name}} </option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -190,7 +204,7 @@
                 <!-- Hardware input section -->
                 <div id="hardware-section">
                     <label for="serial-num" class="label-default">Serial Number</label> <br>
-                    <input type="text" name="serial-num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'-' }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'' }}">
+                    <input type="text" name="serial_num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'-' }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'' }}">
                 </div>
 
 
@@ -247,7 +261,7 @@
                     <!-- Input section -->
                     <div id="generic-categorization-container">
                         <label for="generic-category" class="label-default"> General category </label> <br>
-                        <select name="generic-category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
+                        <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
                             <option selected> - </option>
                             @foreach($genericCategory as $thisCategory)
                                 @if((
@@ -267,7 +281,7 @@
 
                     <div id="specific-categorization-container">
                         <label for="specific-category" class="label-default"> Specific category</label> <br>
-                        <select name="specific-category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
+                        <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
                             <option selected> - </option>
                             @foreach($specificCategory as $thisCategory)
                                 @if(
@@ -292,7 +306,7 @@
             <!-- Option: choose a solution or allocate to a specialist -->
             <div class="toggle-button-container">
                 <input type="button" id="toggle-provide-solution" class="toggle-button toggle-selected" value="Provide solution" onclick="displayAppropriateInputField('Solution')">
-                <input type="hidden" id="option-selected" name="option-selected" value="Solution"> <!-- this tag is there to help the backend team determine which section to validate-->
+                <input type="hidden" id="option-selected" name="option_selected" value="Solution"> <!-- this tag is there to help the backend team determine which section to validate-->
                 <input type="button" id="toggle-assign-specialist" class="toggle-button" value="Assign specialist" onclick="displayAppropriateInputField('Specialist')">
             </div>
 
@@ -307,7 +321,7 @@
                 <br>
 
                 <label for="specialist-id" class="label-default"> Specialist ID </label> <br>
-                <input type="number" name="specialist-id" id="specialist-id-input" class="small-text-input" min="1" readonly>
+                <input type="number" name="specialist_id" id="specialist-id-input" class="small-text-input" min="1" readonly>
                 <button type="button" id="edit-specialist-btn" class="secondary-btn" onclick="displayModifySpecialistSection()">
                     &#x270E; Edit
                 </button>
@@ -316,7 +330,7 @@
                     <span id="specialist-id-info"> &#x1F6C8  If specialist ID is left empty, the system will automatically select a suitable specialist</span>
                     <br><br>
                     <label for="specialist-reason" class="label-default">Reason for change in specialist <span class="required-field">*</span></label> <br>
-                    <textarea name="specialist-reason" id="specialist-reason-input" class="large-text-input"></textarea>
+                    <textarea name="specialist_reason" id="specialist-reason-input" class="large-text-input"></textarea>
                     <br>
 
                     <button type="button" class="primary-inverse" onclick="validateSpecialistChange()"> Save changes </button>
@@ -373,7 +387,7 @@
 
             <div class="input-group-holder">
                 <label for="importance-level" class="label-default">Importance level </label> <br>
-                <select name="importance-level" id="importance-level-input" class="select-default" >
+                <select name="importance_level" id="importance-level-input" class="select-default" >
                     <option value="Low" {{ $problemlog->importance == "Low" ? 'selected' : '' }}> Low </option>
                     <option value="Medium" {{ $problemlog->importance == "Medium" ? 'selected' : '' }}> Medium </option>
                     <option value="High"{{ $problemlog->importance == "High" ? 'selected' : '' }}> High </option>
