@@ -74,7 +74,8 @@ class SpecialistProblemEditController extends Controller
             $problemlog->employee_id = auth()->user()->employee->id;
             ProblemNote::create([
                 'solution' => $request->solution,
-                'problem_log_id' => $problemlog->id
+                'problem_log_id' => $problemlog->id,
+                'description' => ""
             ]);
         }
 
