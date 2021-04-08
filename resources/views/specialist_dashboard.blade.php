@@ -22,15 +22,15 @@
             <div class="stats-card-container"> 
                 <div class="stats-card"> 
                     <h4> Cases assigned today. </h4>
-                    <h3>  15 </h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
+                    <h3>  {{ $cases_today }} </h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
                 </div>
                 <div class="stats-card">
                     <h4> Cases Solved by You </h3>
-                    <h3>  15 </h3>
+                    <h3>  {{ $solved_cases }} </h3>
                 </div>
                 <div class="stats-card">
                     <h4> Cases Left to Resolve </h4>
-                    <h3>  15 </h3>
+                    <h3>  {{ $cases_to_resolve }} </h3>
                 </div>
 
                 <div class="stats-card">
@@ -39,17 +39,17 @@
                     <div class="importance-info-container">
                         <div class="importance-item" id="low-importance">
                             <h5> Low </h5>
-                            <h4> 5 </h4>
+                            <h4> {{ $low_importance }} </h4>
                         </div>
 
                         <div class="importance-item" id="medium-importance">
                             <h5> Medium </h5>
-                            <h4> 5 </h4>
+                            <h4> {{ $medium_importance }} </h4>
                         </div>
 
                         <div class="importance-item" id="high-importance">
                             <h5> High </h5>
-                            <h4> 5 </h4>
+                            <h4> {{ $high_importance }} </h4>
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
          -->
 
 
-
+        @if ($problemlogs->count())
         <!-- This section will be concerned with displaying all the cases the specialist is allocated   -->
         <div class="cases-reported-section">
             <h1 class="section-title"> Cases </h1>
@@ -203,16 +203,39 @@
                         <th> Category </th>
                         <th> Status </th>
                         <th> Importance </th>
-                        <th> Assigned To </th>
                     </tr>
+                    @foreach ($problemlogs as $problemlog)
+                    <?php $a = route('client_problem_view', $problemlog); ?>
+                    <tr onclick= "window.location.href='<?=$a?>' " >
+                        <td> {{ $problemlog->created_at->format('d/m/Y') }}</td>
+                        <td> {{ $problemlog->id }} </td>
+                        <td> {{ $problemlog->title}} </td>
+                        <td> {{ $problemlog->problemType->problem_type }} </td>
+                        <td> {{ $problemlog->status }} </td>
+                        <td> {{ $problemlog->importance }} </td>
+                    </tr>
+                @endforeach
                 </table>
             </div>
 
             <div class="table-property-container">
                 <div class="pagination">
-                    <!--To fill pagination stuff -->
+                    @if (!$problemlogs->onFirstPage())
+                        <a href="{{ $problemlogs->previousPageUrl() }}"> &#x276E </a>
+                    @endif
+                    <span id="page-number">{{ $problemlogs->currentPage() }}</span>
+                    <span> / {{ $problemlogs->lastPage() }}</span>
+                    @if ($problemlogs->hasMorePages())
+                        <a href="{{ $problemlogs->nextPageUrl() }}"> &#x276F </a>
+                    @endif
                 </div>
             </div>
+
+            @else
+                <div>
+                    No problems reported.
+                </div>
+            @endif
 
             <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
             <!--
