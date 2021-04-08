@@ -652,6 +652,19 @@ nav a:hover, #nav-logout:hover {
     color: #0077FF;
 }
 
+/* change the name later */
+.primary-inverse{
+    padding: 0.5rem;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 10px;
+    background-color: transparent;
+    border: 0.8px solid #0077FF;
+    color: #0077FF;
+    cursor: pointer;
+}
+
+
 .primary-form-button{
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -665,29 +678,11 @@ nav a:hover, #nav-logout:hover {
     outline: 0;
     margin-top: 20px;
 }
+
 .primary-form-button:focus{
     box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 50%);
 }
 
-.prev-call-btn {
-    margin: 10px 0px;
-    padding: 5px 5px;
-    width: 100%;
-    font-size: 1rem;
-    color: #6c757d;
-    background-color: transparent;
-    background-image: none;
-    border-color: #6c757d;
-    outline: none;
-    cursor: pointer;
-    border: 1px solid #6c757d;
-    border-radius: .25rem;
-}
-
-.prev-call-btn:hover{
-    background-color: #6c757d;
-    color: #ffffff;
-}
 
 .secondary-btn{
     margin: 10px 0px;
@@ -706,20 +701,6 @@ nav a:hover, #nav-logout:hover {
 .secondary-btn:hover{
     background-color: #6c757d;
     color: #ffffff;
-}
-
-.prev-call-btn{
-    margin: 10px 0px;
-    padding: 5px 5px;
-    font-size: 1rem;
-    color: #6c757d;
-    background-color: transparent;
-    background-image: none;
-    border-color: #6c757d;
-    outline: none;
-    cursor: pointer;
-    border: 1px solid #6c757d;
-    border-radius: .25rem;
 }
 
 /* This styling is used in overview page */
