@@ -48,8 +48,8 @@ function displaySpecialistRecords(){
     displayController(
         recordContainer,
         recordBtn,
-        "View Pervious Specialist",
-        "Hide Pervious Specialist"
+        "View Specialist Record",
+        "Hide Specialist Record"
     )
 }
 

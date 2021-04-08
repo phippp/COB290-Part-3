@@ -1,3 +1,10 @@
+{{-- PN:
+    Can someone look at the overflow on the hardware input, the values are being entered
+    Its just not showing up on the page for me (only tried on firefox)
+
+--}}
+
+
 @extends('base')
 
 @section('style')
@@ -22,17 +29,18 @@
             $specialistAssigned =  $problemlog->trackers->sortByDesc('created_at')->first()->employee_id
             @endphp
             @if($specialistAssigned != null && $specialistAssigned == auth()->user()->employee_id)
-                <a href="{{route('client_problem_edit',$problemlog)}}" id="edit-overview-btn">
+                <a href="{{route('specialist_edit_problem',$problemlog)}}" id="edit-overview-btn">
                     &#x270E; Edit
                 </a>
             @endif
         </div>
         <hr class="page-title-hr">
 
+        
         <!-- ########################################################################### -->
         <!-- Displaying id, date and status of the problem -->
         <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
-            
+    
             <!-- Display this section if the problem is marked as solved -->
             @if($problemlog->status === "Solved")
                 <div class="information-container" >
@@ -81,10 +89,9 @@
                                 <th>Email</th>
                                 <td>{{ $problemlog->reportedBy->email_address }}</td>
                             </tr>
-                            <tr>
-                                <th>Department</th> <!-- could remove this data row if you wish to -->
-                                <td>{{ $problemlog->reportedBy->job->type }}</td>
-                            </tr>
+
+                            {{-- PN: I removed the department row because I wasn't sure exactly what to put in it --}}
+                            
                             <tr>
                                 <th>Job Title</th>
                                 <td>{{ $problemlog->reportedBy->job->title }}</td>
@@ -259,7 +266,8 @@
                 <div class="information-container" >
                     <span> &#x1F6C8 </span>
                     <div>
-                        <b>Please wait for a specialist to provide a solution to this problem </b>
+                        <b> No solution has been provided by the specialist </b><br>
+                        <p>Please wait for a specialist to provide a solution to this problem </p>
                     </div>
                 </div>
             @endif
@@ -296,10 +304,6 @@
                                     <td> {{ $last->specialist->email_address }} </td>
                                 </tr>
                                 <tr>
-                                    <th>Department</th> <!-- could remove this data row if you wish to -->
-                                    <td> {{ $last->specialist->job->type }} </td>
-                                </tr>
-                                <tr>
                                     <th>Job Title</th>
                                     <td> {{ $last->specialist->job->title }} </td>
                                 </tr>
@@ -333,32 +337,32 @@
                 </div>
                 
                 @if( $problemlog->trackers->count() > 0)
-                <br>
-                <button type="button" class="secondary-btn" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Pervious Specialist </button>
+                    <br>
+                    <button type="button" class="secondary-btn" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Specialist Record </button>
 
-                <div id="specialist-record-container" class="scrolltable-x container-hide ">
+                    <div id="specialist-record-container" class="scrolltable-x container-hide ">
 
-                    <table class="normal-table">
-                        <tr>
-                            <th> Specialist ID </th>
-                            <th> Specialist Name </th>
-                            <th> Assigned By </th>
-                            <th> Reason </th>
-                        </tr>
-
-                        @foreach($problemlog->trackers as $specialistAssigned)
-
+                        <table class="normal-table">
                             <tr>
-                                <td> {{ $specialistAssigned->employee_id }} </td>
-                                <td> {{ $specialistAssigned->specialist->forename . ' ' .  $specialistAssigned->specialist->surname  }} </td>
-                                <td> Not available from DB </td>
-                                <td> {{ $specialistAssigned->reason }} </td>
+                                <th> Specialist ID </th>
+                                <th> Specialist Name </th>
+                                <th> Assigned By </th>
+                                <th> Reason </th>
                             </tr>
 
-                        @endforeach
+                            @foreach($problemlog->trackers as $specialistAssigned)
 
-                    </table>
-                </div>
+                                <tr>
+                                    <td> {{ $specialistAssigned->employee_id }} </td>
+                                    <td> {{ $specialistAssigned->specialist->forename . ' ' .  $specialistAssigned->specialist->surname  }} </td>
+                                    <td> Not available from DB </td>
+                                    <td> {{ $specialistAssigned->reason }} </td>
+                                </tr>
+
+                            @endforeach
+
+                        </table>
+                    </div>
                 @endif
 
             @else

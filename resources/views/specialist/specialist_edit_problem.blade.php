@@ -105,12 +105,7 @@
 
 
 
-
-        
-
-
-
-
+        <!-- ########################################################################### -->
         <!-- Creating a form section so we can retrieve their input in the backend once it is submitted -->
         <form action="#" method="post">
             @csrf
@@ -310,6 +305,7 @@
 
             <div id="assign-specialist-section" class="container-hide">
                 <br>
+                
                 <label for="specialist-id" class="label-default"> Specialist ID </label> <br>
                 <input type="number" name="specialist-id" id="specialist-id-input" class="small-text-input" min="1" readonly> 
                 <button type="button" id="edit-specialist-btn" class="secondary-btn" onclick="displayModifySpecialistSection()">  
@@ -324,7 +320,21 @@
                     <br>
 
                     <button type="button" class="primary-inverse" onclick="validateSpecialistChange()"> Save changes </button> 
-                    <button type="button" class="secondary-btn" onclick="displayRecommendedSpecialist()"> &#x1F6C8 View Recommended Specialist  </button>
+                    <button type="button" class="secondary-btn" onclick="displayRecommendedSpecialist()"> View Recommended Specialist  </button>
+
+                    <div class="recommended-specialist-table container-hide scrolltable-x">
+                        <br>
+                        <!-- Recommend specialist table -->
+                        <table class="normal-table">
+                                <th>  </th> <!-- this columns is for the checkbox so the user is able to select any solution that could have helped them -->
+                                <th> Specialist </th>
+                                <th> Name </th>
+                                <th> Location </th>
+                                <th> Workload </th>
+                                <th> Skills </th>
+                        </table>
+                    </div>
+                    
                     
                     <hr>
                 </div>

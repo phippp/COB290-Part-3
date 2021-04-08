@@ -3,13 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\LogOverviewController;
 use App\Http\Controllers\RegisterProblemController;
 use App\Http\Controllers\ClientProblemEditController;
 use App\Http\Controllers\ClientProblemOverviewController;
-use App\Http\Controllers\LogOverviewController;
+use App\Http\Controllers\SpecialistProblemEditController;
 
 
 /*
@@ -44,7 +45,10 @@ Route::get('/specialist', [SpecialistController::class, 'index'])->name('special
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
 Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'index'])->whereNumber('id')->name('log_overview');
-Route::get('/specialist/{problemlog:id}/edit', [LogOverviewController::class, 'edit'])->whereNumber('id')->name('log_overview'); // change this if necessary, this was done for testing purpose-> frontend
+
+Route::get('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'index'])->whereNumber('id')->name('specialist_edit_problem');
+Route::post('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'store']);
+
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
 Route::post('/register', [RegisterProblemController::class, 'store']);
 
