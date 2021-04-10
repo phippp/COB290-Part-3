@@ -13,7 +13,7 @@
 @section('content')
 
     <!-- Inserting the navigation on our page -->
-    @include('client_navigation')
+    @include('client.client_navigation')
 
     <!-- Page content -->
     <div class="page-container">

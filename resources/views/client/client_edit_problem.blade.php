@@ -22,7 +22,7 @@
 @section('content')
 
     <!-- Inserting the navigation on our page -->
-    @include('client_navigation')
+    @include('client.client_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
 

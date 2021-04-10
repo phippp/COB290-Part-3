@@ -80,7 +80,7 @@ class ClientProblemEditController extends Controller
         $solved = ProblemLog::where([['status','Solved'],['id','<>',$problemlog->id]])->paginate(10);
 
         return view(
-            'client_edit_problem',
+            'client.client_edit_problem',
             [    // put in this array all the data that needs to be sent to the front-end page
                 'navTitle'=>'Dashboard',
                 'problemlog' => $problemlog,
