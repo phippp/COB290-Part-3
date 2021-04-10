@@ -45,6 +45,8 @@ Route::post('/client', [ClientController::class, 'store']);
 Route::get('/specialist', [SpecialistController::class, 'index'])->name('specialist');
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
+Route::get('returnCustomTable', [SpecialistController::class, 'returnCustomTable'])->name('custom_table');
+
 Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'index'])->whereNumber('id')->name('log_overview');
 
 Route::get('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'index'])->whereNumber('id')->name('specialist_edit_problem');

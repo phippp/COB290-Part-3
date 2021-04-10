@@ -1,6 +1,7 @@
 @extends('base')
 
 @section('style')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
     <style>
         body{
@@ -80,13 +81,12 @@
                 <form action="#" method="post" id="search-by-form">
                     <label for="type">Search By:</label>
                     <select name="type" id="search-type">
-                      <option value="problemID">Problem ID</option>
-                      <option value="date">Date</option>
+                      <option value="id">Problem ID</option>
+                      <option value="created_at">Date</option>
                       <option value="title">Problem Title</option>
-                      <option value="category">Category</option>
+                      <option value="problem_id">Category</option>
                       <option value="status">Status</option>
                       <option value="importance">Importance</option>
-                      <option value="assigned">Assigned To</option>
                     </select>
                     <input type="text" name="" id="search-input">
                     <button type="submit"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
@@ -104,14 +104,14 @@
 
 
             <!--  Aim of the code below is to display all the fields/option, the user can filter through so they can access the report they were looking for easily .-->
-            <form action="#" method="get">
+            <form>
                 <!-- filter-option-display -->
                 <div id="display-filter-container">
                     <div id="date-filter-container">
                         <p class="sortby-title"> Date</p>
-                        <input type="radio" name="sort-date" value="oldest-newest" id="oldest-newest">  Oldest to newest <br>
-                        <input type="radio" name="sort-date" value="newest-oldest" id="newest-oldest">  Newest to oldest  <br>
-                        <input type="radio" name="sort-date" value="custom-date" id="date-custom">
+                        <input type="radio" name="sort-date" value="oldest-newest" id="oldest-newest" onchange="getAjax()">  Oldest to newest <br>
+                        <input type="radio" name="sort-date" value="newest-oldest" id="newest-oldest" onchange="getAjax()">  Newest to oldest  <br>
+                        <input type="radio" name="sort-date" value="custom-date" id="date-custom" onchange="getAjax()">
                         <input type="date" id="date-custom-start" name="start-date" placeholder="Start">
                         To
                         <input type="date" id="date-custom-finish" name="finish-date" placeholder="End">
@@ -133,7 +133,7 @@
                                 <!-- got this select tag template from w3 school -->
                                 <label for="importance" class="sortby-title"> Importance</label> <br>
                                 <select name="importance" id="importance">
-                                    <option value="blank">-</option>
+                                    <option value="">-</option>
                                     <option value="lowHigh">Low to high importance </option>
                                     <option value="highLow">High to low importance </option>
                                     <option value="low">Low</option>
@@ -146,7 +146,7 @@
                                 <!-- got this select tag template from w3 school -->
                                 <label for="problemTitle" class="sortby-title">Title</label> <br>
                                 <select name="problemTitle" id="problemTitle">
-                                    <option value="blank">-</option>
+                                    <option value="">-</option>
                                     <option value="A-Z">Sort by A-Z</option>
                                     <option value="Z-A">Sort by Z-A</option>
                                 </select>
@@ -156,7 +156,7 @@
                                 <!-- got this select tag template from w3 school -->
                                 <label for="status" class="sortby-title">Status</label> <br>
                                 <select name="status" id="status">
-                                    <option value="blank">-</option>
+                                    <option value="">-</option>
                                     <option value="In-Queue">InQueue</option>
                                     <option value="Verify">Verify</option>
                                     <option value="Solved">Solved</option>
@@ -238,6 +238,45 @@
             @endif
 
             <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
+            <script type="text/javascript">
+                function getAjax(){
+
+                    var dateAsc = true;
+                    var idAsc = true;
+
+                    $.ajax({
+                        url: '{{ route('custom_table') }}',
+                        type: 'GET',
+                        data: {
+                            user_id : {{ auth()->user()->employee->id }},
+                            search : {
+                                field : $( "#search-type" ).val(),
+                                value : $( "#search-input" ).val()
+                            },
+                            filter : {
+                                date : {
+                                    ascending : !$( "#newest-oldest" ).is(":checked"),
+                                    start : $( "#date-custom-start" ).val(),
+                                    end : $( "#date-custom-finish" ).val()
+                                },
+                                id : {
+                                    ascending : !$( "#largest-to-smallest" ).is(":checked"),
+                                    start : $( "#custom-problemID-start" ).val(),
+                                    end : $( "#custom-problemID-end" ).val()
+                                },
+                                importance : $( "#importance" ).val(),
+                                title : $( "#problemTitle" ).val(),
+                                status : $( "#status" ).val()
+                            }
+                        },
+                        success: function(response){
+                            console.log(response)
+                        }
+                    })
+                }
+
+                $(document).ready(getAjax());
+            </script>
             <!--
                 ######################################################################################
                 END OF RECORDS/ TABLE SECTION

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 use Carbon\Carbon;
 
-use Illuminate\Http\Request;
-use App\Models\ProblemLog;
 use App\Models\Employee;
+use App\Models\ProblemLog;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class SpecialistController extends Controller
 {
@@ -16,6 +18,65 @@ class SpecialistController extends Controller
 
     public function store(Request $request){
         dd($request);
+    }
+
+    public function returnCustomTable(Request $request){
+
+        $filter = array();
+        $between = array();
+
+        if($request->search['value'] != null){
+            $filter = Arr::add($filter,$request->search['field'],[$request->search['field'],'like',$request->search['value']]);
+        }
+
+        if($request->filter['date']['start'] != null && $request->filter['date']['end'] != null){
+            $between = Arr::add($between, "date", ["created_at",[$request->filter['date']['start'], $request->filter['date']['end']]]);
+        }
+
+        if($request->filter['id']['start'] != null && $request->filter['id']['end'] != null){
+            $between = Arr::add($between, "id", ["id",[$request->filter['id']['start'], $request->filter['id']['end']]]);
+        }
+
+        if($request->filter['importance'] != null){
+            $filter = Arr::add($filter,"importance",['importance', '=', $request->filter['importance']]);
+        }
+
+        if($request->filter['status'] != null){
+            $filter = Arr::add($filter,"status",['status', '=', $request->filter['status']]);
+        }
+
+        if($request->filter['title'] != null){
+            $filter = Arr::add($filter,"title",['title', 'like', $request->filter['title']]);
+        }
+
+        $logs = ProblemLog::select();
+
+        foreach($filter as $option){
+            $logs->where($option[0],$option[1], $option[2]);
+        }
+
+        foreach($between as $option){
+            $logs->whereBetween($option[0],$option[1]);
+        }
+
+        if( !$request->filter['date']['ascending'] || !$request->filter['id']['ascending']){
+            $logs->orderBy('id','desc');
+        }
+
+        if($request->user_id != null){
+            $logs->whereHas('trackers',function($query) use ($request) {
+                $query->where('employee_id',$request->user_id);
+            });
+        }
+
+        $logs = $logs->paginate(10);
+
+        if($logs->count()){
+            return response()->json(['message' => 'complete' ,'logs' => $logs->toArray(),'old' => $request],200);
+        }
+
+        return response()->json(['message' => 'complete','nothing'],200);
+
     }
 
     public function index(){
