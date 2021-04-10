@@ -69,13 +69,11 @@ class SpecialistController extends Controller
             });
         }
 
-        $logs = $logs->paginate(10);
+        $logs = $logs->paginate(5);
 
-        if($logs->count()){
-            return response()->json(['message' => 'complete' ,'logs' => $logs->toArray(),'old' => $request],200);
-        }
+        $html = view('specialist.table',['problemlogs' => $logs])->render();
 
-        return response()->json(['message' => 'complete','nothing'],200);
+        return response()->json(['html' => $html, 'request' => $request->all()],200);
 
     }
 
