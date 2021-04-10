@@ -10,6 +10,7 @@ use App\Http\Controllers\LogOverviewController;
 use App\Http\Controllers\RegisterProblemController;
 use App\Http\Controllers\ClientProblemEditController;
 use App\Http\Controllers\ClientProblemOverviewController;
+use App\Http\Controllers\SpecialistLogbookController;
 use App\Http\Controllers\SpecialistProblemEditController;
 
 
@@ -48,6 +49,8 @@ Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'i
 
 Route::get('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'index'])->whereNumber('id')->name('specialist_edit_problem');
 Route::post('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'store']);
+
+Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('logbook');
 
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
 Route::post('/register', [RegisterProblemController::class, 'store']);

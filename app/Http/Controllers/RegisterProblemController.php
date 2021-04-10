@@ -197,7 +197,7 @@ class RegisterProblemController extends Controller
                                 from problem_logs as pl, problem_notes as pn
                                 where pn.problem_log_id = pl.id');
 
-        return view('client_register',[
+        return view('client.client_register',[
             'navTitle'=>'register',
             'genericCategory' => $genericCategory,
             'specificCategory' => $specificCategory,
