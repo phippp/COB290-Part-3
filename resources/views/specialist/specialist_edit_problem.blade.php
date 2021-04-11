@@ -25,7 +25,7 @@
 
         <!-- ########################################################################### -->
         <!-- Displaying id, date and status of the problem -->
-        <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
+        <div> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
             <div id="problem-id-info">
                 <h2> Problem ID : {{ $problemlog->id }} </h2>
                 <h4> Issued : {{$problemlog->created_at->format('d/m/Y g:ia')}} </h4>
@@ -45,62 +45,68 @@
 
         <!-- ########################################################################### -->
         <!-- Client information section -->
-        <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
-            <h3 class="section-heading"> Employee Details </h3>
+        <div class="input-group-container"> <!-- this just adds a margin so the space above and below the container are the same -- making it look symmetrical -->
+            <div class="input-group-header">
+                <h3 class="section-heading"> Employee Details </h3>
+            </div>
+            
+            <div class="input-group-content">
+                <!-- Client information displayed on a table -->
+                <div id="emp-info-parent">
+                    <div class="emp-info-child">
+                        <table id="emp-generic-detail">
+                            <tbody>
+                                <tr>
+                                    <th>ID</th>
+                                    <td>{{ $problemlog->reportedBy->id }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <td> {{ $problemlog->reportedBy->forename . ' ' . $problemlog->reportedBy->surname  }} </td>
+                                </tr>
+                                <tr>
+                                    <th>Email</th>
+                                    <td>{{ $problemlog->reportedBy->email_address }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Department</th> <!-- could remove this data row if you wish to -->
+                                    <td>{{ $problemlog->reportedBy->job->type }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Job Title</th>
+                                    <td>{{ $problemlog->reportedBy->job->title }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Telephone</th>
+                                    <td> {{ $problemlog->reportedBy->branch->phone_number_base . ' ext ' . $problemlog->reportedBy->phone_number_extension  }} </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-            <div id="emp-info-parent">
-                <div class="emp-info-child">
-                    <table id="emp-generic-detail">
-                        <tbody>
-                            <tr>
-                                <th>ID</th>
-                                <td>{{ $problemlog->reportedBy->id }}</td>
-                            </tr>
-                            <tr>
-                                <th>Name</th>
-                                <td> {{ $problemlog->reportedBy->forename . ' ' . $problemlog->reportedBy->surname  }} </td>
-                            </tr>
-                            <tr>
-                                <th>Email</th>
-                                <td>{{ $problemlog->reportedBy->email_address }}</td>
-                            </tr>
-                            <tr>
-                                <th>Department</th> <!-- could remove this data row if you wish to -->
-                                <td>{{ $problemlog->reportedBy->job->type }}</td>
-                            </tr>
-                            <tr>
-                                <th>Job Title</th>
-                                <td>{{ $problemlog->reportedBy->job->title }}</td>
-                            </tr>
-                            <tr>
-                                <th>Telephone</th>
-                                <td> {{ $problemlog->reportedBy->branch->phone_number_base . ' ext ' . $problemlog->reportedBy->phone_number_extension  }} </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="emp-info-child">
+                        <table id="emp-branch-detail">
+                            <tbody>
+                                <tr>
+                                    <th>Branch Address</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ $problemlog->reportedBy->branch->address_line_1 }} <br>
+                                        {{ $problemlog->reportedBy->branch->address_line_2 }} <br>
+                                        {{ $problemlog->reportedBy->branch->city }} <br>
+                                        {{ $problemlog->reportedBy->branch->postcode }}  <br>
+                                        {{ $problemlog->reportedBy->branch->country }}
 
-                <div class="emp-info-child">
-                    <table id="emp-branch-detail">
-                        <tbody>
-                            <tr>
-                                <th>Branch Address</th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    {{ $problemlog->reportedBy->branch->address_line_1 }} <br>
-                                    {{ $problemlog->reportedBy->branch->address_line_2 }} <br>
-                                    {{ $problemlog->reportedBy->branch->city }} <br>
-                                    {{ $problemlog->reportedBy->branch->postcode }}  <br>
-                                    {{ $problemlog->reportedBy->branch->country }}
+                                    </td>
+                                </tr>
 
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
         </div>
 
 
@@ -114,42 +120,52 @@
 
             <!-- ########################################################################### -->
             <!-- Add Call and view pervious call record section -->
-            <div class="input-group-holder">
-                <button type="button" class="secondary-btn" id="add-call-btn" onclick="displayControllerForAddCall()">+ Add Call Records</button>
-                @if($problemlog->calls->count())
-                    <button type="button" class="secondary-btn" id="call-record-btn" onclick="callRecords()">&#x2706 View Call Records ({{$problemlog->calls->count()}})</button>
-                @endif
-                <div id="add-call" class="container-hide">
-                    <br>
-                    <h3 class="section-heading"> Call Description </h3>
-                    <textarea name="call_description" id="call-description-input" class="large-text-input" placeholder="Please describe the call here."></textarea>
+            <div class="input-group-container">
+                <div class="input-group-header">
+                    <h3 class="section-heading">
+                        Call Records
+                    </h3>
                 </div>
 
-                @if($problemlog->calls->count())
-                    <div id="call-record-table" class="scrolltable-x container-hide">
+                <div class="input-group-content">
+                    <button type="button" class="btn-secondary" id="add-call-btn" onclick="displayControllerForAddCall()">+ Add Call Records</button>
+                    @if($problemlog->calls->count())
+                        <button type="button" class="btn-secondary" id="call-record-btn" onclick="callRecords()">&#x2706 View Call Records ({{$problemlog->calls->count()}})</button>
+                    @endif
+                    <div id="add-call" class="container-hide">
                         <br>
-                        <h3 class="section-heading"> Call Records </h3>
+                        <h3 class="label-default"> Call Description </h3>
+                        <textarea name="call_description" id="call-description-input" class="large-text-input" placeholder="Please describe the call here."></textarea>
+                    </div>
 
-                        <table class="normal-table">
-                            <tr>
-                                <th> Call Time </th>
-                                <th> Received By </th>
-                                <th id="call-record-description"> Record </th>
-                            </tr>
+                    @if($problemlog->calls->count())
+                        <div id="call-record-table" class="scrolltable-x container-hide">
+                            <br>
+                            <h3 class="label-default">Records</h3>
 
-                            @foreach($problemlog->calls as $call)
-
+                            <table class="normal-table">
                                 <tr>
-                                    <td> {{ $call->edited_at->format('H:i:s d-m-Y') }} </td>
-                                    <td> {{ $call->specialist->forename }} {{ $call->specialist->surname }} </td>
-                                    <td> {{ $call->description }} </td>
+                                    <th> Call Time </th>
+                                    <th> Received By </th>
+                                    <th id="call-record-description"> Record </th>
                                 </tr>
 
-                            @endforeach
+                                @foreach($problemlog->calls as $call)
 
-                        </table>
-                    </div>
-                @endif
+                                    <tr>
+                                        <td> {{ $call->edited_at->format('H:i:s d-m-Y') }} </td>
+                                        <td> {{ $call->specialist->forename }} {{ $call->specialist->surname }} </td>
+                                        <td> {{ $call->description }} </td>
+                                    </tr>
+
+                                @endforeach
+
+                            </table>
+                        </div>
+                    @endif
+
+
+                </div>
 
             </div>
             <hr>
@@ -159,148 +175,163 @@
 
             <!-- ########################################################################### -->
             <!-- Hardware and Software section -->
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
+            <div class="input-group-container"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
 
-                <h3 class="section-heading"> Equipment details. <span class="required-field">*</span>   </h3>
+                <div class="input-group-header">
+                    <h3 class="section-heading"> Equipment details. <span class="required-field">*</span>   </h3>
+                </div>
 
-                <div class="flex-input-container">
-                    <!-- Operating system input -->
-                    <div id="select-os">
-                        <label for="operating-system" class="label-default">Operating system</label> <br>
-                        <select name="operating_system" id="os-system" class="select-default" >
-                            <option selected> - </option>
-                            @foreach($operatingSystems as $option)
-                                @if($option->id == $problemlog->operating_system_id)
-                                    <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
-                                @else
-                                    <option value = "{{$option->id}}"> {{$option->operating_system_name}} </option>
-                                @endif
-                            @endforeach
-                        </select>
-
-
-                        <!-- <input type="text" name="operating-system" id="os-system" class="small-text-input" placeholder="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"-" }}" value="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"" }}"> -->
-                    </div>
-
-                    <!-- Application software input -->
-                    <div id="select-app-software">
-                        <label for="app-software" class="label-default">Application Software</label> <br>
-                        <select name="app_software" id="app-software" class="select-default" >
+                <div class="input-group-content">
+                    <div class="flex-input-container">
+                        <!-- Operating system input -->
+                        <div id="select-os">
+                            <label for="operating-system" class="label-default">Operating system</label> <br>
+                            <select name="operating_system" id="os-system" class="select-default" >
                                 <option selected> - </option>
-                                @foreach($software as $option)
-                                @if($option->id == $problemlog->software_id)
-                                    <option value = "{{$option->id}}" selected> {{$option->name}} </option>
-                                @else
-                                    <option value = "{{$option->id}}"> {{$option->name}} </option>
-                                @endif
-                            @endforeach
-                        </select>
+                                @foreach($operatingSystems as $option)
+                                    @if($option->id == $problemlog->operating_system_id)
+                                        <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
+                                    @else
+                                        <option value = "{{$option->id}}"> {{$option->operating_system_name}} </option>
+                                    @endif
+                                @endforeach
+                            </select>
+
+
+                            <!-- <input type="text" name="operating-system" id="os-system" class="small-text-input" placeholder="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"-" }}" value="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"" }}"> -->
+                        </div>
+
+                        <!-- Application software input -->
+                        <div id="select-app-software">
+                            <label for="app-software" class="label-default">Application Software</label> <br>
+                            <select name="app_software" id="app-software" class="select-default" >
+                                    <option selected> - </option>
+                                    @foreach($software as $option)
+                                    @if($option->id == $problemlog->software_id)
+                                        <option value = "{{$option->id}}" selected> {{$option->name}} </option>
+                                    @else
+                                        <option value = "{{$option->id}}"> {{$option->name}} </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <h4 class="italic-light"> <em> OR </em> </h4>
+                    
+                    <!-- Hardware input section -->
+                    <div id="hardware-section">
+                        <label for="serial-num" class="label-default">Serial Number</label> <br>
+                        <input type="text" name="serial_num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'-' }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'' }}">
                     </div>
                 </div>
 
 
-                <h4 class="italic-light"> <em> OR </em> </h4>
-
-                <!-- Hardware input section -->
-                <div id="hardware-section">
-                    <label for="serial-num" class="label-default">Serial Number</label> <br>
-                    <input type="text" name="serial_num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'-' }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'' }}">
-                </div>
-
 
 
             </div>
-            <hr>
-
-            <!-- ########################################################################### -->
-            <!-- Title and Problem Description section -->
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
-                <h3 class="section-heading" class="label-default">  Notes   </h3>
-
-                <!-- Input field for title -->
-                <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
-                <input type="text" name="title" id="query-title-input"class="small-text-input" placeholder="{{ $problemlog->title }}" value="{{ $problemlog->title }}"> <br>
-
-                <!-- Input field for Description -->
-                <label for="description" class="label-default">Description <span class="required-field">*</span> </label> <br>
-                <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
-                <textarea name="description" id="query-description-input" class="large-text-input" >{{ $problemlog->description }}</textarea>
-                <!-- Only render the stuff below if description/solution has been modified from their initial input -->
-                <!-- View history of description and solution btn  -->
-
-                @if($problemlog->notes->count())
-
-                    <button type="button" class="secondary-btn" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
-
-                    <div class="pervious-info-container container-hide" id="pervious-history-container"> <!-- This is container which will show all the pervious description and solution -->
-
-                        @foreach($problemlog->notes as $note)
-
-                            <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
-                                <h4 id="modified-info"> Last edited @ {{ $note->created_at }} by Team 9 (ID:9)</h4>
-                                <h4 id="pervious-description-title"> Description </h4>
-                                <textarea readonly class="pervious-description"> {{ $note->description }} </textarea>
-                                <h4 id="pervious-solution-title"> Solution </h4>
-                                <textarea readonly class="pervious-solution"> {{ $note->solution}} </textarea>
-                            </div> <hr>
-
-                        @endforeach
-
-                    </div>
-
-                @endif
-            </div>
-            <hr>
 
             <!-- ########################################################################### -->
             <!-- Problem categorization section -->
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
-                <h3 class="section-heading">  Category   </h3>
+            <div class="input-group-container"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
+                <div class="input-group-header">
+                    <h3 class="section-heading">  Category   </h3>
+                </div>
 
-                <div class="flex-input-container">
-                    <!-- Input section -->
-                    <div id="generic-categorization-container">
-                        <label for="generic-category" class="label-default"> General category </label> <br>
-                        <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
-                            <option selected> - </option>
-                            @foreach($genericCategory as $thisCategory)
-                                @if((
-                                    $problemlog->problemType->problem_id != null &&
-                                    $problemlog->problemType->parentProblem->problem_type == $thisCategory
-                                    ) ||
-                                    $problemlog->problemType->problem_type == $thisCategory
-                                )
-                                    <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
-                                @else
-                                    <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
-                                @endif
-                            @endforeach
+                <div class="input-group-content">
+                    <div class="flex-input-container">
+                        <!-- Input section -->
+                        <div id="generic-categorization-container">
+                            <label for="generic-category" class="label-default"> General category </label> <br>
+                            <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
+                                <option selected> - </option>
+                                @foreach($genericCategory as $thisCategory)
+                                    @if((
+                                        $problemlog->problemType->problem_id != null &&
+                                        $problemlog->problemType->parentProblem->problem_type == $thisCategory
+                                        ) ||
+                                        $problemlog->problemType->problem_type == $thisCategory
+                                    )
+                                        <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
+                                    @else
+                                        <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                    @endif
+                                @endforeach
 
-                        </select>
+                            </select>
+                        </div>
+
+                        <div id="specific-categorization-container">
+                            <label for="specific-category" class="label-default"> Specific category</label> <br>
+                            <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
+                                <option selected> - </option>
+                                @foreach($specificCategory as $thisCategory)
+                                    @if(
+                                        $problemlog->problemType->problem_id != null &&
+                                        $problemlog->problemType->problem_type == $thisCategory
+                                    )
+                                        <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
+                                    @else
+                                        <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
-                    <div id="specific-categorization-container">
-                        <label for="specific-category" class="label-default"> Specific category</label> <br>
-                        <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
-                            <option selected> - </option>
-                            @foreach($specificCategory as $thisCategory)
-                                @if(
-                                    $problemlog->problemType->problem_id != null &&
-                                    $problemlog->problemType->problem_type == $thisCategory
-                                )
-                                    <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
-                                @else
-                                    <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
-                                @endif
+
+                    <button type="button" id="reset-category-list" class="btn-secondary" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
+
+                </div>
+
+            </div>
+
+            <!-- ########################################################################### -->
+            <!-- Title and Problem Description section -->
+            <div class="input-group-container"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
+                <div class="input-group-header">
+                    <h3 class="section-heading" class="label-default">  Notes   </h3>
+                </div>
+
+                <div class="input-group-content">
+                    <!-- Input field for title -->
+                    <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
+                    <input type="text" name="title" id="query-title-input"class="small-text-input" placeholder="{{ $problemlog->title }}" value="{{ $problemlog->title }}"> <br>
+                    <br>
+
+                    <!-- Input field for Description -->
+                    <label for="description" class="label-default">Description <span class="required-field">*</span> </label> <br>
+                    <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
+                    <textarea name="description" id="query-description-input" class="large-text-input" >{{ $problemlog->description }}</textarea>
+                    <!-- Only render the stuff below if description/solution has been modified from their initial input -->
+                    <!-- View history of description and solution btn  -->
+
+                    @if($problemlog->notes->count())
+
+                        <button type="button" class="btn-secondary" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
+
+                        <div class="pervious-info-container container-hide" id="pervious-history-container"> <!-- This is container which will show all the pervious description and solution -->
+
+                            @foreach($problemlog->notes as $note)
+
+                                <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
+                                    <h4 id="modified-info"> Last edited @ {{ $note->created_at }} by Team 9 (ID:9)</h4>
+                                    <h4 id="pervious-description-title"> Description </h4>
+                                    <textarea readonly class="pervious-description"> {{ $note->description }} </textarea>
+                                    <h4 id="pervious-solution-title"> Solution </h4>
+                                    <textarea readonly class="pervious-solution"> {{ $note->solution}} </textarea>
+                                </div> <hr>
+
                             @endforeach
-                        </select>
-                    </div>
+
+                        </div>
+
+                    @endif
                 </div>
 
 
-                <button type="button" id="reset-category-list" class="secondary-btn" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
-
             </div>
+
 
             <!-- ########################################################################### -->
             <!-- Option: choose a solution or allocate to a specialist -->
@@ -311,7 +342,8 @@
             </div>
 
 
-            <div id="recommended-solution-section" class="input-group-holder">
+            <div id="recommended-solution-section">
+                <br>
                 <label for="solution" class="label-default">Solution <span class="required-field">*</span> </label> <br>
                 <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
                 <textarea name="solution" id="solution-input" class="large-text-input" >@if( $problemlog->notes->reverse()->first()->solution != null ){{ $problemlog->notes->reverse()->first()->solution }} @endif</textarea>
@@ -322,7 +354,7 @@
 
                 <label for="specialist-id" class="label-default"> Specialist ID </label> <br>
                 <input type="number" name="specialist_id" id="specialist-id-input" class="small-text-input" min="1" readonly>
-                <button type="button" id="edit-specialist-btn" class="secondary-btn" onclick="displayModifySpecialistSection()">
+                <button type="button" id="edit-specialist-btn" class="btn-secondary" onclick="displayModifySpecialistSection()">
                     &#x270E; Edit
                 </button>
 
@@ -333,8 +365,8 @@
                     <textarea name="specialist_reason" id="specialist-reason-input" class="large-text-input"></textarea>
                     <br>
 
-                    <button type="button" class="primary-inverse" onclick="validateSpecialistChange()"> Save changes </button>
-                    <button type="button" class="secondary-btn" onclick="displayRecommendedSpecialist()"> View Recommended Specialist  </button>
+                    <button type="button" class="btn-primary-inverse" onclick="validateSpecialistChange()"> Save changes </button>
+                    <button type="button" class="btn-secondary" onclick="displayRecommendedSpecialist()"> View Recommended Specialist  </button>
 
                     <div class="recommended-specialist-table container-hide scrolltable-x">
                         <br>
@@ -355,7 +387,7 @@
 
                 @if( $problemlog->trackers->count() > 0)
                     <br>
-                    <button type="button" class="secondary-btn" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Pervious Specialist </button>
+                    <button type="button" class="btn-secondary" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Pervious Specialist </button>
 
                     <div id="specialist-record-container" class="scrolltable-x container-hide ">
 
@@ -385,17 +417,23 @@
             </div>
             <hr>
 
-            <div class="input-group-holder">
-                <label for="importance-level" class="label-default">Importance level </label> <br>
-                <select name="importance_level" id="importance-level-input" class="select-default" >
-                    <option value="Low" {{ $problemlog->importance == "Low" ? 'selected' : '' }}> Low </option>
-                    <option value="Medium" {{ $problemlog->importance == "Medium" ? 'selected' : '' }}> Medium </option>
-                    <option value="High"{{ $problemlog->importance == "High" ? 'selected' : '' }}> High </option>
-                </select>
+            <div class="input-group-container">
+                <div class="input-group-header">
+                    <h3 class="section-heading"> Importance level </h3>
+                </div>
+
+                <div class="input-group-content">
+                    <select name="importance_level" id="importance-level-input" class="select-default" >
+                        <option value="Low" {{ $problemlog->importance == "Low" ? 'selected' : '' }}> Low </option>
+                        <option value="Medium" {{ $problemlog->importance == "Medium" ? 'selected' : '' }}> Medium </option>
+                        <option value="High"{{ $problemlog->importance == "High" ? 'selected' : '' }}> High </option>
+                    </select>
+                </div>
+
 
             </div>
             <!-- Submit button for form -->
-            <button id="query-submit-btn" class="primary-form-button" type="submit" name="submit"> Submit  &#8594; </button>
+            <button id="query-submit-btn" class="btn-primary" type="submit" name="submit"> Submit  &#8594; </button>
 
         </form>
     </div>

@@ -15,12 +15,11 @@
     @include('specialist.specialist_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
-
+        <h2> Logbook </h2> <br>
         @if ($problemlogs->count())
         <!-- This section will be concerned with displaying all the cases the specialist is allocated   -->
         <div class="cases-reported-section">
-            <h1 class="section-title"> Cases </h1>
-
+            <br>
             <!--
                 ######################################################################################
                 Filter section
@@ -120,8 +119,8 @@
                     </div> <!-- end of other-attribute-container -->
 
                     <div id="filter-apply-container">
-                        <button id="apply-filter-button" name="applyFilter"> Apply </button>
-                        <button id="reset-filter-button" name="resetFilter"> Reset Filter </button>
+                        <button class="btn-primary" name="applyFilter"> Apply </button>
+                        <button class="btn-primary-inverse" name="resetFilter"> Reset Filter </button>
                     </div>
                     <br><br>
                 </div> <!-- end of display-filter section | a grid component -->
@@ -196,6 +195,7 @@
                 END OF RECORDS/ TABLE SECTION
                 ######################################################################################
             -->
+            <br>
         </div>
     </div>
 

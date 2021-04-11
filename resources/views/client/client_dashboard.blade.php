@@ -164,7 +164,9 @@
                         <td> {{ $problemlog->id }} </td>
                         <td> {{ $problemlog->title}} </td>
                         <td> {{ $problemlog->problemType->problem_type }} </td>
-                        <td> {{ $problemlog->status }} </td>
+                        <td class="problem-status-@if($problemlog->status != 'In queue'){{strtolower($problemlog->status)}}@endif"> 
+                            {{ $problemlog->status }} 
+                        </td>
                         <td> {{ $problemlog->importance }} </td>
                     </tr>
                 @endforeach

@@ -38,7 +38,6 @@
 
 .information-container{
     margin: 20px 0px 10px 0px;
-    color: #0c5460;
     background-color: #d1ecf1;
     border-color: #bee5eb;
     border-radius: 8px;
@@ -50,11 +49,20 @@
     text-align: left;
 }
 
-.information-container th{
-    font-weight: 500;
-    padding-right: 10px;
-}
 
 .container-hide{
     display: none;
+}
+
+.success-container{
+    margin: 20px 0px 10px 0px;
+    background-color:#d4f1d1;
+    border-color: #d4f1d1;
+    border-radius: 8px;
+    padding: 18px;
+    color: #1d1d1f;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-column-gap: 10px;
+    text-align: left;   
 }

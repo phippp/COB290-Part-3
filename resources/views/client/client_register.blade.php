@@ -27,12 +27,13 @@
             @csrf
             <!-- ########################################################################### -->
             <!-- Hardware and Software section -->
-            <div class="input-group-holder">
-                <h3 class="section-heading">  Enter the appropriate equipment details <span class="required-field">*</span>  </h3>
+            <div class="input-group-container">
+                <div class="input-group-header">
+                    <h3 class="section-heading">  Enter the appropriate equipment details <span class="required-field">*</span>  </h3>
+                </div>
 
-                <!-- Asking the user for their input on software and hardware so we can check if they are licensed or not -->
-
-
+                <div class="input-group-content">
+                    <!-- Asking the user for their input on software and hardware so we can check if they are licensed or not -->
                     <div class="flex-input-container">
                         <!-- Operating system input -->
                         <div id="select-os">
@@ -64,81 +65,79 @@
                         <label for="serial_num" class="label-default">Serial Number</label> <br>
                         <input type="text" name="serial_num" id="hardware-input" class="small-text-input">
                     </div>
-
-            </div> <hr>
+                </div>
+            </div> 
 
             <!-- ########################################################################### -->
             <!-- Problem Title and description section -->
-            <div class="input-group-holder">
-                <h3 class="section-heading" class="label-default">  Notes   </h3>
+            <div class="input-group-container">
+                <div class="input-group-header">
+                    <h3 class="section-heading" class="label-default">  Notes   </h3>
+                </div>
+                
+                <div class="input-group-content">
+                    <!-- Input field for title -->
+                    <label for="title" class="label-default"> Title <span class="required-field">*</span> </label> <br>
+                    <input type="text" name="title" id="query-title-input"class="small-text-input" > <br>
+                    <!-- Ensuring title field is filled -->
+                    @error('title')
+                        <div style = "color:red; font-size: small">
+                            {{$message}}
+                        </div>
+                    @enderror
+                    <br>
 
-                <!-- Input field for title -->
-                <label for="title" class="label-default"> Title <span class="required-field">*</span> </label> <br>
-                <input type="text" name="title" id="query-title-input"class="small-text-input" >
-                <!-- Ensuring title field is filled -->
-                @error('title')
-                    <div style = "color:red; font-size: small">
+                    <!-- Input field for Description -->
+                    <label for="description" class="label-default">Description <span class="required-field">*</span></label> <br>
+                    <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
+                    <textarea name="description" id="query-description-input" class="large-text-input">{{old('description')}}</textarea>
+                    <!-- Ensuring description field is filled -->
+                    @error('description')
+                    <div style = "color:red; font-size: small" >
                         {{$message}}
                     </div>
-                @enderror
+                    @enderror
 
-                <br>
-
-                <!-- Input field for Description -->
-                <label for="description" class="label-default">Description <span class="required-field">*</span></label> <br>
-                <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
-                <textarea name="description" id="query-description-input" class="large-text-input">{{old('description')}}</textarea>
+                </div>
             </div>
-            <!-- Ensuring description field is filled -->
-            @error('description')
-            <div style = "color:red; font-size: small" >
-                {{$message}}
-            </div>
-            @enderror
-
-            <br> <hr>
 
 
             <!-- ########################################################################### -->
             <!-- Problem categorization section -->
-            <div id="input-group-holder">
-                <h3 class="section-heading">  Category   </h3>
-                <div class="flex-input-container">
-                    <!-- Input section -->
-                    <div id="generic-categorization-container">  <!-- this div is CSS flex child   -->
-                        <label for="generic_category" class="label-default">General category <span class="required-field">*</span> </label> <br>
-                        <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
-                            <option selected> - </option>
-                            @foreach($genericCategory as $thisCategory)
-                                <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div id="specific-categorization-container">
-                        <label for="specific_category" class="label-default"> Specific category</label> <br>
-                        <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
-                        <option selected> - </option>
-                        @foreach($specificCategory as $thisCategory)
-                            <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
-                        @endforeach
-                        </select>
-                    </div>
+            <div class="input-group-container">
+                <div class="input-group-header">
+                    <h3 class="section-heading">  Category   </h3>
                 </div>
 
-                <button type="button" id="reset-category-list" class="secondary-btn"> &#x27F3 Reset options </button>
-                <!-- NOT SURE: having a button which will display all the generic category -->
-                <!-- Resets the category choices -->
-                <script type="text/javascript">
-                    document.getElementById('reset-category-list').onclick= function() {
-                        var gC= document.getElementById('generic-category');
-                        gC.value= '-';
-                        var sC= document.getElementById('specific-category');
-                        sC.value= '-';
-                    };
-                </script>
+                <div class="input-group-content">
+                    <div class="flex-input-container">
+                        <!-- Input section -->
+                        <div id="generic-categorization-container">  <!-- this div is CSS flex child   -->
+                            <label for="generic_category" class="label-default">General category <span class="required-field">*</span> </label> <br>
+                            <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
+                                <option selected> - </option>
+                                @foreach($genericCategory as $thisCategory)
+                                    <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div id="specific-categorization-container">
+                            <label for="specific_category" class="label-default"> Specific category</label> <br>
+                            <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
+                            <option selected> - </option>
+                            @foreach($specificCategory as $thisCategory)
+                                <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="button" id="reset-category-list" class="btn-secondary" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
+                </div>
+
             </div>
-            <hr>
+            <br>
 
 
 
@@ -183,7 +182,7 @@
 
                 </div>
                 <!-- Submit button for form -->
-                <button id="query-submit-btn" class="primary-form-button" type="submit" name="submitSol" value = "sol"> Submit  &#8594; </button>
+                <button id="query-submit-btn" class="btn-primary" type="submit" name="submitSol" value = "sol"> Submit  &#8594; </button>
             </div>
 
             <div id="assign-specialist-section" class="container-hide">
@@ -204,7 +203,7 @@
 
                 <!-- Submit button for form -->
                 <br><br>
-                <button id="query-submit-btn" class="primary-form-button" type="submit" name="submitSpec" value = "spec"> Submit  &#8594; </button>
+                <button id="query-submit-btn" class="btn-primary" type="submit" name="submitSpec" value = "spec"> Submit  &#8594; </button>
 
             </div>
 

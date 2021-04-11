@@ -629,35 +629,15 @@ nav a:hover, #nav-logout:hover {
     }
 }
 /* -------------- 2.4 Button styling --------------*/
-#apply-filter-button{
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    width: 7rem;
-    text-align: center;
-    border: none;
-    font-size: 1rem;
-    margin-right: 1.5rem;
-    background-color: #0077FF;
-    color: white;
-}
 
-#reset-filter-button{
-    padding: 0.5rem;
-    width: 7rem;
-    text-align: center;
-    font-size: 1rem;
-    border-radius: 10px;
-    background-color: transparent;
-    border: 0.8px solid #0077FF;
-    color: #0077FF;
-}
 
 /* change the name later */
-.primary-inverse{
+.btn-primary-inverse{
     padding: 0.5rem;
+    border-radius: 0.5rem;
+    min-width: 8rem;
     text-align: center;
     font-size: 1rem;
-    border-radius: 10px;
     background-color: transparent;
     border: 0.8px solid #0077FF;
     color: #0077FF;
@@ -665,10 +645,10 @@ nav a:hover, #nav-logout:hover {
 }
 
 
-.primary-form-button{
+.btn-primary{
     padding: 0.5rem;
     border-radius: 0.5rem;
-    width: 10rem;
+    min-width: 8rem;
     text-align: center;
     border: none;
     font-size: 1rem;
@@ -676,17 +656,16 @@ nav a:hover, #nav-logout:hover {
     color: white;
     cursor:pointer;
     outline: 0;
-    margin-top: 20px;
 }
 
-.primary-form-button:focus{
+.btn-primary-button:focus{
     box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 50%);
 }
 
 
-.secondary-btn{
+.btn-secondary{
     margin: 10px 0px;
-    padding: 5px 5px;
+    padding: 0.4rem 1rem;
     font-size: 1rem;
     color: #6c757d;
     background-color: transparent;
@@ -698,7 +677,7 @@ nav a:hover, #nav-logout:hover {
     border-radius: .25rem;
 }
 
-.secondary-btn:hover{
+.btn-secondary:hover{
     background-color: #6c757d;
     color: #ffffff;
 }
@@ -766,6 +745,15 @@ nav a:hover, #nav-logout:hover {
 .normal-table tr:hover {
     background-color: #e2e2e2;
     border-radius: 0px;
+}
+
+/* Colour coding cells in the table */
+.problem-status-verify{
+    background: #ffe9d1;
+}
+
+.problem-status-verify:hover{
+    background: #ffbc81;
 }
 
 /* Employee info table */
@@ -853,6 +841,7 @@ nav a:hover, #nav-logout:hover {
     color: #636363  ;
     border: 1px solid #636363;
     border-radius: .25rem;
+    cursor: pointer;
 }
 
 .pagination input[type="number"]{
@@ -887,12 +876,27 @@ nav a:hover, #nav-logout:hover {
 
 
 /* -------------- 2.7 Input Field styling --------------*/
+.input-group-container{
+    margin: 2rem 0rem;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,.125);
+    box-shadow: rgb(0 0 0 / 16%) 0px 1px 4px;
+}
 
+.input-group-header{
+    padding: .75rem;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 1px solid rgba(0,0,0,.125)
+}
 
-.section-heading {
+.section-heading{
     font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 5px;
+}
+
+.input-group-content{
+    padding: 1rem 1.25rem;
 }
 
 .label-default {
@@ -931,7 +935,6 @@ hr{
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-    margin-top: 0.7rem;
 }
 
 

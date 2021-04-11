@@ -168,10 +168,10 @@
                     </div> <!-- end of other-attribute-container -->
 
                     <div id="filter-apply-container">
-                        <button id="apply-filter-button" name="applyFilter" onclick="getAjax()"> Apply </button>
-                        <button id="reset-filter-button" name="resetFilter"> Reset Filter </button>
+                        <button class="btn-primary" name="applyFilter" onclick="getAjax()"> Apply </button>
+                        <button class="btn-primary-inverse" name="resetFilter"> Reset Filter </button>
                     </div>
-                    <br><br>
+                    <br>
                 </div> <!-- end of display-filter section | a grid component -->
             </div>
 

@@ -50,124 +50,132 @@
         <!-- Creating a form section so we can retrieve their input in the backend once it is submitted -->
         <form action="#" method="post">
             @csrf
+            
             <!-- ########################################################################### -->
             <!-- Hardware and Software section -->
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
-
-                <h3 class="section-heading"> Enter the appropriate equipment details. <span class="required-field">*</span>   </h3>
-
-                <div class="flex-input-container">
-                    <!-- Operating system input -->
-                    <div id="select-os">
-                        <label for="operating-system" class="label-default">Operating system</label> <br>
-                        <select name="operating-system" id="os-system" class="select-default" >
-                            <option selected> - </option>
-                            @foreach($operatingSystems as $option)
-                                @if($option->id == $problemlog->operating_system_id)
-                                    <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
-                                @else
-                                    <option value = "{{$option->id}}"> {{$option->operating_system_name}} </option>
-                                @endif
-                            @endforeach
-                        </select>
-
-
-                        <!-- <input type="text" name="operating-system" id="os-system" class="small-text-input" placeholder="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"-" }}" value="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"" }}"> -->
-                    </div>
-
-                    <!-- Application software input -->
-                    <div id="select-app-software">
-                        <label for="app-software" class="label-default">Application Software</label> <br>
-                        <select name="app-software" id="app-software" class="select-default" >
-                            <option selected> - </option>
-                            @foreach($software as $option)
-                                @if($option->id == $problemlog->software_id)
-                                    <option value = "{{$option->id}}" selected> {{$option->name}} </option>
-                                @else
-                                    <option value = "{{$option->id}}"> {{$option->name}} </option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
+            <div class="input-group-container"> 
+                <div class="input-group-header">
+                    <h3 class="section-heading"> Enter the appropriate equipment details. <span class="required-field">*</span>   </h3>
                 </div>
 
+                <div class="input-group-content">
+                    <div class="flex-input-container">
+                        <!-- Operating system input -->
+                        <div id="select-os">
+                            <label for="operating-system" class="label-default">Operating system</label> <br>
+                            <select name="operating-system" id="os-system" class="select-default" >
+                                <option selected> - </option>
+                                @foreach($operatingSystems as $option)
+                                    @if($option->id == $problemlog->operating_system_id)
+                                        <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
+                                    @else
+                                        <option value = "{{$option->id}}"> {{$option->operating_system_name}} </option>
+                                    @endif
+                                @endforeach
+                            </select>
 
-                <h4 class="italic-light"> <em> OR </em> </h4>
 
-                <!-- Hardware input section -->
-                <div id="hardware-section">
-                    <label for="serial-num" class="label-default">Serial Number</label> <br>
-                    <input type="text" name="serial-num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"-" }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"" }}">
+                            <!-- <input type="text" name="operating-system" id="os-system" class="small-text-input" placeholder="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"-" }}" value="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"" }}"> -->
+                        </div>
+
+                        <!-- Application software input -->
+                        <div id="select-app-software">
+                            <label for="app-software" class="label-default">Application Software</label> <br>
+                            <select name="app-software" id="app-software" class="select-default" >
+                                <option selected> - </option>
+                                @foreach($software as $option)
+                                    @if($option->id == $problemlog->software_id)
+                                        <option value = "{{$option->id}}" selected> {{$option->name}} </option>
+                                    @else
+                                        <option value = "{{$option->id}}"> {{$option->name}} </option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <h4 class="italic-light"> <em> OR </em> </h4>
+
+                    <!-- Hardware input section -->
+                    <div id="hardware-section">
+                        <label for="serial-num" class="label-default">Serial Number</label> <br>
+                        <input type="text" name="serial-num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"-" }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"" }}">
+                    </div>
+
                 </div>
 
-
-
             </div>
-            <hr>
 
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
-                <h3 class="section-heading" class="label-default">  Notes   </h3>
+            <div class="input-group-container"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
+                <div class="input-group-header">
+                    <h3 class="section-heading" class="label-default">  Notes   </h3>
+                </div>
+                
+                <div class="input-group-content">
+                    <!-- Input field for title -->
+                    <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
+                    <input type="text" name="title" id="query-title-input"class="small-text-input" placeholder="{{ $problemlog->title }}" value="{{ $problemlog->title }}"> <br>
+                    <br>
 
-                <!-- Input field for title -->
-                <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
-                <input type="text" name="title" id="query-title-input"class="small-text-input" placeholder="{{ $problemlog->title }}" value="{{ $problemlog->title }}"> <br>
+                    <!-- Input field for Description -->
+                    <label for="description" class="label-default">Description <span class="required-field">*</span> </label> <br>
+                    <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
+                    <textarea name="description" id="query-description-input" class="large-text-input" >{{ $problemlog->description }}</textarea>
 
-
-                <!-- Input field for Description -->
-                <label for="description" class="label-default">Description <span class="required-field">*</span> </label> <br>
-                <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
-                <textarea name="description" id="query-description-input" class="large-text-input" >{{ $problemlog->description }}</textarea>
+                </div>
             </div>
-            <hr>
 
             <!-- ########################################################################### -->
             <!-- Problem categorization section -->
-            <div class="input-group-holder"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
-                <h3 class="section-heading">  Category   </h3>
-
-                <div class="flex-input-container">
-                    <!-- Input section -->
-                    <div id="generic-categorization-container">
-                        <label for="generic-category" class="label-default"> General category </label> <br>
-                        <select name="generic-category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
-                            <option selected> - </option>
-                            @foreach($genericCategory as $thisCategory)
-                                @if((
-                                    $problemlog->problemType->problem_id != null &&
-                                    $problemlog->problemType->parentProblem->problem_type == $thisCategory
-                                    ) ||
-                                    $problemlog->problemType->problem_type == $thisCategory
-                                )
-                                    <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
-                                @else
-                                    <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
-                                @endif
-                            @endforeach
-
-                        </select>
-                    </div>
-
-                    <div id="specific-categorization-container">
-                        <label for="specific-category" class="label-default"> Specific category</label> <br>
-                        <select name="specific-category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
-                            <option selected> - </option>
-                            @foreach($specificCategory as $thisCategory)
-                                @if(
-                                    $problemlog->problemType->problem_id != null &&
-                                    $problemlog->problemType->problem_type == $thisCategory
-                                )
-                                    <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
-                                @else
-                                    <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
+            <div class="input-group-container"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
+                <div class="input-group-header">
+                    <h3 class="section-heading">  Category   </h3>
                 </div>
 
+                <div class="input-group-content">
+                    <div class="flex-input-container">
+                        <!-- Input section -->
+                        <div id="generic-categorization-container">
+                            <label for="generic-category" class="label-default"> General category </label> <br>
+                            <select name="generic-category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
+                                <option selected> - </option>
+                                @foreach($genericCategory as $thisCategory)
+                                    @if((
+                                        $problemlog->problemType->problem_id != null &&
+                                        $problemlog->problemType->parentProblem->problem_type == $thisCategory
+                                        ) ||
+                                        $problemlog->problemType->problem_type == $thisCategory
+                                    )
+                                        <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
+                                    @else
+                                        <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                    @endif
+                                @endforeach
 
-                <button type="button" id="reset-category-list" class="secondary-btn" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
+                            </select>
+                        </div>
 
+                        <div id="specific-categorization-container">
+                            <label for="specific-category" class="label-default"> Specific category</label> <br>
+                            <select name="specific-category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
+                                <option selected> - </option>
+                                @foreach($specificCategory as $thisCategory)
+                                    @if(
+                                        $problemlog->problemType->problem_id != null &&
+                                        $problemlog->problemType->problem_type == $thisCategory
+                                    )
+                                        <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
+                                    @else
+                                        <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" id="reset-category-list" class="btn-secondary" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
+
+                </div>
             </div>
 
             <!-- ########################################################################### -->
@@ -234,7 +242,7 @@
 
 
             <!-- Submit button for form -->
-            <button id="query-submit-btn" class="primary-form-button" type="submit" name="submit"> Submit  &#8594; </button>
+            <button id="query-submit-btn" class="btn-primary" type="submit" name="submit"> Submit  &#8594; </button>
 
         </form>
     </div>
