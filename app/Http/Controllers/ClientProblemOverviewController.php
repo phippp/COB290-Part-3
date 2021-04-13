@@ -18,4 +18,17 @@ class ClientProblemOverviewController extends Controller
         // dd($problemlog);
         return view('client.client_view_problem',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
     }
+
+    public function solutionWorked(ProblemLog $problemlog){
+        // dd($problemlog);
+        $problemlog->update(['status'=>'Solved']);
+        return view('client.client_view_problem',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
+    }
+
+    public function solutionDidNotWork(ProblemLog $problemlog){
+        // dd($problemlog);
+        $problemlog->update(['status'=>'In queue']);
+        return view('client.client_view_problem',['navTitle'=>'dashboard'],['problemlog' => $problemlog]);
+    }
+
 }

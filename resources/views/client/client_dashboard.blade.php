@@ -158,7 +158,11 @@
                         <th> Importance </th>
                     </tr>
                 @foreach ($problemlogs as $problemlog)
-                    <?php $a = route('client_problem_view', $problemlog); ?>
+                    @if ($problemlog->status == 'Verify')
+                        <?php $a = route('client_verify_solution', $problemlog); ?>
+                    @else
+                        <?php $a = route('client_problem_view', $problemlog); ?>
+                    @endif
                     <tr onclick= "window.location.href='<?=$a?>' " >
                         <td> {{ $problemlog->created_at->format('d/m/Y') }}</td>
                         <td> {{ $problemlog->id }} </td>

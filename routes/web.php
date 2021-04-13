@@ -35,9 +35,14 @@ Route::post('/login', [LoginController::class, 'store']);
 // Route::post('/test/register', [RegisterController::class, 'store']);
 
 Route::get('/client/{problemlog:id}/view', [ClientProblemOverviewController::class, 'index'])->whereNumber('id')->name('client_problem_view');
+Route::get('/client/{problemlog:id}/viewworked', [ClientProblemOverviewController::class, 'solutionWorked'])->whereNumber('id')->name('client_problem_view_worked');
+Route::get('/client/{problemlog:id}/viewdidnotwork', [ClientProblemOverviewController::class, 'solutionDidNotWork'])->whereNumber('id')->name('client_problem_view_did_not_work');
 
 Route::get('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'index'])->whereNumber('id')->name('client_problem_edit');
 Route::post('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'store']);
+
+//Couldn't get the usual way to work (got VerifySolutionController does not exist)
+Route::get('/client/{problemlog:id}/verify', 'App\Http\Controllers\VerifySolutionController@index')->whereNumber('id')->name('client_verify_solution');
 
 Route::get('/client', [ClientController::class, 'index'])->name('client');
 Route::post('/client', [ClientController::class, 'store']);
