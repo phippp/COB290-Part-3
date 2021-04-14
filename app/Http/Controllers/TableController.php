@@ -63,7 +63,11 @@ class TableController extends Controller
 
         $logs = $logs->paginate(5);
 
-        $html = view('specialist.table',['problemlogs' => $logs])->render();
+        if($request->role == "Specialist"){
+            $html = view('specialist.table',['problemlogs' => $logs])->render();
+        } else {
+            $html = view('client.table',['problemlogs' => $logs])->render();
+        }
 
         return response()->json(['html' => $html, 'request' => $request->all()],200);
 

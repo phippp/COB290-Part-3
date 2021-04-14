@@ -251,55 +251,57 @@
     </div>
 
     <script type="text/javascript" src="{{ asset('js/client/dashboard.js') }}"></script>
-            <script type="text/javascript">
-                function getAjax(){
+    {{-- THIS CANNOT BE MOVED TO A JS FILE --}}
+    <script type="text/javascript">
+        function getAjax(){
 
-                    var page = ($( "#hidden-page" ).val() != null)? $( "#hidden-page" ).val() : 1;
+            var page = ($( "#hidden-page" ).val() != null)? $( "#hidden-page" ).val() : 1;
 
-                    $.ajax({
-                        url: '{{ route('custom_table') }}?page='+ page,
-                        type: 'POST',
-                        headers : {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            $.ajax({
+                url: '{{ route('custom_table') }}?page='+ page,
+                type: 'POST',
+                headers : {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                datatype : "json",
+                data: {
+                    role : "Specialist",
+                    user_id : {{ auth()->user()->employee->id }},
+                    search : {
+                        field : $( "#search-type" ).val(),
+                        value : $( "#search-input" ).val()
+                    },
+                    filter : {
+                        date : {
+                            ascending : !$( "#newest-oldest" ).is(":checked"),
+                            start : $( "#date-custom-start" ).val(),
+                            end : $( "#date-custom-finish" ).val()
                         },
-                        datatype : "json",
-                        data: {
-                            user_id : {{ auth()->user()->employee->id }},
-                            search : {
-                                field : $( "#search-type" ).val(),
-                                value : $( "#search-input" ).val()
-                            },
-                            filter : {
-                                date : {
-                                    ascending : !$( "#newest-oldest" ).is(":checked"),
-                                    start : $( "#date-custom-start" ).val(),
-                                    end : $( "#date-custom-finish" ).val()
-                                },
-                                id : {
-                                    ascending : !$( "#largest-to-smallest" ).is(":checked"),
-                                    start : $( "#custom-problemID-start" ).val(),
-                                    end : $( "#custom-problemID-end" ).val()
-                                },
-                                importance : $( "#importance" ).val(),
-                                title : $( "#problemTitle" ).val(),
-                                status : $( "#status" ).val()
-                            }
+                        id : {
+                            ascending : !$( "#largest-to-smallest" ).is(":checked"),
+                            start : $( "#custom-problemID-start" ).val(),
+                            end : $( "#custom-problemID-end" ).val()
                         },
-                        success: function(response){
-                            var data = response['request'];
-                            console.log(data);
-                            $( "#table-content" ).html(response['html']);
-                        }
-                    })
+                        importance : $( "#importance" ).val(),
+                        title : $( "#problemTitle" ).val(),
+                        status : $( "#status" ).val()
+                    }
+                },
+                success: function(response){
+                    var data = response['request'];
+                    console.log(data);
+                    $( "#table-content" ).html(response['html']);
                 }
+            })
+        }
 
-                $(document).ready(getAjax());
+        $(document).ready(getAjax());
 
-                function changePage(x){
-                    var num = parseInt($.trim($( "#hidden-page" ).val()))
-                    $( "#hidden-page" ).val(num += x);
-                    getAjax();
-                }
-            </script>
+        function changePage(x){
+            var num = parseInt($.trim($( "#hidden-page" ).val()))
+            $( "#hidden-page" ).val(num += x);
+            getAjax();
+        }
+    </script>
 
 @endsection
