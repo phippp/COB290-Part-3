@@ -112,7 +112,6 @@
                         <p class="sortby-title"> Date</p>
                         <input type="radio" name="sort-date" value="oldest-newest" id="oldest-newest" >  Oldest to newest <br>
                         <input type="radio" name="sort-date" value="newest-oldest" id="newest-oldest" >  Newest to oldest  <br>
-                        <input type="radio" name="sort-date" value="custom-date" id="date-custom" >
                         <input type="date" id="date-custom-start" name="start-date" placeholder="Start">
                         To
                         <input type="date" id="date-custom-finish" name="finish-date" placeholder="End">
@@ -122,7 +121,6 @@
                         <p class="sortby-title">Problem ID</p>
                         <input type="radio" name="problemIDToggle" value="smallest-to-largest" id="smallest-to-largest">  Smallest to largest  <br>
                         <input type="radio" name="problemIDToggle" value="largest-to-smallest" id="largest-to-smallest">  Largest to smallest <br>
-                        <input type="radio" name="problemIDToggle" value="custom-problem-ID" id="custom-problem-ID">
                         <input type="text" name="start-id" id="custom-problemID-start" placeholder="Start">
                         To
                         <input type="text" name="finish-id" id="custom-problemID-end" placeholder="End">
@@ -264,7 +262,7 @@
                         headers : {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
-                        datatype : "html",
+                        datatype : "json",
                         data: {
                             user_id : {{ auth()->user()->employee->id }},
                             search : {

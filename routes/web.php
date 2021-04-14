@@ -2,15 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TableController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\LogOverviewController;
+use App\Http\Controllers\VerifySolutionController;
 use App\Http\Controllers\RegisterProblemController;
 use App\Http\Controllers\ClientProblemEditController;
-use App\Http\Controllers\ClientProblemOverviewController;
 use App\Http\Controllers\SpecialistLogbookController;
+use App\Http\Controllers\ClientProblemOverviewController;
 use App\Http\Controllers\SpecialistProblemEditController;
 
 
@@ -30,10 +32,6 @@ Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
-// These only exist so that I could create an initial Hashed password
-// Route::get('/test/register', [RegisterController::class, 'index'])->name('register');
-// Route::post('/test/register', [RegisterController::class, 'store']);
-
 Route::get('/client/{problemlog:id}/view', [ClientProblemOverviewController::class, 'index'])->whereNumber('id')->name('client_problem_view');
 Route::get('/client/{problemlog:id}/viewworked', [ClientProblemOverviewController::class, 'solutionWorked'])->whereNumber('id')->name('client_problem_view_worked');
 Route::get('/client/{problemlog:id}/viewdidnotwork', [ClientProblemOverviewController::class, 'solutionDidNotWork'])->whereNumber('id')->name('client_problem_view_did_not_work');
@@ -41,8 +39,7 @@ Route::get('/client/{problemlog:id}/viewdidnotwork', [ClientProblemOverviewContr
 Route::get('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'index'])->whereNumber('id')->name('client_problem_edit');
 Route::post('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'store']);
 
-//Couldn't get the usual way to work (got VerifySolutionController does not exist)
-Route::get('/client/{problemlog:id}/verify', 'App\Http\Controllers\VerifySolutionController@index')->whereNumber('id')->name('client_verify_solution');
+Route::get('/client/{problemlog:id}/verify', [VerifySolutionController::class, 'index'])->whereNumber('id')->name('client_verify_solution');
 
 Route::get('/client', [ClientController::class, 'index'])->name('client');
 Route::post('/client', [ClientController::class, 'store']);
@@ -50,7 +47,7 @@ Route::post('/client', [ClientController::class, 'store']);
 Route::get('/specialist', [SpecialistController::class, 'index'])->name('specialist');
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
-Route::post('returnCustomTable', [SpecialistController::class, 'returnCustomTable'])->name('custom_table');
+Route::post('returnCustomTable', [TableController::class, 'returnCustomTable'])->name('custom_table');
 
 Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'index'])->whereNumber('id')->name('log_overview');
 
