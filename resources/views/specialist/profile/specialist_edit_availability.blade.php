@@ -14,8 +14,7 @@
         <div class="content-container">
 
             <div id="add-availability-section">
-                <h3 class="section-heading"> Add Availability </h3>
-                <p class="italic-light"> Please fill in the form to notify the system of your availability </p>
+                <h3 class="section-heading"> Edit Availability </h3>
                 <br>
 
                 <form action="">
@@ -37,36 +36,11 @@
                         <textarea name="available-reason" class="large-text-input"></textarea>
                     </div> <br>
 
-                    <button type="submit" class="btn-primary"> Add  Availability</button>
+                    <button type="submit" name="edit" class="btn-primary"> Edit </button>
+                    <button type="submit" name="delete" class="btn-primary-failure"> Remove </button> <!-- This delete/remove btn can be removed. I thought it would be useful btn if their vacation is cancelled. -->
                 </form>
             </div>
             <br> <hr> <br>
-            
-            <div id="show-current-availability">
-                <h3 class="section-heading"> Current Availability </h3>
-                <p class="italic-light">You are unavailable on the following days, click on any of the row to modify your availability</p>
-
-
-                <!-- Displaying all the records of their availability in the system -->
-                <div class="scrolltable-x">
-                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
-                            scroll feature so they view all the fields in the table  -->
-
-                    <table class="normal-table hover-cursor-on-table">
-                        <tr>
-                            <th> Start </th>
-                            <th> End </th>
-                            <th style="width:80%"> Reason </th>
-                        </tr>
-                            <td> 26/10/2021 </td>
-                            <td> 26/11/2021 </td>
-                            <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, commodi!</td>
-                        </tr>
-                    </table>
-                </div>
-
-
-            </div>
 
         </div>
 

@@ -702,6 +702,57 @@ nav a:hover, #nav-logout:hover {
 }
 
 
+/* These button are used for 'yes'/'no' type of decision */
+
+.btn-primary-success{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    min-width: 8rem;
+    background-color: #1F8B24;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    outline: currentColor;
+    cursor: pointer; 
+}
+
+.btn-primary-failure{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    min-width: 8rem;
+    background-color: #DA100B;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    outline: currentColor;
+    cursor: pointer;
+}
+
+/* Used in specialist profile for skills selection */
+.btn-text-mimic-blue, .btn-text-mimic-red{
+    font-size: 1rem;
+    padding: 0.2rem 1rem;
+    border-radius: 0.25rem;
+    background: transparent;
+    border: 1px solid #6c757d;
+    cursor: pointer;
+    min-width: 8rem;
+}
+
+.btn-text-mimic-blue:hover, .btn-text-mimic-red:hover{
+    text-decoration: underline;
+    background:#F4F5F7;
+}
+
+.btn-text-mimic-blue{
+    color: #0077FF;
+}
+
+.btn-text-mimic-red{
+    color: #DA100B;
+}
+
+
 /* -------------- 2.5 Table --------------*/
 .scrolltable-x{
     overflow-x: auto;
@@ -1059,7 +1110,7 @@ hr{
 }
 
 .content-container{
-    margin: 0.5rem 1rem;
+    margin: 0.5rem 1.5rem;
     width: 100%
 }
 

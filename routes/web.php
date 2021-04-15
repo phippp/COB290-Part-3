@@ -14,7 +14,7 @@ use App\Http\Controllers\ClientProblemEditController;
 use App\Http\Controllers\SpecialistLogbookController;
 use App\Http\Controllers\ClientProblemOverviewController;
 use App\Http\Controllers\SpecialistProblemEditController;
-use App\Http\Controllers\SpecialistProfile;
+use App\Http\Controllers\SpecialistProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,11 +55,14 @@ Route::get('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController:
 Route::post('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'store']);
 
 // Specialist Profile
-Route::get('/specialist/profile/', [SpecialistProfile::class, 'viewProfile'])->name('specialist_profile');
-Route::get('/specialist/profile/language', [SpecialistProfile::class, 'language'])->name('specialist_lang');
-Route::get('/specialist/profile/workdays', [SpecialistProfile::class, 'workdays'])->name('specialist_workdays');
-Route::get('/specialist/profile/availability', [SpecialistProfile::class, 'availability'])->name('specialist_availability');
-Route::get('/specialist/profile/skills', [SpecialistProfile::class, 'viewSkills'])->name('specialist_skills');
+Route::get('/specialist/profile/', [SpecialistProfileController::class, 'viewProfile'])->name('specialist_profile');
+Route::get('/specialist/profile/language', [SpecialistProfileController::class, 'language'])->name('specialist_lang');
+Route::get('/specialist/profile/workdays', [SpecialistProfileController::class, 'workdays'])->name('specialist_workdays');
+Route::get('/specialist/profile/availability', [SpecialistProfileController::class, 'availability'])->name('specialist_availability');
+Route::get('/specialist/profile/skills', [SpecialistProfileController::class, 'viewSkills'])->name('specialist_skills');
+// >> editing details in specialist profile 
+Route::get('/specialist/profile/skills/edit', [SpecialistProfileController::class, 'editSkills'])->name('specialist_skills_edit');
+Route::get('/specialist/profile/availability/edit',[SpecialistProfileController::class, 'editAvailability'])->name('specialist_availability_edit');   
 
 Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('logbook');
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class SpecialistProfile extends Controller
+class SpecialistProfileController extends Controller
 {
     public function viewProfile(){
         return view('specialist.profile.specialist_profile', [
@@ -39,6 +39,20 @@ class SpecialistProfile extends Controller
         return view('specialist.profile.specialist_skills', [
             'navTitle' => 'profile',
             'sideBarNav' => 'skills'
+        ]);
+    }
+
+    public function editSkills(){
+        return view('specialist.profile.specialist_edit_skills', [
+            'navTitle' => 'profile',
+            'sideBarNav' => 'skills'
+        ]);
+    }
+
+    public function editAvailability(){
+        return view('specialist.profile.specialist_edit_availability', [
+            'navTitle' => 'profile',
+            'sideBarNav' => 'availability'
         ]);
     }
 }

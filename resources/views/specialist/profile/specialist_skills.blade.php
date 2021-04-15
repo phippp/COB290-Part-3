@@ -13,6 +13,39 @@
 
         <div class="content-container">
             <!-- Write code here   -->
+            <div class="heading-flex-end">
+                <h3 class="section-heading"> Skills </h3>
+                <a href="{{ route('specialist_skills_edit') }}" id="edit-overview-btn"> ✎ Edit </a>
+            </div>
+            <hr>
+
+            <div id="skills-record-table">
+                <!-- Displaying all the skills assigned to the specialist -->
+                <div class="scrolltable-x">
+                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
+                            scroll feature so they view all the fields in the table  -->
+
+                    <table class="normal-table hover-cursor-on-table">
+                        <tr>
+                            <th> Specialism </th>
+                        </tr>
+                        <tr>
+                            <td> Microsoft </td>
+                        </tr>
+                        <tr> 
+                            <td> Networking </td>
+                        </tr>
+                        <tr>
+                            <td> SketchUp </td>
+                        </tr>
+                        <tr>
+                            <td> AutoCAD </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            
 
         </div>
 
