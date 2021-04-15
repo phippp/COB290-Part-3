@@ -20,7 +20,7 @@
         2.6 Pagination and Row per page
         2.7 Input fields 
         2.8 Toggle button
-        2.9 ....
+        2.9 Sidebar (used in specialist profile)
     3. Problem Overview and Edit page 
 */
 /* ============================================================== */
@@ -86,7 +86,7 @@ nav{
     cursor: pointer;
 }
 
-nav a, #nav-logout {
+nav a, .sidebar-nav-container a  ,#nav-logout {
     /* this applies style to all the navigation links */
     color: #1d1d1d;
     padding: 0.5em;
@@ -1028,3 +1028,70 @@ hr{
     cursor: pointer;
     pointer-events: all;
 }
+
+/* 2.9 Sidebar (used in specialist profile) */
+
+.sidebar-page-container{
+    display: flex;
+}
+
+.sidebar-nav-container{
+    display: flex;
+    min-height: 100vh;   
+    width: max-content;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    border-right: 2px solid black;
+}
+
+.sidebar-nav-container a{
+    padding: 0.5rem 1rem;
+
+}
+
+
+.sidebar-nav-active{
+    background: rgba(0,0,0,.06);
+    border-radius: 0.25rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.content-container{
+    margin: 0.5rem 1rem;
+    width: 100%
+}
+
+.mb-scrollbar-view{
+    overflow-x: initial;
+}
+
+@media screen and (max-width:768px){
+    .sidebar-page-container{
+        flex-direction: column;
+    }
+    .sidebar-nav-container{
+        flex-direction: row;
+        min-height: auto;
+        border-right: none;
+        margin: 1rem 0rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid black;
+        width: 100%;
+    }
+
+    .sidebar-nav-container{
+        min-width: max-content;
+    }
+
+    .content-container{
+        margin: 0.5rem 0rem;
+    }
+
+    .mb-scrollbar-view{
+        overflow-x: auto;
+    }
+    
+}
+

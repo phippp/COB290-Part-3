@@ -14,7 +14,7 @@ use App\Http\Controllers\ClientProblemEditController;
 use App\Http\Controllers\SpecialistLogbookController;
 use App\Http\Controllers\ClientProblemOverviewController;
 use App\Http\Controllers\SpecialistProblemEditController;
-
+use App\Http\Controllers\SpecialistProfile;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +53,13 @@ Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'i
 
 Route::get('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'index'])->whereNumber('id')->name('specialist_edit_problem');
 Route::post('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'store']);
+
+// Specialist Profile
+Route::get('/specialist/profile/', [SpecialistProfile::class, 'viewProfile'])->name('specialist_profile');
+Route::get('/specialist/profile/language', [SpecialistProfile::class, 'language'])->name('specialist_lang');
+Route::get('/specialist/profile/workdays', [SpecialistProfile::class, 'workdays'])->name('specialist_workdays');
+Route::get('/specialist/profile/availability', [SpecialistProfile::class, 'availability'])->name('specialist_availability');
+Route::get('/specialist/profile/skills', [SpecialistProfile::class, 'viewSkills'])->name('specialist_skills');
 
 Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('logbook');
 
