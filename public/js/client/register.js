@@ -27,6 +27,28 @@ function displayAppropriateInputField(btnClicked){
     }
 }
 
+function displayAppropriateDevice(btnClicked){
+    // Getting the 2 input 'button' so we can add css styling to show which is selected and which is not
+    var btnSolution = document.querySelector('#toggle-hardware')
+    var btnSpecialist = document.querySelector('#toggle-software')
+    
+    var softwareSection = document.querySelector('#software-section')
+    var hardwareSection = document.querySelector('#hardware-section')
+    if(btnClicked == "Hardware"){
+        // If the 'Provide Solution' button is clicked, we only show the solution section
+        btnSolution.classList.add('toggle-selected')
+        btnSpecialist.classList.remove('toggle-selected')
+        softwareSection.classList.add("container-hide")
+        hardwareSection.classList.remove("container-hide")
+    } else if (btnClicked == "Software"){
+        // If the 'Assign Specialist' button is clicked, we will not show the problem ID section
+        btnSolution.classList.remove('toggle-selected')
+        btnSpecialist.classList.add('toggle-selected')
+        softwareSection.classList.remove("container-hide")
+        hardwareSection.classList.add("container-hide")
+    }
+}
+
 
 // this function will reload the specific and general category when the user click on reset button
 function reloadCategoryInfo(){
