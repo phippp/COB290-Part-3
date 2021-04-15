@@ -25,14 +25,52 @@ class RegisterProblemController extends Controller
         $this -> validate($request, [
             'title' => 'required|max:255',
             'description' => 'required',
-            //'generic-category' => 'required'
+            'generic_category' =>  'required'
         ]);
 
-        // Get the hardware id for the inputted serial number
-        $hardware = $request->serial_num;
-        $hID = DB::select('select id from hardware where serial_num = :serialNum',
-            ['serialNum'=>$hardware]);
-        $hardwareID = $hID[0]->id;
+        // Gets the component details the user inputted
+        $os = $request->operating_system;
+        $softw = $request->app_software;
+        $hardw = $request->serial_num;
+
+        // Just hardware
+        if($hardw != "" && ($os == "-" && $softw == "-")) {
+            // Get the hardware id for the inputted serial number
+            $hardware = $request->serial_num;
+            $hID = DB::select('select id from hardware where serial_num = :serialNum',
+                ['serialNum'=>$hardware]);
+            $hardwareID = $hID[0]->id;
+            // Hardcode software and os as 0
+            $softwareID = 0;
+            $osID = 0;
+        }
+        // Just software and operating system
+        else if($hardw == "" && ($os != "-" && $softw != "-")) {
+            // Get software id and operating system id for inputted components
+            $softwareID = $request->app_software;
+            $osID = $request->operating_system;
+            // Hardcode hardware id as 0
+            $hardwareID = 0;
+        }
+        // Software, operating system and hardware
+        else if($hardw != "" && $os != "-" && $softw != "-") {
+            // Get the hardware id for the inputted serial number
+            $hardware = $request->serial_num;
+            $hID = DB::select('select id from hardware where serial_num = :serialNum',
+                ['serialNum'=>$hardware]);
+            $hardwareID = $hID[0]->id;
+            // Get software id and operating system id for inputted components
+            $softwareID = $request->app_software;
+            $osID = $request->operating_system;
+        }
+        // None of them
+        else {
+            // Hardcode hardware id as 0
+            $hardwareID = 0;
+            // Hardcode software and os as 0
+            $softwareID = 0;
+            $osID = 0;
+        }
 
         // Get user/employee ID and users branch
         $id = auth()->user()->employee_id;
@@ -53,44 +91,47 @@ class RegisterProblemController extends Controller
         }
 
 
+        // SUBMISSIONS
         // If they have chosen a specialist
         if($request->submitSpec == "spec")
         {
-            if($request->specialist_location != "-" && $request->importance_level != "-") {
-                // Checks for an available specialist with skills in the problem type
-                // and works in any branch
-                if($request->specialist_location == "anywhere") {
-                    $specialistID = DB :: select('select sk.employee_id
-                                    from employees as e, specialists as s, specialist_skills as sk
-                                    where s.is_available = TRUE
-                                    AND sk.problem_id = :problemId
-                                    AND e.id = s.employee_id
-                                    LIMIT 1', ['problemId'=>$pID]);
-                }
-                // Checks for an available specialist with skills in the problem type
-                // and works in the same branch as the user
-                else {
-                    $specialistID = DB :: select('select sk.employee_id
-                                    from employees as e, specialists as s, specialist_skills as sk
-                                    where s.is_available = TRUE
-                                    AND sk.problem_id = :problemId
-                                    AND e.id = s.employee_id
-                                    AND e.branch_id = :branch
-                                    LIMIT 1', ['problemId'=>$pID, 'branch'=>$userBranch[0]->branch_id]);
-                }
+            try{
+            // Checks for an available specialist with skills in the problem type
+            // and works in any branch
+            if($request->specialist_location == "anywhere") {
+                $specialistID = DB :: select('select sk.employee_id
+                                from employees as e, specialists as s, specialist_skills as sk
+                                where s.is_available = TRUE
+                                AND sk.problem_id = :problemId
+                                AND e.id = s.employee_id
+                                LIMIT 1', ['problemId'=>$pID[0]->id]);
             }
+            // Checks for an available specialist with skills in the problem type
+            // and works in the same branch as the user
             else {
-                // Not all necessay values to assign specialist are filled in
-                dd("not all spec inputted");
+                $specialistID = DB :: select('select sk.employee_id
+                                from employees as e, specialists as s, specialist_skills as sk
+                                where s.is_available = TRUE
+                                AND sk.problem_id = :problemId
+                                AND e.id = s.employee_id
+                                AND e.branch_id = :branch
+                                LIMIT 1', ['problemId'=>$pID[0]->id, 'branch'=>$userBranch[0]->branch_id]);
+            }}
+            catch(Exception $e){
+                $specialistID = DB :: select('select sk.employee_id
+                                from employees as e, specialists as s, specialist_skills as sk
+                                where s.is_available = TRUE
+                                AND e.id = s.employee_id
+                                LIMIT 1');
             }
 
             // Insert into problem_logs
             ProblemLog::create([
                 'hardware_id' => $hardwareID,
-                'software_id' => $request->app_software,
+                'software_id' => $softwareID,
                 'specialist_assigned' => $specialistID[0]->employee_id,
-                'operating_system_id' => $request->operating_system,
-                'problem_id' => $pID,
+                'operating_system_id' => $osID,
+                'problem_id' => $pID[0]->id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'status' => "In queue",
@@ -116,12 +157,13 @@ class RegisterProblemController extends Controller
         // If there is an available and appropriate solution for them that they have selected
         else
         {
+
             ProblemLog::create([
                 'hardware_id' => $hardwareID,
-                'software_id' => $request->app_software,
+                'software_id' => $softwareID,
                 'specialist_assigned' => 0,
-                'operating_system_id' => $request->operating_system,
-                'problem_id' => $pID,
+                'operating_system_id' => $osID,
+                'problem_id' => $pID[0]->id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'status' => "Solved",
@@ -147,13 +189,13 @@ class RegisterProblemController extends Controller
         return redirect()->route('client');
     }
 
-    public function index(){
+    public function index(Request $request){
 
-        $software = Software::get();
+        $software = DB::select('select * from software where id > 0');
 
         $hardware = Hardware::get();
 
-        $operatingSystems = OperatingSystem::get();
+        $operatingSystems = DB::select('select * from operating_systems where id > 0');
 
         $category = Problem::select('problem_type', 'problem_id')->where('enabled', 1)->orderBy('problem_type')->get();
 
@@ -192,7 +234,6 @@ class RegisterProblemController extends Controller
 
             }
         }
-
         $solutions = DB::select('select pl.title, pn.solution, pl.problem_id, pl.solved_at
                                 from problem_logs as pl, problem_notes as pn
                                 where pn.problem_log_id = pl.id');
