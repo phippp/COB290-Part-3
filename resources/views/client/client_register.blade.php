@@ -194,8 +194,8 @@
 
                 <br> <br>
                 <!-- Importance level to indicate how this problem is effecting the client's work / productivity -->
-                <label for="importance-level" class="label-default">Importance level </label> <br>
-                <select name="importance-level" id="importance-level-input" class="select-default" >
+                <label for="importance_level" class="label-default">Importance level </label> <br>
+                <select name="importance_level" id="importance-level-input" class="select-default" >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
                     <option value="High">High</option>
