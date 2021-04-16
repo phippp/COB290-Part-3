@@ -80,6 +80,7 @@ class RegisterProblemController extends Controller
         // Find the correct problem id (generic or specific)
         // Currently gets the problem type, not it's id
         $spec = $request->specific_category;
+        $spec = substr($spec, 0, strpos($spec, '.')+1);
         if($spec == "-") {
             $probName = $request->generic_category;
             $pID = DB::select('select id from problems
@@ -95,13 +96,12 @@ class RegisterProblemController extends Controller
         // If they have chosen a specialist
         if($request->submitSpec == "spec")
         {
-            try{
             // Checks for an available specialist with skills in the problem type
             // and works in any branch
             if($request->specialist_location == "anywhere") {
                 $specialistID = DB :: select('select sk.employee_id
                                 from employees as e, specialists as s, specialist_skills as sk
-                                where s.is_available = TRUE
+                                where s.is_available = 1
                                 AND sk.problem_id = :problemId
                                 AND e.id = s.employee_id
                                 LIMIT 1', ['problemId'=>$pID[0]->id]);
@@ -111,16 +111,19 @@ class RegisterProblemController extends Controller
             else {
                 $specialistID = DB :: select('select sk.employee_id
                                 from employees as e, specialists as s, specialist_skills as sk
-                                where s.is_available = TRUE
+                                where s.is_available = 1
                                 AND sk.problem_id = :problemId
                                 AND e.id = s.employee_id
                                 AND e.branch_id = :branch
-                                LIMIT 1', ['problemId'=>$pID[0]->id, 'branch'=>$userBranch[0]->branch_id]);
-            }}
-            catch(Exception $e){
+                            LIMIT 1', ['problemId'=>$pID[0]->id, 'branch'=>$userBranch[0]->branch_id]);
+            }
+            
+            // If no specific specialist
+            if($specialistID = "[]")
+            {
                 $specialistID = DB :: select('select sk.employee_id
                                 from employees as e, specialists as s, specialist_skills as sk
-                                where s.is_available = TRUE
+                                where s.is_available = 1
                                 AND e.id = s.employee_id
                                 LIMIT 1');
             }
