@@ -260,6 +260,12 @@
 
                             </select>
                         </div>
+                        <!-- Ensuring generic category field is filled -->
+                        @error('generic_category')
+                            <div style = "color:red; font-size: small">
+                                {{$message}}
+                            </div>
+                        @enderror
 
                         <div id="specific-categorization-container">
                             <label for="specific-category" class="label-default"> Specific category</label> <br>
@@ -297,12 +303,24 @@
                     <!-- Input field for title -->
                     <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
                     <input type="text" name="title" id="query-title-input"class="small-text-input" placeholder="{{ $problemlog->title }}" value="{{ $problemlog->title }}"> <br>
+                    <!-- Ensuring title field is filled -->
+                    @error('title')
+                        <div style = "color:red; font-size: small">
+                            {{$message}}
+                        </div>
+                    @enderror
                     <br>
 
                     <!-- Input field for Description -->
                     <label for="description" class="label-default">Description <span class="required-field">*</span> </label> <br>
                     <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
                     <textarea name="description" id="query-description-input" class="large-text-input" >{{ $problemlog->description }}</textarea>
+                    <!-- Ensuring description field is filled -->
+                    @error('description')
+                        <div style = "color:red; font-size: small">
+                            {{$message}}
+                        </div>
+                    @enderror
                     <!-- Only render the stuff below if description/solution has been modified from their initial input -->
                     <!-- View history of description and solution btn  -->
 
@@ -347,6 +365,12 @@
                 <label for="solution" class="label-default">Solution <span class="required-field">*</span> </label> <br>
                 <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
                 <textarea name="solution" id="solution-input" class="large-text-input" >@if( $problemlog->notes->reverse()->first()->solution != null ){{ $problemlog->notes->reverse()->first()->solution }} @endif</textarea>
+                <!-- Ensuring solution field is filled -->
+                @error('solution')
+                    <div style = "color:red; font-size: small">
+                        {{$message}}
+                    </div>
+                @enderror
             </div>
 
             <div id="assign-specialist-section" class="container-hide">
