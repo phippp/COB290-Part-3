@@ -23,6 +23,13 @@ class SpecialistProblemEditController extends Controller
     public function store(Request $request, ProblemLog $problemlog){
 
         //needs to have data validation
+        $this -> validate($request, [
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'generic_category' =>  'required',
+            'solution' => 'required'
+
+        ]);
 
         //update title and description
         $problemlog->description = $request->description;
