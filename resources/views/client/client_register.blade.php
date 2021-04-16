@@ -2,6 +2,8 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
         // needed this data so we can automatically select & load generic and specific category.
         const genericCategory = @json($genericCategory, JSON_PRETTY_PRINT);
@@ -49,8 +51,8 @@
                         <!-- Application software input -->
                         <div id="select-app-software">
                             <label for="app_software" class="label-default">Application Software</label> <br>
-                            <select name="app_software" id="app-software" class="select-default" >
-                                <option selected> - </option>
+                            <select name="app_software" id="app-software" class="select-default" onchange="getAjax()">
+                                <option selected value=""> - </option>
                                 @foreach($software as $option)
                                     <option value = "{{ $option->id }}"> {{ $option->name }} </option>
                                 @endforeach
@@ -63,10 +65,10 @@
                     <!-- Hardware input section -->
                     <div id="hardware-section">
                         <label for="serial_num" class="label-default">Serial Number</label> <br>
-                        <input type="text" name="serial_num" id="hardware-input" class="small-text-input">
+                        <input type="text" name="serial_num" id="hardware-input" class="small-text-input" onchange="getAjax()">
                     </div>
                 </div>
-            </div> 
+            </div>
 
             <!-- ########################################################################### -->
             <!-- Problem Title and description section -->
@@ -74,7 +76,7 @@
                 <div class="input-group-header">
                     <h3 class="section-heading" class="label-default">  Notes   </h3>
                 </div>
-                
+
                 <div class="input-group-content">
                     <!-- Input field for title -->
                     <label for="title" class="label-default"> Title <span class="required-field">*</span> </label> <br>
@@ -209,6 +211,40 @@
 
         </form>
     </div>
+
+    <script>
+
+        function getAjax(){
+
+            $.ajax({
+                url: '{{ route('custom_solutions') }}',
+                type: 'POST',
+                headers : {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                datatype : "json",
+                data: {
+                    software : $( '#app-software' ).val(),
+                    hardware : $( '#hardware-input' ).val(),
+                },
+                success: function(response){
+                    console.log(response);
+                    $( '#recommended-solution-section' ).html(response['html']);
+                }
+            })
+        }
+
+        $(document).ready(getAjax());
+
+        // This stops enter submitting form
+        $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    </script>
 
     <script src="{{ asset('js/client/register.js')}}"></script>
 @endsection

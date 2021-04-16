@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxSolutionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TableController;
@@ -48,6 +49,7 @@ Route::get('/specialist', [SpecialistController::class, 'index'])->name('special
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
 Route::post('returnCustomTable', [TableController::class, 'returnCustomTable'])->name('custom_table');
+Route::post('clientSolutions', [AjaxSolutionController::class, 'getSolutions'])->name('custom_solutions');
 
 Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'index'])->whereNumber('id')->name('log_overview');
 
@@ -60,9 +62,9 @@ Route::get('/specialist/profile/language', [SpecialistProfileController::class, 
 Route::get('/specialist/profile/workdays', [SpecialistProfileController::class, 'workdays'])->name('specialist_workdays');
 Route::get('/specialist/profile/availability', [SpecialistProfileController::class, 'availability'])->name('specialist_availability');
 Route::get('/specialist/profile/skills', [SpecialistProfileController::class, 'viewSkills'])->name('specialist_skills');
-// >> editing details in specialist profile 
+// >> editing details in specialist profile
 Route::get('/specialist/profile/skills/edit', [SpecialistProfileController::class, 'editSkills'])->name('specialist_skills_edit');
-Route::get('/specialist/profile/availability/edit',[SpecialistProfileController::class, 'editAvailability'])->name('specialist_availability_edit');   
+Route::get('/specialist/profile/availability/edit',[SpecialistProfileController::class, 'editAvailability'])->name('specialist_availability_edit');
 
 Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('logbook');
 
