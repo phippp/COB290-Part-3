@@ -2,6 +2,8 @@
     <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
         scroll feature so they view all the fields in the table  -->
 
+    @if($solutions->count())
+
     <table class="normal-table">
         <tr>
             <th>  </th> <!-- this columns is for the checkbox so the user is able to select any solution that could have helped them -->
@@ -22,6 +24,13 @@
             </tr>
         @endforeach
     </table>
+
+    @else
+
+    {{-- Add anything you want to display for when there are no solutions here --}}
+    <h3 style="margin-bottom:2rem">There are no solutions that we can suggest to try, please select specialist.</h3>
+
+    @endif
 
 </div>
 <!-- Submit button for form -->
