@@ -36,12 +36,12 @@
 <div class="table-property-container">
     <div class="pagination">
         @if (!$problemlogs->onFirstPage())
-            <a href="{{ $problemlogs->previousPageUrl() }}"> &#x276E </a>
+            <a onclick="changePage(-1)"> &#x276E </a>
         @endif
         <span id="page-number">{{ $problemlogs->currentPage() }}</span>
         <span> / {{ $problemlogs->lastPage() }}</span>
         @if ($problemlogs->hasMorePages())
-            <a href="{{ $problemlogs->nextPageUrl() }}"> &#x276F </a>
+            <a onclick="changePage(1)"> &#x276F </a>
         @endif
     </div>
 </div>
