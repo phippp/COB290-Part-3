@@ -34,7 +34,7 @@ class RegisterProblemController extends Controller
         $hardw = $request->serial_num;
 
         // Just hardware
-        if($hardw != "" && ($os == "-" && $softw == "-")) {
+        if(!empty($hardw) && ($os == "-" && $softw == "-")) {
             // Get the hardware id for the inputted serial number
             $hardware = $request->serial_num;
             $hID = DB::select('select id from hardware where serial_num = :serialNum',
@@ -45,7 +45,7 @@ class RegisterProblemController extends Controller
             $osID = 0;
         }
         // Just software and operating system
-        else if($hardw == "" && ($os != "-" && $softw != "-")) {
+        else if(empty($hardw) && ($os != "-" && $softw != "-")) {
             // Get software id and operating system id for inputted components
             $softwareID = $request->app_software;
             $osID = $request->operating_system;
@@ -53,7 +53,7 @@ class RegisterProblemController extends Controller
             $hardwareID = 0;
         }
         // Software, operating system and hardware
-        else if($hardw != "" && $os != "-" && $softw != "-") {
+        else if(!empty($hardw) && $os != "-" && $softw != "-") {
             // Get the hardware id for the inputted serial number
             $hardware = $request->serial_num;
             $hID = DB::select('select id from hardware where serial_num = :serialNum',
@@ -117,9 +117,9 @@ class RegisterProblemController extends Controller
                                 AND e.branch_id = :branch
                             LIMIT 1', ['problemId'=>$pID[0]->id, 'branch'=>$userBranch[0]->branch_id]);
             }
-            
+
             // If no specific specialist
-            if($specialistID = "[]")
+            if($specialistID == "[]")
             {
                 $specialistID = DB :: select('select sk.employee_id
                                 from employees as e, specialists as s, specialist_skills as sk
@@ -127,7 +127,7 @@ class RegisterProblemController extends Controller
                                 AND e.id = s.employee_id
                                 LIMIT 1');
             }
-
+            #dd($specialistID);
             // Insert into problem_logs
             ProblemLog::create([
                 'hardware_id' => $hardwareID,
