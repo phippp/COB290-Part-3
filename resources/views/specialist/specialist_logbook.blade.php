@@ -34,13 +34,10 @@
                 <div id="search-by-form">
                     <label for="type">Search By:</label>
                     <select name="type" id="search-type">
-                      <option value="problemID">Problem ID</option>
-                      <option value="date">Date</option>
-                      <option value="title">Problem Title</option>
-                      <option value="category">Category</option>
-                      <option value="status">Status</option>
-                      <option value="importance">Importance</option>
-                      <option value="assigned">Assigned To</option>
+                        <option value="id">Problem ID</option>
+                        <option value="created_at">Date</option>
+                        <option value="title">Problem Title</option>
+                        <option value="problem_id">Category</option>
                     </select>
                     <input type="text" name="" id="search-input">
                     <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
@@ -220,8 +217,8 @@
                         field : $( "#search-type" ).val(),
                         value : $( "#search-input" ).val()
                     },
+                    role : "Specialist",
                     filter : {
-                        role : "Specialist",
                         date : {
                             ascending : !$( "#newest-oldest" ).is(":checked"),
                             start : $( "#date-custom-start" ).val(),

@@ -35,12 +35,10 @@
                 <div id="search-by-form">
                     <label for="type">Search By:</label>
                     <select name="type" id="search-type">
-                      <option value="id">Problem ID</option>
-                      <option value="created_at">Date</option>
-                      <option value="title">Problem Title</option>
-                      <option value="category">Category</option>
-                      <option value="status">Status</option>
-                      <option value="importance">Importance</option>
+                        <option value="id">Problem ID</option>
+                        <option value="created_at">Date</option>
+                        <option value="title">Problem Title</option>
+                        <option value="problem_id">Category</option>
                     </select>
                     <input type="text" name="" id="search-input">
                     <button type="submit" onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>

@@ -86,8 +86,6 @@
                       <option value="created_at">Date</option>
                       <option value="title">Problem Title</option>
                       <option value="problem_id">Category</option>
-                      <option value="status">Status</option>
-                      <option value="importance">Importance</option>
                     </select>
                     <input type="text" name="" id="search-input">
                     <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
