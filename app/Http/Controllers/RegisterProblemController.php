@@ -34,7 +34,7 @@ class RegisterProblemController extends Controller
         $hardw = $request->serial_num;
 
         // Just hardware
-        if(!empty($hardw) && ($os == "-" && $softw == "-")) {
+        if(!empty($hardw) && ($os == "-" && $softw == null)) {
             // Get the hardware id for the inputted serial number
             $hardware = $request->serial_num;
             $hID = DB::select('select id from hardware where serial_num = :serialNum',
@@ -43,17 +43,19 @@ class RegisterProblemController extends Controller
             // Hardcode software and os as 0
             $softwareID = 0;
             $osID = 0;
+            dd("Just hardware");
         }
         // Just software and operating system
-        else if(empty($hardw) && ($os != "-" && $softw != "-")) {
+        else if(empty($hardw) && ($os != "-" && $softw != null)) {
             // Get software id and operating system id for inputted components
             $softwareID = $request->app_software;
             $osID = $request->operating_system;
             // Hardcode hardware id as 0
             $hardwareID = 0;
+            dd("software & os");
         }
         // Software, operating system and hardware
-        else if(!empty($hardw) && $os != "-" && $softw != "-") {
+        else if(!empty($hardw) && $os != "-" && $softw != null) {
             // Get the hardware id for the inputted serial number
             $hardware = $request->serial_num;
             $hID = DB::select('select id from hardware where serial_num = :serialNum',
@@ -62,6 +64,7 @@ class RegisterProblemController extends Controller
             // Get software id and operating system id for inputted components
             $softwareID = $request->app_software;
             $osID = $request->operating_system;
+            dd("software, os & hardware");
         }
         // None of them
         else {
@@ -70,6 +73,7 @@ class RegisterProblemController extends Controller
             // Hardcode software and os as 0
             $softwareID = 0;
             $osID = 0;
+            dd("none");
         }
 
         // Get user/employee ID and users branch
