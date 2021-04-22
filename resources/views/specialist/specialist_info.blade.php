@@ -57,7 +57,7 @@
                     <tr>
                         <td>{{ $specialist->id }}</td>
                         <td>{{ $specialist->forename }} {{ $specialist->surname }}</td>
-                        <td></td>
+                        <td>{{ $specialist->count }}</td>
                         <td>{{ $specialist->branch_id }}</td>
                         <td>{{ $specialist->city }}, {{ $specialist->country }}</td>
                     </tr>

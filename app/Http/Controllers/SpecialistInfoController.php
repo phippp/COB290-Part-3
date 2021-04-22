@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Job;
 use App\Models\Employee;
 use App\Models\Branch;
+use Illuminate\Support\Facades\DB;
 
 class SpecialistInfoController extends Controller
 {
@@ -23,8 +24,11 @@ class SpecialistInfoController extends Controller
         $specialist_jobs_ids = Job::where('type', '=', 'Specialist')->select('id');
 
         $specialists = Employee::whereIn('job_id', $specialist_jobs_ids)
+                ->select('employees.*', 'branches.city', 'branches.country',
+                    DB::raw('IFNULL(COUNT(specialist_trackers.id), 0) as count'))
                 ->join('branches', 'employees.branch_id', '=', 'branches.id')
-                ->select('employees.*', 'branches.city', 'branches.country')
+                ->leftJoin('specialist_trackers', 'specialist_trackers.employee_id', '=', 'employees.id')
+                ->groupBy('employees.id')
                 ->paginate(5);
 
         return view('specialist.specialist_info', ['navTitle'=>'dashboard',
