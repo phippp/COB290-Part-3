@@ -17,7 +17,8 @@
         <div id="primary-nav-links">
             <a href="{{ route('specialist') }}" class="{{  $navTitle == 'dashboard' ? 'nav-link-active' : '' }}"> Dashboard </a>
             <a href="{{ route('logbook') }}" class="{{  $navTitle == 'logbook' ? 'nav-link-active' : '' }}"> Logbook </a>
-            <a href="" class="{{  $navTitle == 'devices' ? 'nav-link-active' : '' }}"> Devices </a>
+            <a href="{{ route('devices') }}" class="{{  $navTitle == 'devices' ? 'nav-link-active' : '' }}"> Devices </a>
+            <a href="{{ route('specialist_info') }}" class="{{  $navTitle == 'specialists' ? 'nav-link-active' : '' }}"> Specialists </a>
         </div>
 
         <div id="secondary-nav-links">

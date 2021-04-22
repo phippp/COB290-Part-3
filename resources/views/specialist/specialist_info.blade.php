@@ -27,11 +27,10 @@
             <div id="search-by-form">
                 <label for="type">Search By:</label>
                 <select name="type" id="search-type">
-                    <option value="problemID">Specialist ID</option>
-                    <option value="date">Name</option>
-                    <option value="title">Task Assigned</option>
-                    <option value="category">Branch</option>
-                    <option value="category">City / Country</option>
+                    <option value="specialistID">Specialist ID</option>
+                    <option value="name">Name</option>
+                    <option value="branch">Branch ID</option>
+                    <option value="city">City / Country</option>
                 </select>
                 <input type="text" name="" id="search-input">
                 <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
@@ -48,29 +47,36 @@
 
                 <table class="normal-table hover-cursor-on-table">
                     <tr>
-                        <th> Sepcialist ID </th>
+                        <th> Specialist ID </th>
                         <th> Name </th>
-                        <th> Task Assigned</th>
-                        <th> Branch </th>
+                        <th> Tasks Assigned </th>
+                        <th> Branch ID </th>
                         <th> City / Country </th>
                     </tr>
+                    @foreach ($specialists as $specialist)
                     <tr>
-                        <td>  </td>
-                        <td>  </td>
-                        <td>  </td>
-                        <td>  </td>
-                        <td>  </td>
+                        <td>{{ $specialist->id }}</td>
+                        <td>{{ $specialist->forename }} {{ $specialist->surname }}</td>
+                        <td>{{ $specialist->count }}</td>
+                        <td>{{ $specialist->branch_id }}</td>
+                        <td>{{ $specialist->city }}, {{ $specialist->country }}</td>
                     </tr>
+                    @endforeach
                 </table>
             </div>
 
             <div class="table-property-container">
-                <div class="pagination">
-                    <a href=""> &#x276E </a>
-                    <span id="page-number"></span>
-                    <a href=""> &#x276F </a>
+                    <div class="pagination">
+                        @if (!$specialists->onFirstPage())
+                            <a href="{{ $specialists->previousPageUrl() }}"> &#x276E </a>
+                        @endif
+                        <span id="page-number">{{ $specialists->currentPage() }}</span>
+                        <span> / {{ $specialists->lastPage() }}</span>
+                        @if ($specialists->hasMorePages())
+                            <a href="{{ $specialists->nextPageUrl() }}"> &#x276F </a>
+                        @endif
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 @endsection
