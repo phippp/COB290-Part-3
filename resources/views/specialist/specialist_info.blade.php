@@ -41,7 +41,7 @@
             <!-- Displaying all the records they have registered in the system -->
             <div class="scrolltable-x">
 
-                <input style="display: none" name="hidden-page" id="hidden-page">
+                <input style="display: none" readonly type="number" name="hidden-page" id="hidden-page" value="{{ $specialists->currentPage() }}">
                 <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                     scroll feature so they view all the fields in the table  -->
 
@@ -79,4 +79,41 @@
                 </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+        function getAjax(){
+
+            var page = ($( "#hidden-page" ).val() != null)? $( "#hidden-page" ).val() : 1;
+
+            $.ajax({
+                url: '{{ route('specialist_info_table') }}?page='+ page,
+                type: 'POST',
+                headers : {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                datatype : "json",
+                data: {
+                    user_id : {{ auth()->user()->employee->id }},
+                    search : {
+                        field : $( "#search-type" ).val(),
+                        value : $( "#search-input" ).val()
+                    }
+                },
+                success: function(response){
+                    var data = response['request'];
+                    console.log(data);
+                    $( "#table-content" ).html(response['html']);
+                }
+            })
+        }
+
+        $(document).ready(getAjax());
+
+        function changePage(x){
+            var num = parseInt($.trim($( "#hidden-page" ).val()))
+            $( "#hidden-page" ).val(num += x);
+            getAjax();
+        }
+    </script>
+
 @endsection

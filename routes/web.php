@@ -18,6 +18,7 @@ use App\Http\Controllers\SpecialistProblemEditController;
 use App\Http\Controllers\SpecialistProfileController;
 use App\Http\Controllers\SpecialistDevicesController;
 use App\Http\Controllers\SpecialistInfoController;
+use App\Http\Controllers\SpecialistInfoTableController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,7 @@ Route::get('/specialist', [SpecialistController::class, 'index'])->name('special
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
 Route::get('/specialist_info', [SpecialistInfoController::class, 'index'])->name('specialist_info');
+Route::post('returnSpecialistInfoTable', [SpecialistInfoTableController::class, 'returnSpecialistInfoTable'])->name('specialist_info_table');
 
 Route::get('/devices', [SpecialistDevicesController::class, 'index'])->name('devices');
 
