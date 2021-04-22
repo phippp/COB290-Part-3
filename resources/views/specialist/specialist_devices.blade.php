@@ -63,21 +63,15 @@
                             <th> Type</th>
                             <th> Name </th>
                         </tr>
+                        @foreach ($hardware as $hw)
                         <tr>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
+                            <td>{{ $hw->serial_num}}</td>
+                            <td>{{ $hw->make }}</td>
+                            <td>{{ $hw->type }}</td>
+                            <td>{{ $hw->name }}</td>
                         </tr>
+                        @endforeach
                     </table>
-                </div>
-
-                <div class="table-property-container">
-                    <div class="pagination">
-                        <a href="{{ $problemlogs->previousPageUrl() }}"> &#x276E </a>
-                        <span id="page-number"></span>
-                        <a href="{{ $problemlogs->nextPageUrl() }}"> &#x276F </a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -89,9 +83,9 @@
             <div id="search-by-form">
                 <label for="type">Search By:</label>
                 <select name="type" id="search-type">
-                    <option value="problemID">Software ID</option>
-                    <option value="date">OS</option>
-                    <option value="title">Application Software</option>
+                    <option value="softwareID">Software ID</option>
+                    <option value="name">Name</option>
+                    <option value="version">Version</option>
                 </select>
                 <input type="text" name="" id="search-input">
                 <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
@@ -108,23 +102,17 @@
                     <table class="normal-table hover-cursor-on-table">
                         <tr>
                             <th> Software ID </th>
-                            <th> OS </th>
-                            <th> Application Software</th>
+                            <th> Name </th>
+                            <th> Version </th>
                         </tr>
+                        @foreach ($software as $sw)
                         <tr>
-                            <td>  </td>
-                            <td>  </td>
-                            <td>  </td>
+                            <td>{{ $sw->id }}</td>
+                            <td>{{ $sw->name }}</td>
+                            <td>{{ $sw->version }}</td>
                         </tr>
+                        @endforeach
                     </table>
-                </div>
-
-                <div class="table-property-container">
-                    <div class="pagination">
-                        <a href="{{ $problemlogs->previousPageUrl() }}"> &#x276E </a>
-                        <span id="page-number"></span>
-                        <a href="{{ $problemlogs->nextPageUrl() }}"> &#x276F </a>
-                    </div>
                 </div>
             </div>
         </div>

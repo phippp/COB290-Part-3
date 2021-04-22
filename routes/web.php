@@ -16,6 +16,8 @@ use App\Http\Controllers\SpecialistLogbookController;
 use App\Http\Controllers\ClientProblemOverviewController;
 use App\Http\Controllers\SpecialistProblemEditController;
 use App\Http\Controllers\SpecialistProfileController;
+use App\Http\Controllers\SpecialistDevicesController;
+use App\Http\Controllers\SpecialistInfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +49,10 @@ Route::post('/client', [ClientController::class, 'store']);
 
 Route::get('/specialist', [SpecialistController::class, 'index'])->name('specialist');
 Route::post('/specialist', [SpecialistController::class, 'store']);
+
+Route::get('/specialist_info', [SpecialistInfoController::class, 'index'])->name('specialist_info');
+
+Route::get('/devices', [SpecialistDevicesController::class, 'index'])->name('devices');
 
 Route::post('returnCustomTable', [TableController::class, 'returnCustomTable'])->name('custom_table');
 Route::post('clientSolutions', [AjaxSolutionController::class, 'getSolutions'])->name('custom_solutions');
