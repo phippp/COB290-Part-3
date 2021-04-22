@@ -41,6 +41,21 @@ function displayPerviousRecords(){
 }
 
 //  ########################################################################### 
+//  Notes Record
+
+function displayAddNotes(){
+    var recordContainer = document.querySelector('#edit-notes-container')
+    var recordBtn = document.querySelector('#edit-notes-btn')
+
+    displayController(
+        recordContainer,
+        recordBtn,
+        "View/Edit Notes",
+        "Hide Notes"
+    )
+}
+
+//  ########################################################################### 
 //  Specialist History
 function displaySpecialistRecords(){
     var recordContainer = document.querySelector('#specialist-record-container')

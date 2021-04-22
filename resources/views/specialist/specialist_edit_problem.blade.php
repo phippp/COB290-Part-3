@@ -296,7 +296,7 @@
             <!-- Title and Problem Description section -->
             <div class="input-group-container"> <!-- this just adds a margin so the space above and below the container are the same - making it look symmetrical -->
                 <div class="input-group-header">
-                    <h3 class="section-heading" class="label-default">  Notes   </h3>
+                    <h3 class="section-heading" class="label-default">  Problem   </h3>
                 </div>
 
                 <div class="input-group-content">
@@ -323,10 +323,24 @@
                     @enderror
                     <!-- Only render the stuff below if description/solution has been modified from their initial input -->
                     <!-- View history of description and solution btn  -->
+                    <hr>
+                    
+                    <div class="flex" style="gap: 2%">
+                        @if($problemlog->notes->count())
+                        <button type="button" class="btn-secondary width-100" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
+                        @endif
+                        
+                        <button type="button" class="btn-secondary width-100" id="edit-notes-btn" onclick="displayAddNotes()"> View/Edit notes </button>
+                    </div>
+
+                    <div id="edit-notes-container" class="container-hide">
+                        <textarea name="specialist-notes" class="large-text-input" placeholder="Please write any additional notes"></textarea>
+                    </div>
+
 
                     @if($problemlog->notes->count())
 
-                        <button type="button" class="btn-secondary" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
+                    {{-- <button type="button" class="btn-secondary" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button> --}}
 
                         <div class="pervious-info-container container-hide" id="pervious-history-container"> <!-- This is container which will show all the pervious description and solution -->
 
@@ -345,6 +359,8 @@
                         </div>
 
                     @endif
+
+                   
                 </div>
 
 

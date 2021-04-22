@@ -284,9 +284,10 @@ nav a:hover, #nav-logout:hover {
     font-size: 1rem;
 }
 
-#pervious-record-history-btn {
+.width-100{
     width: 100%;
 }
+
 
 .pervious-info-container{
     background-color: #F4F5F7;
@@ -1082,7 +1083,7 @@ hr{
 
 /* 2.9 Sidebar (used in specialist profile) */
 
-.sidebar-page-container{
+.flex{
     display: flex;
 }
 
@@ -1119,7 +1120,7 @@ hr{
 }
 
 @media screen and (max-width:768px){
-    .sidebar-page-container{
+    .flex{
         flex-direction: column;
     }
     .sidebar-nav-container{

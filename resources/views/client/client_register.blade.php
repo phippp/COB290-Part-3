@@ -2,6 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/message_alert.css')}}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script>
@@ -154,37 +155,7 @@
 
 
             <div id="recommended-solution-section">
-                <!-- Place guidance for the user here, what to do when they come to solution section -->
-
-                <!-- Displaying all the records they have registered in the system -->
-                <div class="scrolltable-x">
-                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
-                        scroll feature so they view all the fields in the table  -->
-
-                    <table class="normal-table">
-                        <tr>
-                            <th>  </th> <!-- this columns is for the checkbox so the user is able to select any solution that could have helped them -->
-                            <th style="width:30%" > Title </th>
-                            <th style="width:40%"> Solution </th>
-                            <th> Category </th>
-                            <th> Date solved </th>
-                        </tr>
-                        <!-- Currently displays all solutions -->
-                        <label for="solution_desc" class="label-default"></label>
-                        @foreach($solutions as $solution)
-                            <tr>
-                                <td><input type="checkbox" name="solution_desc"  class="solution-checkbox" value="{{$solution->solution}}"/></td>
-                                <td>{{$solution->title}}</td> <!-- Problem title? -->
-                                <td>{{$solution->solution}}</td> <!-- Solution description -->
-                                <td>{{$solution->problem_id}}</td> <!-- Problem category -->
-                                <td>{{$solution->solved_at}}</td><!-- Date solved/ Last edited? -->
-                            </tr>
-                        @endforeach
-                    </table>
-
-                </div>
-                <!-- Submit button for form -->
-                <button id="query-submit-btn" class="btn-primary" type="submit" name="submitSol" value = "sol"> Submit  &#8594; </button>
+                {{-- Anything here will be rendered by solution.blade.php --}}
             </div>
 
             <div id="assign-specialist-section" class="container-hide">
