@@ -38,14 +38,14 @@
             <div class="search-section">
                 <div id="search-by-form">
                     <label for="type">Search By:</label>
-                    <select name="type" id="search-type">
-                        <option value="problemID">Serial Number</option>
-                        <option value="date">Make</option>
-                        <option value="title">Type</option>
-                        <option value="category">Name</option>
+                    <select name="hardware-type" id="search-type">
+                        <option value="serial_num">Serial Number</option>
+                        <option value="make">Make</option>
+                        <option value="type">Type</option>
+                        <option value="name">Name</option>
                     </select>
-                    <input type="text" name="" id="search-input">
-                    <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
+                    <input type="text" name="hardware-input" id="search-input">
+                    <button onclick="updateHardware()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
                 </div>
             </div>
             <div id="table-content">
@@ -56,7 +56,7 @@
                     <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                         scroll feature so they view all the fields in the table  -->
 
-                    <table class="normal-table hover-cursor-on-table">
+                    <table id="hardware-table" class="normal-table hover-cursor-on-table">
                         <tr>
                             <th> Serial Number </th>
                             <th> Make </th>
@@ -82,13 +82,13 @@
         <div class="search-section">
             <div id="search-by-form">
                 <label for="type">Search By:</label>
-                <select name="type" id="search-type">
-                    <option value="softwareID">Software ID</option>
+                <select name="software-type" id="search-type">
+                    <option value="id">Software ID</option>
                     <option value="name">Name</option>
                     <option value="version">Version</option>
                 </select>
-                <input type="text" name="" id="search-input">
-                <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
+                <input type="text" name="software-input" id="search-input">
+                <button onclick="updateSoftware()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
             </div>
             </div>
             <div id="table-content">
@@ -99,18 +99,20 @@
                     <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                         scroll feature so they view all the fields in the table  -->
 
-                    <table class="normal-table hover-cursor-on-table">
-                        <tr>
+                    <table id="software-table" class="normal-table hover-cursor-on-table">
+                        <thead>
                             <th> Software ID </th>
                             <th> Name </th>
                             <th> Version </th>
-                        </tr>
-                        @foreach ($software as $sw)
-                        <tr>
-                            <td>{{ $sw->id }}</td>
-                            <td>{{ $sw->name }}</td>
-                            <td>{{ $sw->version }}</td>
-                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($software as $sw)
+                            <tr>
+                                <td>{{ $sw->id }}</td>
+                                <td>{{ $sw->name }}</td>
+                                <td>{{ $sw->version }}</td>
+                            </tr>
+                        </tbody>
                         @endforeach
                     </table>
                 </div>
@@ -120,4 +122,7 @@
 
     <script src="{{ asset('js/client/register.js')}}"></script>
     <script src="{{ asset('js/client/viewOverview.js')}}"></script>
+    <script src="{{ asset('js/specialist/device.js')}}"></script>
+
+
 @endsection

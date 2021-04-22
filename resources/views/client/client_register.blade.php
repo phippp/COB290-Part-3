@@ -53,7 +53,7 @@
                         <div id="select-app-software">
                             <label for="app_software" class="label-default">Application Software</label> <br>
                             <select name="app_software" id="app-software" class="select-default" onchange="getAjax()">
-                                <option selected> - </option>
+                                <option selected value = ""> - </option>
                                 @foreach($software as $option)
                                     <option value = "{{ $option->id }}"> {{ $option->name }} </option>
                                 @endforeach
