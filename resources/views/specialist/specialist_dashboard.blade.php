@@ -67,7 +67,7 @@
 
         @if ($problemlogs->count())
         <!-- This section will be concerned with displaying all the cases the specialist is allocated   -->
-        <div class="cases-reported-section">
+        <div class="white-bg-card">
             <h1 class="section-title"> Cases </h1>
 
             <!--

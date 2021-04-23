@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxSolutionController;
+use App\Http\Controllers\AnalystController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TableController;
@@ -76,6 +77,15 @@ Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('log
 
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
 Route::post('/register', [RegisterProblemController::class, 'store']);
+
+// Analyst Controller
+Route::get('/analyst', [AnalystController::class, 'index'])->name('analyst');
+Route::get('/analyst/logfile', [AnalystController::class, 'logfile'])->name('analyst_logfile');
+Route::get('/analyst/equipment', [AnalystController::class, 'equipment'])->name('analyst_equipment');
+Route::get('/analyst/training', [AnalystController::class, 'training'])->name('analyst_training');
+
+
+
 
 Route::get('/', function () {
     return view('index');

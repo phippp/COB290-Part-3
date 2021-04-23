@@ -429,10 +429,10 @@ nav a:hover, #nav-logout:hover {
 
 /* -------------- 2.2 Recent case container - Displaying cases reported -------------- */        
 
-.cases-reported-section{
+.white-bg-card{
     /* this simply adds a white background and act as a container */
     background: #ffffff;
-    padding: 1em 1.5em;
+    padding: 1.5em 1.5em;
     border-radius: 0.5em;
 }
 

@@ -33,6 +33,8 @@ class LoginController extends Controller
             return redirect()->route('specialist');
         } else if(auth()->user()->employee->job->type == "User"){
             return redirect()->route('client');
+        } else if(auth()->user()->employee->job->type == "Analyst"){
+            return redirect()->route('analyst');
         }
 
     }
