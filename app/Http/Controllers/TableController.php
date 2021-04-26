@@ -65,8 +65,10 @@ class TableController extends Controller
 
         if($request->role == "Specialist"){
             $html = view('specialist.table',['problemlogs' => $logs])->render();
-        } else {
+        } elseif($request->role == "User"){
             $html = view('client.table',['problemlogs' => $logs])->render();
+        } else {
+            $html = view('analyst.table',['problemlogs' => $logs])->render();
         }
 
         return response()->json(['html' => $html, 'request' => $request->all()],200);

@@ -78,6 +78,11 @@ class ProblemLog extends Model
         return $this->hasMany(SpecialistTracker::class);
     }
 
+    public function currentSpecialist(){
+        $last = $this->trackers->last();
+        return $last->specialist->forename. " " . $last->specialist->surname;
+    }
+
     public function calls(){
         return $this->hasMany(CallLog::class);
     }
