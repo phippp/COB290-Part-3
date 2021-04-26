@@ -12,15 +12,7 @@
         <tr>
             <td> {{ $problem->problem_logs_count}} </td>
             @if($time)
-                @php($hours = 0)
-                @foreach($problem->problemLogs as $log)
-                    @if($log->solved_at != null)
-                        @php($hours += $log->created_at->diffInHours($log->solved_at))
-                    @else
-                        @php($hours += $log->created_at->diffInHours(\Carbon\Carbon::now()))
-                    @endif
-                @endforeach
-                <td> {{ number_format($hours / $problem->problem_logs_count,0) }} hour(s) </td>
+                <td> {{ $problem->calcAverageTime() }} hour(s) </td>
             @endif
             <td> {{ $problem->problem_type }} </td>
         </tr>

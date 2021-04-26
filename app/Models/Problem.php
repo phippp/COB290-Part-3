@@ -43,6 +43,18 @@ class Problem extends Model
         return $this->hasMany(Problem::class, 'problem_id');
     }
 
+    public function calcAverageTime(){
+        $hours = 0;
+        foreach($this->problemLogs as $log){
+            if($log->solved_at != null){
+                $hours += $log->created_at->diffInHours($log->solved_at);
+            } else {
+                $hours += $log->created_at->diffInHours(\Carbon\Carbon::now());
+            }
+        }
+        return number_format($hours/$this->problemLogs->count(),0);
+    }
+
     public function skills(){
         return $this->hasMany(SpecialistSkill::class);
     }
