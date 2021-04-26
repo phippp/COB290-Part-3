@@ -35,16 +35,16 @@
                     <div id="search-by-form">
                         <label for="type">Search By:</label>
 
-                        <select name="type" id="search-type">
+                        <select name="hardware-type" id="search-type">
                             <option value="type"> Type </option>
                             <option value="make"> Make </option>
-                            <option value="hardwareName"> Name </option>
-                            <option value="serialNumber"> Serial Number </option>
+                            <option value="name"> Name </option>
+                            <option value="serial_num"> Serial Number </option>
 
                         </select>
 
-                        <input type="text" name="" id="search-input">
-                        <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
+                        <input type="text" name="hardware-input" id="search-input">
+                        <button onclick="updateHardware()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
                     </div>
 
                 </div>
@@ -53,7 +53,7 @@
                 <!-- Displaying all the records they have registered in the system -->
                 <div class="scrolltable-x">
 
-                    <table class="normal-table">
+                    <table id="hardware-table" class="normal-table">
                         <tr>
                             <th> Cases Reported </th>
                             <th> Name </th>
@@ -61,33 +61,21 @@
                             <th> Type </th>
                             <th> Make </th>
                         </tr>
-                        <tr>
-                            <td> 530 </td>
-                            <td>  Lorem, ipsum. </td>
-                            <td> 1dfer44-324dfdsf-3</td>
-                            <td> TypeLorem </td>
-                            <td> MakeLorem </td>
-                        </tr>
-                        <tr>
-                            <td> 530 </td>
-                            <td>  Lorem, ipsum. </td>
-                            <td> 1dfer44-324dfdsf-3</td>
-                            <td> TypeLorem </td>
-                            <td> MakeLorem </td>
-                        </tr>
+
+                        @foreach($hardware as $hard)
+
+                            <tr>
+                                <td> {{ $hard->problemlog->count() }} </td>
+                                <td> {{ $hard->name }} </td>
+                                <td> {{ $hard->serial_num }} </td>
+                                <td> {{ $hard->type }} </td>
+                                <td> {{ $hard->make }} </td>
+                            </tr>
+
+                        @endforeach
                     </table>
                 </div>
 
-                <!-- Pagination for table -->
-                <div class="table-property-container">
-                    <div class="pagination">
-                        <a href="#"> &#x276E </a>
-                        <span id="page-number"> 1 </span>
-                        <span> / 16 </span>
-                        <a href="#"> &#x276F </a>
-                    </div>
-                </div>         
-            
             </div>
 
             <!-- ########################################################################### -->
@@ -103,8 +91,8 @@
                             <option value="type"> Name </option>
                         </select>
 
-                        <input type="text" name="" id="search-input">
-                        <button onclick=""> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
+                        <input type="text" name="software-input" id="search-input">
+                        <button onclick="updateSoftware()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
                     </div>
 
                 </div>
@@ -113,35 +101,23 @@
                 <!-- Displaying all the records they have registered in the system -->
                 <div class="scrolltable-x">
 
-                    <table class="normal-table">
+                    <table id="software-table" class="normal-table">
                         <tr>
                             <th style="width: 25%;"> Cases Reported </th>
                             <th> Name </th>
                         </tr>
-                        <tr>
-                            <td> 530 </td>
-                            <td>  Lorem, ipsum. </td>
-                        </tr>
-                        <tr>
-                            <td> 530 </td>
-                            <td>  Lorem, ipsum. </td>
-                        </tr>
+
+                        @foreach($software as $soft)
+
+                            <tr>
+                                <td> {{ $soft->problemlog->count() }} </td>
+                                <td> {{ $soft->name }} </td>
+                            </tr>
+
+                        @endforeach
                     </table>
                 </div>
 
-                <!-- Pagination for table -->
-                <div class="table-property-container">
-                    <div class="pagination">
-                        <a href="#"> &#x276E </a>
-                        <span id="page-number"> 1 </span>
-                        <span> / 16 </span>
-                        <a href="#"> &#x276F </a>
-                    </div>
-                </div>       
-            
-            
-            
-            
             </div>
 
         </div>
@@ -153,7 +129,7 @@
 
             var btnHardware = document.querySelector('#toggle-hardware')
             var btnSoftware = document.querySelector('#toggle-software')
-            
+
             var softwareSection = document.querySelector('#software-section')
             var hardwareSection = document.querySelector('#hardware-section')
             if(btnClicked == "Hardware"){
@@ -172,5 +148,7 @@
 
         }
     </script>
+
+    <script src="{{ asset("js/analyst/device.js") }}"> </script>
 
 @endsection

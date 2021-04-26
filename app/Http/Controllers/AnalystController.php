@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Hardware;
+use App\Models\Software;
 use Illuminate\Http\Request;
 
 class AnalystController extends Controller
@@ -16,10 +18,16 @@ class AnalystController extends Controller
         );
     }
     public function equipment(){
+
+        $hardware = Hardware::has('problemlog')->with('problemlog')->get();
+        $software = Software::has('problemlog')->with('problemlog')->get();
+
         return view(
             "analyst.analyst_equipment",
             [
                 "navTitle" => "equipment",
+                'hardware' => $hardware,
+                'software' => $software
             ]
         );
     }
