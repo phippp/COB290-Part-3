@@ -9,7 +9,7 @@ class AnalystController extends Controller
 
     public function index(){
         return view(
-            "analyst\analyst_dashboard",
+            "analyst.analyst_dashboard",
             [
                "navTitle" => "dashboard"
             ]
