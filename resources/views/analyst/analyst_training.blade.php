@@ -26,7 +26,6 @@
                 <input type="button" id="toggle-specialist" class="toggle-button" value="Specialist" onclick="toggleForTrainingData('Specialist')">
             </div> <br><br>
 
-
             <!-- ########################################################################### -->
             <!-- Client Data -->
             <div id="client-section">
@@ -40,35 +39,40 @@
                             <option value="type"> Category </option>
                         </select>
 
-                        <input type="text" name="" id="search-input">
-                        <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
+                        <input type="text" name="client-search" id="search-input">
+                        <button onclick="getAjax('client')"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
                     </div>
 
                 </div>
 
+                <div id="client-container">
+                    <!-- Displaying all the records they have registered in the system -->
+                    <input style="display: none" readonly type="number" name="hidden-page" id="client-page" value="{{ $problems->currentPage() }}">
 
-                <!-- Displaying all the records they have registered in the system -->
-                <div class="scrolltable-x">
+                    <div class="scrolltable-x">
 
-                    <table class="normal-table">
-                        <tr>
-                            <th style="width:25%;"> Cases Reported </th>
-                            <th> Category </th>
-                        </tr>
-                        <tr>
-                            <td> 530 </td>
-                            <td>  Lorem, ipsum. </td>
-                        </tr>
-                    </table>
-                </div>
+                        <table class="normal-table">
+                            <tr>
+                                <th style="width:25%;"> Cases Reported </th>
+                                <th> Category </th>
+                            </tr>
+                            @foreach($problems as $problem)
+                                <tr>
+                                    <td> {{ $problem->problem_logs_count}} </td>
+                                    <td> {{ $problem->problem_type }} </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
 
-                <!-- Pagination for table -->
-                <div class="table-property-container">
-                    <div class="pagination">
-                        <a href="#"> &#x276E </a>
-                        <span id="page-number"> 1 </span>
-                        <span> / 16 </span>
-                        <a href="#"> &#x276F </a>
+                    <!-- Pagination for table -->
+                    <div class="table-property-container">
+                        <div class="pagination">
+                            <a href="#"> &#x276E </a>
+                            <span id="page-number"> 1 </span>
+                            <span> / 10 </span>
+                            <a href="#"> &#x276F </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,37 +91,53 @@
                             <option value="type"> Category </option>
                         </select>
 
-                        <input type="text" name="" id="search-input">
-                        <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
+                        <input type="text" name="specialist-search" id="search-input">
+                        <button onclick="getAjax('specialist')"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
                     </div>
 
                 </div>
 
 
                 <!-- Displaying all the records they have registered in the system -->
-                <div class="scrolltable-x">
 
-                    <table class="normal-table">
-                        <tr>
-                            <th style="width:25%;"> Cases Reported </th>
-                            <th style="width:25%;"> Time spent </th>
-                            <th> Category </th>
-                        </tr>
-                        <tr>
-                            <td> 530 </td>
-                            <td>  2hr </td>
-                            <td>  Lorem, ipsum. </td>
-                        </tr>
-                    </table>
-                </div>
+                <div id="specialist-container">
 
-                <!-- Pagination for table -->
-                <div class="table-property-container">
-                    <div class="pagination">
-                        <a href="#"> &#x276E </a>
-                        <span id="page-number"> 1 </span>
-                        <span> / 16 </span>
-                        <a href="#"> &#x276F </a>
+                    <input style="display: none" readonly type="number" name="hidden-page" id="specialist-page" value="{{ $problems->currentPage() }}">
+
+                    <div class="scrolltable-x">
+
+                        <table class="normal-table">
+                            <tr>
+                                <th style="width:25%;"> Cases Reported </th>
+                                <th style="width:25%;"> Time spent </th>
+                                <th> Category </th>
+                            </tr>
+                            @foreach($problems as $problem)
+                                <tr>
+                                    <td> {{ $problem->problem_logs_count}} </td>
+                                    @php($hours = 0)
+                                    @foreach($problem->problemLogs as $log)
+                                        @if($log->solved_at != null)
+                                            @php($hours += $log->created_at->diffInHours($log->solved_at))
+                                        @else
+                                            @php($hours += $log->created_at->diffInHours(\Carbon\Carbon::now()))
+                                        @endif
+                                    @endforeach
+                                    <td> {{ number_format($hours / $problem->problem_logs_count,0) }} hour(s) </td>
+                                    <td> {{ $problem->problem_type }} </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
+
+                    <!-- Pagination for table -->
+                    <div class="table-property-container">
+                        <div class="pagination">
+                            <a href="#"> &#x276E </a>
+                            <span id="page-number"> 1 </span>
+                            <span> / 10 </span>
+                            <a href="#"> &#x276F </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,7 +152,7 @@
 
             var btnClient = document.querySelector('#toggle-client')
             var btnSpecialist = document.querySelector('#toggle-specialist')
-            
+
             var clientSection = document.querySelector('#client-section')
             var specialistSection = document.querySelector('#specialist-section')
             if(btnClicked == "Client"){
@@ -150,6 +170,58 @@
             }
 
         }
+    </script>
+
+    <script>
+
+        function getAjax(table){
+
+            var search,page;
+
+            if(table == "specialist"){
+                search = document.getElementsByName('specialist-search')[0].value;
+                page = document.getElementById("specialist-page").value;
+            } else {
+                search = document.getElementsByName('client-search')[0].value;
+                page = document.getElementById("client-page").value;
+            }
+
+            $.ajax({
+                url: '{{ route('training_table') }}?page='+page ,
+                type: 'POST',
+                headers : {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                datatype : "json",
+                data: {
+                    search: search,
+                    time: table == 'specialist'
+                },
+                success: function(response){
+                    var data = response['html'];
+                    console.log(response['specialist']);
+                    if(response['specialist'] == 'true'){
+                        document.getElementById('specialist-container').innerHTML = data;
+                    }else{
+                        document.getElementById('client-container').innerHTML = data;
+                    }
+                }
+            })
+
+        }
+
+        $(document).ready(function(){
+            getAjax('client');
+            getAjax('specialist');
+        });
+
+
+        function changePage(x,table){
+            var num = parseInt($.trim($( "#"+table+"-page" ).val()))
+            $( "#"+table+"-page" ).val(num += x);
+            getAjax(table);
+        }
+
     </script>
 
 @endsection

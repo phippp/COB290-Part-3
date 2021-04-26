@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxAnalystController;
 use App\Http\Controllers\AjaxSolutionController;
 use App\Http\Controllers\AnalystController;
 use Illuminate\Support\Facades\Route;
@@ -62,6 +63,9 @@ Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'i
 
 Route::get('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'index'])->whereNumber('id')->name('specialist_edit_problem');
 Route::post('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'store']);
+
+//Analyst Ajax Pages
+Route::post('/analyst/training/table', [AjaxAnalystController::class, 'getTable'])->name('training_table');
 
 // Specialist Profile
 Route::get('/specialist/profile/', [SpecialistProfileController::class, 'viewProfile'])->name('specialist_profile');
