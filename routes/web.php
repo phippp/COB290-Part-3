@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\AjaxAnalystController;
 use App\Http\Controllers\AjaxSolutionController;
-use App\Http\Controllers\AnalystController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TableController;
@@ -18,8 +16,6 @@ use App\Http\Controllers\SpecialistLogbookController;
 use App\Http\Controllers\ClientProblemOverviewController;
 use App\Http\Controllers\SpecialistProblemEditController;
 use App\Http\Controllers\SpecialistProfileController;
-use App\Http\Controllers\SpecialistDevicesController;
-use App\Http\Controllers\SpecialistInfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +48,6 @@ Route::post('/client', [ClientController::class, 'store']);
 Route::get('/specialist', [SpecialistController::class, 'index'])->name('specialist');
 Route::post('/specialist', [SpecialistController::class, 'store']);
 
-Route::get('/specialist_info', [SpecialistInfoController::class, 'index'])->name('specialist_info');
-
-Route::get('/devices', [SpecialistDevicesController::class, 'index'])->name('devices');
-
 Route::post('returnCustomTable', [TableController::class, 'returnCustomTable'])->name('custom_table');
 Route::post('clientSolutions', [AjaxSolutionController::class, 'getSolutions'])->name('custom_solutions');
 
@@ -63,9 +55,6 @@ Route::get('/specialist/{problemlog:id}/view', [LogOverviewController::class, 'i
 
 Route::get('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'index'])->whereNumber('id')->name('specialist_edit_problem');
 Route::post('/specialist/{problemlog:id}/edit', [SpecialistProblemEditController::class, 'store']);
-
-//Analyst Ajax Pages
-Route::post('/analyst/training/table', [AjaxAnalystController::class, 'getTable'])->name('training_table');
 
 // Specialist Profile
 Route::get('/specialist/profile/', [SpecialistProfileController::class, 'viewProfile'])->name('specialist_profile');
@@ -82,21 +71,15 @@ Route::post('/specialist/profile/availability', [SpecialistProfileController::cl
 Route::get('/specialist/profile/skills', [SpecialistProfileController::class, 'viewSkills'])->name('specialist_skills');
 // >> editing details in specialist profile
 Route::get('/specialist/profile/skills/edit', [SpecialistProfileController::class, 'editSkills'])->name('specialist_skills_edit');
-Route::get('/specialist/profile/availability/edit',[SpecialistProfileController::class, 'editAvailability'])->name('specialist_availability_edit');
+Route::post('/specialist/profile/skills/edit', [SpecialistProfileController::class, 'storeEditSkills'])->name('specialist_skills_edit');
+
+Route::get('/specialist/profile/availability/edit/{Holiday:id}',[SpecialistProfileController::class, 'editAvailability'])->name('specialist_availability_edit');
+Route::post('/specialist/profile/availability/edit/{Holiday:id}',[SpecialistProfileController::class, 'storeEditAvailability']);
 
 Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('logbook');
 
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
 Route::post('/register', [RegisterProblemController::class, 'store']);
-
-// Analyst Controller
-Route::get('/analyst', [AnalystController::class, 'index'])->name('analyst');
-Route::get('/analyst/logfile', [AnalystController::class, 'logfile'])->name('analyst_logfile');
-Route::get('/analyst/equipment', [AnalystController::class, 'equipment'])->name('analyst_equipment');
-Route::get('/analyst/training', [AnalystController::class, 'training'])->name('analyst_training');
-
-
-
 
 Route::get('/', function () {
     return view('index');
