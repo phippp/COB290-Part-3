@@ -1,21 +1,23 @@
 <?php
 
-use App\Http\Controllers\AjaxSolutionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\AnalystController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\AjaxAnalystController;
 use App\Http\Controllers\LogOverviewController;
+use App\Http\Controllers\AjaxSolutionController;
 use App\Http\Controllers\VerifySolutionController;
 use App\Http\Controllers\RegisterProblemController;
 use App\Http\Controllers\ClientProblemEditController;
 use App\Http\Controllers\SpecialistLogbookController;
+use App\Http\Controllers\SpecialistProfileController;
 use App\Http\Controllers\ClientProblemOverviewController;
 use App\Http\Controllers\SpecialistProblemEditController;
-use App\Http\Controllers\SpecialistProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +82,19 @@ Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('log
 
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
 Route::post('/register', [RegisterProblemController::class, 'store']);
+
+// Analyst Controller
+Route::get('/analyst', [AnalystController::class, 'index'])->name('analyst');
+Route::get('/analyst/logfile', [AnalystController::class, 'logfile'])->name('analyst_logfile');
+Route::get('/analyst/equipment', [AnalystController::class, 'equipment'])->name('analyst_equipment');
+Route::get('/analyst/training', [AnalystController::class, 'training'])->name('analyst_training');
+
+//Analyst Ajax Pages
+Route::post('/analyst/training/table', [AjaxAnalystController::class, 'getTable'])->name('training_table');
+
+Route::get('/specialist_info', [SpecialistInfoController::class, 'index'])->name('specialist_info');
+
+Route::get('/devices', [SpecialistDevicesController::class, 'index'])->name('devices');
 
 Route::get('/', function () {
     return view('index');
