@@ -3,12 +3,11 @@
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
 @endsection
 
-
 @section('content')
     <!-- Inserting the navigation on our page -->
     @include('specialist.specialist_navigation')
 
-    <div class="page-container flex">
+    <div class="page-container sidebar-page-container">
         @include('specialist.profile.specialist_profile_nav_template')
 
         <div class="content-container">
@@ -18,30 +17,46 @@
                 <p class="italic-light"> Please fill in the form to notify the system of your availability </p>
                 <br>
 
-                <form action="">
+                <form action="#" method="post">
+                    @csrf
                     <div class="flex-input-container">
                         <div id="start-date">
-                            <label for="start-date" class="label-default"> Start Date <span class="required-field">*</span> </label><br>
-                            <input type="date" name="start-date" class="small-text-input">
+                            <label for="start_date" class="label-default"> Start Date <span class="required-field">*</span> </label><br>
+                                @error('start_date')
+                                    <div style = "color:red; font-size: small">
+                                        {{$message}}
+                                    </div>
+                                @enderror
+                            <input type="date" name="start_date" class="small-text-input">
                         </div>
-                        
+
                         <div id="end-date">
-                            <label for="end-date" class="label-default"> End Date <span class="required-field">*</span> </label><br>
-                            <input type="date" name="end-date" class="small-text-input">
+                            <label for="end_date" class="label-default"> End Date <span class="required-field">*</span> </label><br>
+                                @error('end_date')
+                                    <div style = "color:red; font-size: small">
+                                        {{$message}}
+                                    </div>
+                                @enderror
+                            <input type="date" name="end_date" class="small-text-input">
                         </div>
                     </div>
                     <br>
-                    
-                    <div id="reason-container">
-                        <label for="available-reason" class="label-default">Reason <span class="required-field">*</span></label><br>
-                        <textarea name="available-reason" class="large-text-input"></textarea>
-                    </div> <br>
 
-                    <button type="submit" class="btn-primary"> Add  Availability</button>
+                    <div id="reason-container">
+                        <label for="available_reason" class="label-default">Reason <span class="required-field">*</span></label>
+                            @error('available_reason')
+                                <div style = "color:red; font-size: small">
+                                    {{$message}}
+                                </div>
+                            @enderror
+                        <textarea name="available_reason" class="large-text-input"></textarea>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn-primary" name="submit" value="submit"> Add  Availability </button>
                 </form>
             </div>
             <br> <hr> <br>
-            
+
             <div id="show-current-availability">
                 <h3 class="section-heading"> Current Availability </h3>
                 <p class="italic-light">You are unavailable on the following days, click on any of the row to modify your availability</p>
@@ -58,10 +73,12 @@
                             <th> End </th>
                             <th style="width:80%"> Reason </th>
                         </tr>
-                            <td> 26/10/2021 </td>
-                            <td> 26/11/2021 </td>
-                            <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, commodi!</td>
+                        @foreach($availabilities as $available)
+                            <td>{{$available->start_date}}</td>
+                            <td>{{$available->end_date}}</td>
+                            <td>{{$available->reason}}</td>
                         </tr>
+                        @endforeach
                     </table>
                 </div>
 

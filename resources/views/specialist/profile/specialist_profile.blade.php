@@ -8,12 +8,12 @@
     <!-- Inserting the navigation on our page -->
     @include('specialist.specialist_navigation')
 
-    <div class="page-container flex">
+    <div class="page-container sidebar-page-container">
          @include('specialist.profile.specialist_profile_nav_template')
 
 
         <div class="content-container">
-        
+
             <!-- User information  is displayed on a table -->
             <div id="emp-info-parent">
                 <div class="emp-info-child">
@@ -73,7 +73,7 @@
 
             <div id="availability"  class="input-group-holder">
                 <h3 class="section-heading"> Availability </h3>
-                <p>You  are unavailable on the following days, click on any of the row to modify your availability</p>
+                <p>You  are unavailable on the following days:</p>
                 <br>
 
                 <!-- Displaying all the records they have registered in the system -->
@@ -87,31 +87,31 @@
                             <th> End </th>
                             <th style="width:80%"> Reason </th>
                         </tr>
-                            <td> 26/10/2021 </td>
-                            <td> 26/11/2021 </td>
-                            <td> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus, commodi!</td>
+                        @foreach($availabilities as $available)
+                            <td>{{$available->start_date}}</td>
+                            <td>{{$available->end_date}}</td>
+                            <td>{{$available->reason}}</td>
                         </tr>
+                        @endforeach
                     </table>
                 </div>
             </div>
             <hr>
-        
+
             <div id="language" class="input-group-holder">
                 <h3 class="section-heading">  Language   </h3>
-                <p> English </p>
+                <p>{{ auth()->user()->employee->language}}</p>
             </div>
             <hr>
 
+            <!-- Display the working days of the logged in specialist -->
             <div id="working-days" class="input-group-holder">
                 <h3 class="section-heading"> Working Days </h3>
-                <p> Monday, Tuesday, Wednesday, Thursday </p>
+                @foreach($workingDays as $workingDay)
+                    <nobr>{{$workingDay}}</nobr>
+                @endforeach
             </div>
             <hr>
-
-        
-
-            
-            
 
         </div>
 
