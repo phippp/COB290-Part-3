@@ -8,7 +8,7 @@
     <!-- Inserting the navigation on our page -->
     @include('specialist.specialist_navigation')
 
-    <div class="page-container flex">
+    <div class="page-container sidebar-page-container">
         @include('specialist.profile.specialist_profile_nav_template')
 
         <div class="content-container">
@@ -29,26 +29,15 @@
                         <tr>
                             <th> Specialism </th>
                         </tr>
-                        <tr>
-                            <td> Microsoft </td>
-                        </tr>
-                        <tr> 
-                            <td> Networking </td>
-                        </tr>
-                        <tr>
-                            <td> SketchUp </td>
-                        </tr>
-                        <tr>
-                            <td> AutoCAD </td>
-                        </tr>
+                        @foreach($problems as $problem)
+                            <tr>
+                                <td> {{$problem->problem_type}} </td>
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
             </div>
-
-            
-
         </div>
-
     </div>
 
 @endsection

@@ -8,7 +8,7 @@
     <!-- Inserting the navigation on our page -->
     @include('specialist.specialist_navigation')
 
-    <div class="page-container flex">
+    <div class="page-container sidebar-page-container">
         @include('specialist.profile.specialist_profile_nav_template')
 
         <div class="content-container">
@@ -18,7 +18,7 @@
 
             <!-- Search by filter -->
 
-            
+
 
 
 
@@ -33,54 +33,49 @@
                             <th> Specialism </th>
                             <th style="width:10rem"> Action </th>
                         </tr>
-                        <tr>
-                            <td> Microsoft </td>
-                            <td>
-                                <form action="">
-                                    <!-- Add eample -->
-                                    <input type="hidden" name="specialism" value="Microsoft">
-                                    <button type="submit" class="btn-text-mimic-blue"> + Add </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr> 
-                            <td> Networking </td>
-                            <td>
-                                <form action=""> 
-                                    <!-- Delete example -->
-                                    <input type="hidden" name="specialism" value="Microsoft">
-                                    <button type="submit" class="btn-text-mimic-red"> - Remove </button>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td> SketchUp </td>
-                            <td>
-                                <form action="">
-                                    <!-- Add eample -->
-                                    <input type="hidden" name="specialism" value="Microsoft">
-                                    <button type="submit" class="btn-text-mimic-blue"> + Add </button>
-                                </form>                                
-                            </td>
-                        </tr>
-                        <tr>
-                            <td> AutoCAD </td>
-                            <td>
-                                <form action="">
-                                    <!-- Add eample -->
-                                    <input type="hidden" name="specialism" value="Microsoft">
-                                    <button type="submit" class="btn-text-mimic-blue"> + Add </button>
-                                </form>                                
-                            </td>
-                        </tr>
+                        @foreach($problems as $problem)
+                            <tr>
+                                <td> {{$problem->problem_type}} </td>
+                                @if(!in_array($problem->id, $specialistSkills))
+                                    <td>
+                                        <form action="#" method="post">
+                                        @csrf
+                                            <!-- Add example -->
+                                            <input type="hidden" name="specialism" value="Microsoft">
+                                            <button name = submit type="submit" class="btn-text-mimic-blue" value = "add{{$problem->id}}"> + Add </button>
+                                        </form>
+                                    </td>
+                                @endif
+                                @if(in_array($problem->id, $specialistSkills))
+                                    <td>
+                                        <form action="#" method="post">
+                                        @csrf
+                                            <!-- Delete example -->
+                                            <input type="hidden" name="specialism" value="Microsoft">
+                                            <button name = submit type="submit" class="btn-text-mimic-red" value={{$problem->id}}> - Remove </button>
+                                        </form>
+                                    </td>
+                                @endif
+
+                            </tr>
+                        @endforeach
                     </table>
                 </div>
             </div>
-
-            
-
+            <!-- This section will handle pagination and the number of rows to show in a table -->
+            <div class="table-property-container">
+                <div class="pagination">
+                    @if (!$problems->onFirstPage())
+                        <a href="{{ $problems->previousPageUrl() }}"> &#x276E </a>
+                    @endif
+                    <span id="page-number">{{ $problems->currentPage() }}</span>
+                    <span> / {{ $problems->lastPage() }}</span>
+                    @if ($problems->hasMorePages())
+                        <a href="{{ $problems->nextPageUrl() }}"> &#x276F </a>
+                    @endif
+                </div>
+            </div>
         </div>
-
     </div>
 
 @endsection

@@ -73,12 +73,16 @@
                             <th> End </th>
                             <th style="width:80%"> Reason </th>
                         </tr>
+
                         @foreach($availabilities as $available)
-                            <td>{{$available->start_date}}</td>
-                            <td>{{$available->end_date}}</td>
-                            <td>{{$available->reason}}</td>
+                            <?php $a = route('specialist_availability_edit', ($available->id)); ?>
+                            <tr onclick= "window.location.href='<?=$a?>' " >
+                                <td>{{$available->start_date}}</td>
+                                <td>{{$available->end_date}}</td>
+                                <td>{{$available->reason}}</td>
                         </tr>
                         @endforeach
+
                     </table>
                 </div>
 
