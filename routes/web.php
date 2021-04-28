@@ -69,9 +69,16 @@ Route::post('/analyst/training/table', [AjaxAnalystController::class, 'getTable'
 
 // Specialist Profile
 Route::get('/specialist/profile/', [SpecialistProfileController::class, 'viewProfile'])->name('specialist_profile');
+
 Route::get('/specialist/profile/language', [SpecialistProfileController::class, 'language'])->name('specialist_lang');
+Route::post('/specialist/profile/language', [SpecialistProfileController::class, 'storeLanguage']);
+
 Route::get('/specialist/profile/workdays', [SpecialistProfileController::class, 'workdays'])->name('specialist_workdays');
+Route::post('/specialist/profile/workdays', [SpecialistProfileController::class, 'storeWorkdays']);
+
 Route::get('/specialist/profile/availability', [SpecialistProfileController::class, 'availability'])->name('specialist_availability');
+Route::post('/specialist/profile/availability', [SpecialistProfileController::class, 'storeAvailability']);
+
 Route::get('/specialist/profile/skills', [SpecialistProfileController::class, 'viewSkills'])->name('specialist_skills');
 // >> editing details in specialist profile
 Route::get('/specialist/profile/skills/edit', [SpecialistProfileController::class, 'editSkills'])->name('specialist_skills_edit');
