@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Holiday;
+use App\Models\Problem;
+use App\Models\SpecialistSkill;
 use Illuminate\Http\Request;
 use DB;
 
@@ -159,19 +161,87 @@ class SpecialistProfileController extends Controller
         return redirect()->route('specialist_availability');
     }
 
+    public function editAvailability(){
+        $availabilityID = $_SERVER['REQUEST_URI'][strlen($_SERVER['REQUEST_URI'])-1];
+        $availability = DB::select('select * from holidays where id = :id',
+                        ['id' => $availabilityID]);
+
+        return view('specialist.profile.specialist_edit_availability', [
+            'navTitle' => 'profile',
+            'sideBarNav' => 'availability',
+            'available' => $availability[0]
+        ]);
+    }
+
+    public function storeEditAvailability(Request $request){
+        $availabilityID = $_SERVER['REQUEST_URI'][strlen($_SERVER['REQUEST_URI'])-1];
+
+        if($request->edit == "edit"){
+            DB::update('update holidays set start_date = :startDate, end_date = :endDate, reason = :reason where id = :id',
+                ['startDate' => $request->start_date, 'endDate' => $request->end_date, 'reason' => $request->available_reason,
+                    'id' => $availabilityID]);
+        }
+        else{
+            DB::delete('delete from holidays where id = :id',
+                ['id' => $availabilityID]);
+        }
+
+        return redirect()->route('specialist_availability');
+    }
+
 
     // Function relating to a specialists skills
     public function viewSkills(){
+        $user = auth()->user()->employee_id;
+        $usersSkills = DB::select('select p.problem_type from problems as p, specialist_skills as sk where
+                                   sk.employee_id = :id and p.id = sk.problem_id', ['id' => $user]);
+
         return view('specialist.profile.specialist_skills', [
             'navTitle' => 'profile',
-            'sideBarNav' => 'skills'
+            'sideBarNav' => 'skills',
+            'problems' => $usersSkills
         ]);
     }
 
     public function editSkills(){
+        $user = auth()->user()->employee_id;
+        $usersSkills = DB::select('select p.id from problems as p, specialist_skills as sk where
+                                   sk.employee_id = :id and p.id = sk.problem_id', ['id' => $user]);
+        $specialistSkills = array();
+        $blah = DB::select('select id from problems');
+
+        foreach($blah as $p){
+            if(in_array($p, $usersSkills)){
+                array_push($specialistSkills, $p->id);
+            }
+        }
+
         return view('specialist.profile.specialist_edit_skills', [
             'navTitle' => 'profile',
-            'sideBarNav' => 'skills'
+            'sideBarNav' => 'skills',
+            'problems' => Problem::select('*')->paginate(5),
+            'specialistSkills' => $specialistSkills
         ]);
+    }
+
+    public function storeEditSkills(Request $request){
+        $user = auth()->user()->employee_id;
+        $pID = $request->submit;
+
+        // Add the skill
+        if(str_contains($pID, "add")) {
+            $pID = substr($pID, 3);
+            SpecialistSkill::create([
+                'problem_id' => $pID,
+                'employee_id' => $user
+            ]);
+        }
+        // Remove the skill
+        else{
+            DB::delete('delete from specialist_skills where problem_id = :id',
+                ['id' => $pID]);
+        }
+
+        return redirect()->route('specialist_skills');
     }
 }
