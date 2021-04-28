@@ -41,9 +41,8 @@ class RegisterProblemController extends Controller
                 ['serialNum'=>$hardware]);
             $hardwareID = $hID[0]->id;
             // Hardcode software and os as 0
-            $softwareID = 0;
-            $osID = 0;
-            dd("Just hardware");
+            $softwareID = null;
+            $osID = null;
         }
         // Just software and operating system
         else if(empty($hardw) && ($os != "-" && $softw != null)) {
@@ -51,8 +50,7 @@ class RegisterProblemController extends Controller
             $softwareID = $request->app_software;
             $osID = $request->operating_system;
             // Hardcode hardware id as 0
-            $hardwareID = 0;
-            dd("software & os");
+            $hardwareID = null;
         }
         // Software, operating system and hardware
         else if(!empty($hardw) && $os != "-" && $softw != null) {
@@ -64,16 +62,14 @@ class RegisterProblemController extends Controller
             // Get software id and operating system id for inputted components
             $softwareID = $request->app_software;
             $osID = $request->operating_system;
-            dd("software, os & hardware");
         }
         // None of them
         else {
             // Hardcode hardware id as 0
-            $hardwareID = 0;
+            $hardwareID = null;
             // Hardcode software and os as 0
-            $softwareID = 0;
-            $osID = 0;
-            dd("none");
+            $softwareID = null;
+            $osID = null;
         }
 
         // Get user/employee ID and users branch
@@ -123,7 +119,7 @@ class RegisterProblemController extends Controller
             }
 
             // If no specific specialist
-            if($specialistID == "[]")
+            if($specialistID == [])
             {
                 $specialistID = DB :: select('select sk.employee_id
                                 from employees as e, specialists as s, specialist_skills as sk
@@ -131,12 +127,13 @@ class RegisterProblemController extends Controller
                                 AND e.id = s.employee_id
                                 LIMIT 1');
             }
-            #dd($specialistID);
+
+
             // Insert into problem_logs
             ProblemLog::create([
                 'hardware_id' => $hardwareID,
                 'software_id' => $softwareID,
-                'specialist_assigned' => $specialistID[0]->employee_id,
+                'specialist_assigned' => 1,
                 'operating_system_id' => $osID,
                 'problem_id' => $pID[0]->id,
                 'title' => $request->title,
@@ -154,17 +151,14 @@ class RegisterProblemController extends Controller
             // Insert into specialist tracker
             SpecialistTracker::Create([
                 'employee_id' => $specialistID[0]->employee_id,
-                'reason' => $request->description,
+                'reason' => "Automatically assigned",
                 'problem_log_id' => $logID[0]->id
             ]);
-
         }
-
 
         // If there is an available and appropriate solution for them that they have selected
         else
         {
-
             ProblemLog::create([
                 'hardware_id' => $hardwareID,
                 'software_id' => $softwareID,
@@ -191,7 +185,6 @@ class RegisterProblemController extends Controller
             ]);
         }
 
-
         // Return to the dashboard once data is added to database
         return redirect()->route('client');
     }
@@ -199,11 +192,8 @@ class RegisterProblemController extends Controller
     public function index(Request $request){
 
         $software = DB::select('select * from software where id > 0');
-
         $hardware = Hardware::get();
-
         $operatingSystems = DB::select('select * from operating_systems where id > 0');
-
         $category = Problem::select('problem_type', 'problem_id')->where('enabled', 1)->orderBy('problem_type')->get();
 
         $genericCategory = $category
