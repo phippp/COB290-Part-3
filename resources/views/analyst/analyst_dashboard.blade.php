@@ -22,20 +22,20 @@
         <div class="stats-card-section">
             <div class="stats-card-container">
                 <div class="stats-card">
-                    <h4> Cases assigned today. </h4>
+                    <h4><b> Number Of Problem Types </b></h4>
                     <h3> </h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
                 </div>
                 <div class="stats-card">
-                    <h4> Stats </h3>
+                    <h4><b> Solved : Queued Problems </b></h3>
                     <h3>   </h3>
                 </div>
                 <div class="stats-card">
-                    <h4> Stats </h4>
+                    <h4><b> Number of Employees </b></h4>
                     <h3>   </h3>
                 </div>
 
                 <div class="stats-card">
-                    <h4> Stats </h4>
+                    <h4><b> Number of Branches </b></h4>
                     <h3>   </h3>
                 </div>
             </div>
@@ -46,44 +46,32 @@
             END OF STATS SECTION
             ######################################################################################
          -->
-        <br><br>
+        <br>
         <div class="stats-card-section">
-            <h2> Monthly Data </h2>
 
             <div class="stats-card-container-analyst">
                 <div class="stats-card">
+                    <canvas id="hardwareChart"></canvas>
                 </div>
 
                 <div class="stats-card">
+                    <canvas id="softwareChart"></canvas>
                 </div>
             </div>
-            <div class="stats-card">
-            </div>
         <div>
 
-        <br>
         <div class="stats-card-section">
-            <h2> Yearly Data </h2>
 
-            <div class="stats-card">
+            <div class="stats-card-container-analyst">
+                <div class="stats-card">
+                    <canvas id="typesChart"></canvas>
+                </div>
+
+                <div class="stats-card">
+                    <canvas id="specialistChart"></canvas>
+                </div>
             </div>
-        </div>
-
         <div>
-            <canvas id="hardwareChart"></canvas>
-        </div>
-
-        <div>
-            <canvas id="softwareChart"></canvas>
-        </div>
-
-        <div>
-            <canvas id="typesChart"></canvas>
-        </div>
-
-        <div>
-            <canvas id="specialistChart"></canvas>
-        </div>
 
         <script>
 
