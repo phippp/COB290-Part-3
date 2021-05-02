@@ -24,13 +24,10 @@
                 <div id="search-by-form">
                     <label for="type">Search By:</label>
                     <select name="type" id="search-type">
-                        <option value="date">Date</option>
-                        <option value="problemID">Problem ID</option>
+                        <option value="id">Problem ID</option>
+                        <option value="created_at">Date</option>
                         <option value="title">Problem Title</option>
-                        <option value="category">Category</option>
-                        <option value="status">Status</option>
-                        <option value="importance">Importance</option>
-                        <option value="assignedTo">Assigned To</option>
+                        <option value="problem_id">Category</option>
                     </select>
                     <input type="text" name="" id="search-input">
                     <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
@@ -72,8 +69,6 @@
                                 <label for="importance" class="sortby-title"> Importance</label> <br>
                                 <select name="importance" id="importance">
                                     <option value="">-</option>
-                                    <option value="lowHigh">Low to high importance </option>
-                                    <option value="highLow">High to low importance </option>
                                     <option value="low">Low</option>
                                     <option value="medium">Medium</option>
                                     <option value="high">High</option>
@@ -82,20 +77,10 @@
 
                             <div class="dropdown-attribute">
                                 <!-- got this select tag template from w3 school -->
-                                <label for="problemTitle" class="sortby-title">Title</label> <br>
-                                <select name="problemTitle" id="problemTitle">
-                                    <option value="">-</option>
-                                    <option value="A-Z">Sort by A-Z</option>
-                                    <option value="Z-A">Sort by Z-A</option>
-                                </select>
-                            </div>
-
-                            <div class="dropdown-attribute">
-                                <!-- got this select tag template from w3 school -->
                                 <label for="status" class="sortby-title">Status</label> <br>
                                 <select name="status" id="status">
                                     <option value="">-</option>
-                                    <option value="In-Queue">InQueue</option>
+                                    <option value="In queue">InQueue</option>
                                     <option value="Verify">Verify</option>
                                     <option value="Solved">Solved</option>
                                 </select>
@@ -106,7 +91,7 @@
 
                     <div id="filter-apply-container">
                         <button class="btn-primary" name="applyFilter" onclick="getAjax()"> Apply </button>
-                        <button class="btn-primary-inverse" name="resetFilter"> Reset Filter </button>
+                        <button class="btn-primary-inverse" name="resetFilter" onclick="clearForm()"> Reset Filter </button>
                     </div>
                     <br><br>
                 </div> <!-- end of display-filter section | a grid component -->
@@ -128,26 +113,6 @@
                     <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                         scroll feature so they view all the fields in the table  -->
 
-                    <table class="normal-table hover-cursor-on-table">
-                        <tr>
-                            <th> Date </th>
-                            <th> Problem ID </th>
-                            <th> Problem Title </th>
-                            <th> Category </th>
-                            <th> Status</th>
-                            <th> Importance </th>
-                            <th> Assigned To </th>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
                 </div>
             </div>
         </div>
@@ -187,7 +152,6 @@
                             end : $( "#custom-problemID-end" ).val()
                         },
                         importance : $( "#importance" ).val(),
-                        title : $( "#problemTitle" ).val(),
                         status : $( "#status" ).val()
                     }
                 },
@@ -204,6 +168,25 @@
         function changePage(x){
             var num = parseInt($.trim($( "#hidden-page" ).val()))
             $( "#hidden-page" ).val(num += x);
+            getAjax();
+        }
+
+        function clearForm(){
+            //reset radio buttons
+            document.getElementById("oldest-newest").checked = false;
+            document.getElementById("newest-oldest").checked = false;
+            document.getElementById("smallest-to-largest").checked = false;
+            document.getElementById("largest-to-smallest").checked = false;
+            //reset text inputs
+            document.getElementById("search-input").value = "";
+            document.getElementById("date-custom-start").value = "";
+            document.getElementById("date-custom-finish").value = "";
+            document.getElementById("custom-problemID-start").value = "";
+            document.getElementById("custom-problemID-end").value = "";
+            //reset select options
+            document.getElementById("importance").value = "";
+            document.getElementById("status").value = "";
+            //update page
             getAjax();
         }
     </script>
