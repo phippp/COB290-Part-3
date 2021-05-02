@@ -8,7 +8,7 @@
     <!-- Inserting the navigation on our page -->
     @include('specialist.specialist_navigation')
 
-    <div class="page-container sidebar-page-container">
+    <div class="page-container flex">
         @include('specialist.profile.specialist_profile_nav_template')
 
         <div class="content-container">
