@@ -23,20 +23,20 @@
             <div class="stats-card-container">
                 <div class="stats-card">
                     <h4><b> Number Of Problem Types </b></h4>
-                    <h3> </h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
+                    <h3> {{ $problem['labels']->count() }}</h3>   <!-- making the numeric data look bigger than their description to give them more importance -->
                 </div>
                 <div class="stats-card">
                     <h4><b> Solved : Queued Problems </b></h3>
-                    <h3>   </h3>
+                    <h3> {{ array_sum($specialist['solved'])}} : {{ array_sum($specialist['queue'])}}  </h3>
                 </div>
                 <div class="stats-card">
                     <h4><b> Number of Employees </b></h4>
-                    <h3>   </h3>
+                    <h3>{{ $employees }}</h3>
                 </div>
 
                 <div class="stats-card">
                     <h4><b> Number of Branches </b></h4>
-                    <h3>   </h3>
+                    <h3>{{$branches}}</h3>
                 </div>
             </div>
         </div>

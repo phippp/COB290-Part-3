@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\Problem;
 use App\Models\Employee;
 use App\Models\Hardware;
@@ -14,6 +15,9 @@ class AnalystController extends Controller
 {
 
     public function index(){
+
+        $employees = Employee::all()->count();
+        $branches = Branch::all()->count();
 
         $hardware = Hardware::has('problemlog')->withCount('problemlog')->get();
         $software = Software::has('problemlog')->withCount('problemlog')->get();
@@ -63,7 +67,9 @@ class AnalystController extends Controller
                     "solved" => array_values($solved),
                     "queue" => array_values($queue),
                     "verify" => array_values($verify),
-               ]
+               ],
+               "employees" => $employees,
+               "branches" => $branches
             ]
         );
     }
