@@ -98,6 +98,4 @@ Route::get('/specialist_info', [SpecialistInfoController::class, 'index'])->name
 
 Route::get('/devices', [SpecialistDevicesController::class, 'index'])->name('devices');
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
+Route::permanentRedirect('/','/login');
