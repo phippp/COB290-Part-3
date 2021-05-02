@@ -124,8 +124,8 @@
                     datasets: [{
                         label: "Solved problems",
                         data: {!!json_encode($specialist['solved'])!!},
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(99, 255, 132, 0.2)',
+                        borderColor: 'rgba(99, 255, 132, 0.2)',
                         borderWidth: 1
                     },{
                         label: "Queued problems",
@@ -136,8 +136,8 @@
                     },{
                         label: "Verify problems",
                         data: {!!json_encode($specialist['verify'])!!},
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(132, 99, 255, 0.2)',
+                        borderColor: 'rgba(132, 99, 255, 1)',
                         borderWidth: 1
                     }]
                 }

@@ -84,8 +84,6 @@
                                 <label for="importance" class="sortby-title"> Importance</label> <br>
                                 <select name="importance" id="importance">
                                     <option value="">-</option>
-                                    <option value="lowHigh">Low to high importance </option>
-                                    <option value="highLow">High to low importance </option>
                                     <option value="low">Low</option>
                                     <option value="medium">Medium</option>
                                     <option value="high">High</option>
@@ -94,20 +92,10 @@
 
                             <div class="dropdown-attribute">
                                 <!-- got this select tag template from w3 school -->
-                                <label for="problemTitle" class="sortby-title">Title</label> <br>
-                                <select name="problemTitle" id="problemTitle">
-                                    <option value="">-</option>
-                                    <option value="A-Z">Sort by A-Z</option>
-                                    <option value="Z-A">Sort by Z-A</option>
-                                </select>
-                            </div>
-
-                            <div class="dropdown-attribute">
-                                <!-- got this select tag template from w3 school -->
                                 <label for="status" class="sortby-title">Status</label> <br>
                                 <select name="status" id="status">
                                     <option value="">-</option>
-                                    <option value="In-Queue">InQueue</option>
+                                    <option value="In queue">InQueue</option>
                                     <option value="Verify">Verify</option>
                                     <option value="Solved">Solved</option>
                                 </select>
@@ -118,7 +106,7 @@
 
                     <div id="filter-apply-container">
                         <button id="apply-filter-button" name="applyFilter" onclick="getAjax()"> Apply </button>
-                        <button id="reset-filter-button" name="resetFilter"> Reset Filter </button>
+                        <button id="reset-filter-button" name="resetFilter" onclick="clearForm()"> Reset Filter </button>
                     </div>
                     <br><br>
                 </div> <!-- end of display-filter section | a grid component -->
@@ -256,6 +244,25 @@
         function changePage(x){
             var num = parseInt($.trim($( "#hidden-page" ).val()))
             $( "#hidden-page" ).val(num += x);
+            getAjax();
+        }
+
+        function clearForm(){
+            //reset radio buttons
+            document.getElementById("oldest-newest").checked = false;
+            document.getElementById("newest-oldest").checked = false;
+            document.getElementById("smallest-to-largest").checked = false;
+            document.getElementById("largest-to-smallest").checked = false;
+            //reset text inputs
+            document.getElementById("search-input").value = "";
+            document.getElementById("date-custom-start").value = "";
+            document.getElementById("date-custom-finish").value = "";
+            document.getElementById("custom-problemID-start").value = "";
+            document.getElementById("custom-problemID-end").value = "";
+            //reset select options
+            document.getElementById("importance").value = "";
+            document.getElementById("status").value = "";
+            //update page
             getAjax();
         }
     </script>

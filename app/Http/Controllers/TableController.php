@@ -14,7 +14,7 @@ class TableController extends Controller
         $between = array();
 
         if($request->search['value'] != null){
-            $filter = Arr::add($filter,$request->search['field'],[$request->search['field'],'like',$request->search['value']]);
+            $filter = Arr::add($filter,$request->search['field'],[$request->search['field'],'like',"%".$request->search['value']."%"]);
         }
 
         if($request->filter['date']['start'] != null && $request->filter['date']['end'] != null){
@@ -22,7 +22,9 @@ class TableController extends Controller
         }
 
         if($request->filter['id']['start'] != null && $request->filter['id']['end'] != null){
-            $between = Arr::add($between, "id", ["id",[$request->filter['id']['start'], $request->filter['id']['end']]]);
+            $max = max($request->filter['id']['start'],$request->filter['id']['end']);
+            $min = min($request->filter['id']['start'],$request->filter['id']['end']);
+            $between = Arr::add($between, "id", ["id",[$min, $max]]);
         }
 
         if($request->filter['importance'] != null){
@@ -31,10 +33,6 @@ class TableController extends Controller
 
         if($request->filter['status'] != null){
             $filter = Arr::add($filter,"status",['status', '=', $request->filter['status']]);
-        }
-
-        if($request->filter['title'] != null){
-            $filter = Arr::add($filter,"title",['title', 'like', $request->filter['title']]);
         }
 
         if($request->client_id != null){
@@ -51,8 +49,8 @@ class TableController extends Controller
             $logs->whereBetween($option[0],$option[1]);
         }
 
-        if($request->filter['date']['ascending'] == 'false' || !$request->filter['id']['ascending'] == 'false'){
-            $logs->orderBy('created_at','DESC');
+        if($request->filter['date']['ascending'] == "false" || $request->filter['id']['ascending'] == "false"){
+            $logs->orderBy('id','DESC');
         }
 
         if($request->user_id != null){
