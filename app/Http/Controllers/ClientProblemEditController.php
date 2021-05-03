@@ -2,20 +2,130 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Hardware;
-use App\Models\OperatingSystem;
+use Carbon\Carbon;
 use App\Models\Problem;
+use App\Models\Employee;
+use App\Models\Hardware;
+use App\Models\Software;
 use App\Models\ProblemLog;
 use App\Models\ProblemNote;
-use App\Models\Software;
 use Illuminate\Http\Request;
+use App\Models\OperatingSystem;
+use App\Models\SpecialistTracker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
 
 class ClientProblemEditController extends Controller
 {
     // This controller enables a privileged user to edit problem.
     public function __construct(){
         $this->middleware(['auth','check.user']);
+    }
+
+    public function store(Request $request, ProblemLog $problemlog){
+
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'generic_category' =>  'required',
+            'option_selected' => 'required',
+            'serial_num' => 'required_without:app_software',
+            'app_software' => 'required_without:serial_num',
+            'solution_num' => 'required_if:option_selected,==,Solution',
+        ]);
+
+        $problemlog->description = $request->description;
+        $problemlog->title = $request->title;
+
+        //update OS
+        if($request->operating_system != "-"){
+            $problemlog->operating_system_id = $request->operating_system;
+        }
+
+        //update software
+        if($request->app_software != "-"){
+            $problemlog->operating_system_id = $request->operating_system;
+        }
+
+        //update serial num
+        if($request->serial_num != null){
+            $hardware = Hardware::where('serial_num',$request->serial_num)->first();
+            if($hardware->count()){
+                $problemlog->hardware_id = $hardware->id;
+            }
+        }
+
+        //update categories
+        if($request->specific_category != "-"){
+            $category = Problem::where('problem_type',$request->specific_category)->first();
+            $problemlog->problem_id = $category->id;
+        } else {
+            $category = Problem::where('problem_type',$request->generic_category)->first();
+            $problemlog->problem_id = $category->id;
+        }
+
+        if($request->option_selected == "Solution"){
+            //create solution
+            $problemlog->status = "Verify";
+            $problemlog->solved_at = Carbon::now();
+            $problemlog->employee_id = auth()->user()->employee->id;
+            ProblemNote::create([
+                'solution' => ProblemNote::where('id',$request->solution_num)->get()->first()->solution,
+                'problem_log_id' => $problemlog->id,
+                'description' => ""
+            ]);
+
+        } else {
+            //find the best specialist to assign
+            $specialists = Employee::has('specialist');
+
+            //checks same location
+            if($request->location_type != "anywhere"){
+                $specialists->where('branch_id',auth()->user()->employee->branch_id);
+            }
+
+            //checks if they have the skills
+            $specialists->whereHas('specialistSkills',function($query) use ($request){
+                $query->where('problem_id',$request->generic_category);
+            })->orWhereHas('specialistSkills',function($query) use ($request){
+                $query->where('problem_id',$request->specific_category);
+            });
+
+            $specialists = $specialists->get();
+
+            $spec_id = null;
+
+            if($specialists->count() < 0){
+                //check if any available
+                foreach($specialists as $s){
+                    if($s->specialist_is_available){
+                        $spec_id = $s->id;
+                        break;
+                    }
+                }
+                //if not assign first
+                if($spec_id == null){
+                    $spec_id = $specialists->first()->id;
+                }
+            } else {
+                $current = $problemlog->trackers->last();
+                $spec_id = Employee::has('specialist')->where('id','<>',$current->specialist->id)->get()->first()->id;
+            }
+
+            //create tracker
+            SpecialistTracker::Create([
+                'employee_id' => $spec_id,
+                'reason' => 'Requested by client',
+                'problem_log_id' => $problemlog->id
+            ]);
+
+            $problemlog->specialist_assigned = true;
+        }
+
+        $problemlog->save();
+
+        return back();
+
     }
 
     public function index(ProblemLog $problemlog){

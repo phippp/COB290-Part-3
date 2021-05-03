@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\CallLog;
 use App\Models\Problem;
+use App\Models\Employee;
 use App\Models\Hardware;
 use App\Models\Software;
 use App\Models\ProblemLog;
@@ -12,7 +14,6 @@ use Illuminate\Http\Request;
 use App\Models\OperatingSystem;
 use App\Models\SpecialistTracker;
 use App\Http\Controllers\Controller;
-use App\Models\CallLog;
 
 class SpecialistProblemEditController extends Controller
 {
@@ -22,13 +23,18 @@ class SpecialistProblemEditController extends Controller
 
     public function store(Request $request, ProblemLog $problemlog){
 
+        // dd($request);
+
         //needs to have data validation
         $this -> validate($request, [
             'title' => 'required|max:255',
             'description' => 'required',
             'generic_category' =>  'required',
-            'solution' => 'required'
-
+            'option_selected' => 'required',
+            'serial_num' => 'required_without:app_software',
+            'app_software' => 'required_without:serial_num',
+            'solution' => 'required_if:option_selected,==,Solution',
+            'importance_level' => 'required',
         ]);
 
         //update title and description
@@ -73,6 +79,50 @@ class SpecialistProblemEditController extends Controller
                 ]);
             } else {
                 //need to have a way to work out best person to assign
+
+                //find the best specialist to assign
+                $specialists = Employee::has('specialist');
+
+                //checks same location
+                if($request->location_type != "anywhere"){
+                    $specialists->where('branch_id',auth()->user()->employee->branch_id);
+                }
+
+                //checks if they have the skills
+                $specialists->whereHas('specialistSkills',function($query) use ($request){
+                    $query->where('problem_id',$request->generic_category);
+                })->orWhereHas('specialistSkills',function($query) use ($request){
+                    $query->where('problem_id',$request->specific_category);
+                });
+
+                $specialists = $specialists->get();
+
+                $spec_id = null;
+
+                if($specialists->count() < 0){
+                    //check if any available
+                    foreach($specialists as $s){
+                        if($s->specialist_is_available){
+                            $spec_id = $s->id;
+                            break;
+                        }
+                    }
+                    //if not assign first
+                    if($spec_id == null){
+                        $spec_id = $specialists->first()->id;
+                    }
+                } else {
+                    $current = $problemlog->trackers->last();
+                    $spec_id = Employee::has('specialist')->where('id','<>',$current->specialist->id)->get()->first()->id;
+                }
+
+                SpecialistTracker::Create([
+                    'employee_id' => $spec_id,
+                    'reason' => 'Assigned by previous specialist',
+                    'problem_log_id' => $problemlog->id
+                ]);
+
+                $problemlog->specialist_assigned = true;
             }
         } else {
             //create a solution

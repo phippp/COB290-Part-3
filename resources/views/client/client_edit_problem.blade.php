@@ -50,10 +50,10 @@
         <!-- Creating a form section so we can retrieve their input in the backend once it is submitted -->
         <form action="#" method="post">
             @csrf
-            
+
             <!-- ########################################################################### -->
             <!-- Hardware and Software section -->
-            <div class="input-group-container"> 
+            <div class="input-group-container">
                 <div class="input-group-header">
                     <h3 class="section-heading"> Enter the appropriate equipment details. <span class="required-field">*</span>   </h3>
                 </div>
@@ -63,7 +63,7 @@
                         <!-- Operating system input -->
                         <div id="select-os">
                             <label for="operating-system" class="label-default">Operating system</label> <br>
-                            <select name="operating-system" id="os-system" class="select-default" >
+                            <select name="operating_system" id="os-system" class="select-default" >
                                 <option selected> - </option>
                                 @foreach($operatingSystems as $option)
                                     @if($option->id == $problemlog->operating_system_id)
@@ -81,7 +81,7 @@
                         <!-- Application software input -->
                         <div id="select-app-software">
                             <label for="app-software" class="label-default">Application Software</label> <br>
-                            <select name="app-software" id="app-software" class="select-default" >
+                            <select name="app_software" id="app-software" class="select-default" >
                                 <option selected> - </option>
                                 @foreach($software as $option)
                                     @if($option->id == $problemlog->software_id)
@@ -100,7 +100,7 @@
                     <!-- Hardware input section -->
                     <div id="hardware-section">
                         <label for="serial-num" class="label-default">Serial Number</label> <br>
-                        <input type="text" name="serial-num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"-" }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"" }}">
+                        <input type="text" name="serial_num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"-" }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"" }}">
                     </div>
 
                 </div>
@@ -111,7 +111,7 @@
                 <div class="input-group-header">
                     <h3 class="section-heading" class="label-default">  Notes   </h3>
                 </div>
-                
+
                 <div class="input-group-content">
                     <!-- Input field for title -->
                     <label for="title" class="label-default"> Title  <span class="required-field">*</span></label> <br>
@@ -138,7 +138,7 @@
                         <!-- Input section -->
                         <div id="generic-categorization-container">
                             <label for="generic-category" class="label-default"> General category </label> <br>
-                            <select name="generic-category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
+                            <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
                                 <option selected> - </option>
                                 @foreach($genericCategory as $thisCategory)
                                     @if((
@@ -158,7 +158,7 @@
 
                         <div id="specific-categorization-container">
                             <label for="specific-category" class="label-default"> Specific category</label> <br>
-                            <select name="specific-category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
+                            <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
                                 <option selected> - </option>
                                 @foreach($specificCategory as $thisCategory)
                                     @if(
@@ -182,7 +182,7 @@
             <!-- Option: choose a solution or allocate to a specialist -->
             <div class="toggle-button-container">
                 <input type="button" id="toggle-provide-solution" class="toggle-button toggle-selected" value="Provide solution" onclick="displayAppropriateInputField('Solution')">
-                <input type="hidden" id="option-selected" name="option-selected" value="Solution"> <!-- this tag is there to help the backend team determine which section to validate-->
+                <input type="hidden" id="option-selected" name="option_selected" value="Solution"> <!-- this tag is there to help the backend team determine which section to validate-->
                 <input type="button" id="toggle-assign-specialist" class="toggle-button" value="Assign specialist" onclick="displayAppropriateInputField('Specialist')">
             </div>
             <br>
@@ -208,7 +208,7 @@
                         @foreach($logs as $solution)
                             @php($last = $solution->notes->last())
                             <tr>
-                                <td><input type="checkbox" name="name1"  class="solution-checkbox"/></td>
+                                <td><input type="checkbox" name="solution_num" value="{{ $last->id }}" class="solution-checkbox"/></td>
                                 <td> {{ $solution->id }} </td>
                                 <td> {{ $solution->title}} </td>
                                 @if($solution->software_id != null && $solution->hardware_id != null) <td> {{ $solution->software->name }} & {{ $solution->hardware->name }}</td>
@@ -225,7 +225,7 @@
 
             <div id="assign-specialist-section" class="container-hide">
                 <label for="specialist-location" class="label-default"> Specialist location </label> <br>
-                <select name="location-type" id="location-type" class="select-default" >
+                <select name="location_type" id="location-type" class="select-default" >
                     <option value="anywhere"> Anywhere </option>
                     <option value="near-you"> Near you </option>
                 </select>
@@ -233,7 +233,7 @@
                 <br> <br>
                 <!-- Importance level to indicate how this problem is effecting the client's work / productivity -->
                 <label for="importance-level" class="label-default">Importance level </label> <br>
-                <select name="importance-level" id="importance-level-input" class="select-default" >
+                <select name="importance_level" id="importance-level-input" class="select-default" >
                     <option value="Low">Low</option>
                     <option value="Medium">Medium</option>
                     <option value="High">High</option>

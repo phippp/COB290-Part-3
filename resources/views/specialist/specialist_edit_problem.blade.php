@@ -49,7 +49,7 @@
             <div class="input-group-header">
                 <h3 class="section-heading"> Employee Details </h3>
             </div>
-            
+
             <div class="input-group-content">
                 <!-- Client information displayed on a table -->
                 <div id="emp-info-parent">
@@ -218,7 +218,7 @@
                     </div>
 
                     <h4 class="italic-light"> <em> OR </em> </h4>
-                    
+
                     <!-- Hardware input section -->
                     <div id="hardware-section">
                         <label for="serial-num" class="label-default">Serial Number</label> <br>
@@ -324,17 +324,17 @@
                     <!-- Only render the stuff below if description/solution has been modified from their initial input -->
                     <!-- View history of description and solution btn  -->
                     <hr>
-                    
+
                     <div class="flex" style="gap: 2%">
                         @if($problemlog->notes->count())
                         <button type="button" class="btn-secondary width-100" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
                         @endif
-                        
+
                         <button type="button" class="btn-secondary width-100" id="edit-notes-btn" onclick="displayAddNotes()"> View/Edit notes </button>
                     </div>
 
                     <div id="edit-notes-container" class="container-hide">
-                        <textarea name="specialist-notes" class="large-text-input" placeholder="Please write any additional notes"></textarea>
+                        <textarea name="specialist_notes" class="large-text-input" placeholder="Please write any additional notes"></textarea>
                     </div>
 
 
@@ -360,7 +360,7 @@
 
                     @endif
 
-                   
+
                 </div>
 
 
