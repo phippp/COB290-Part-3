@@ -20,12 +20,17 @@ class RegisterProblemController extends Controller
     }
 
     public function store(Request $request){
+
         // Ensures the title and description are entered
         #currently generic-category doesn't actually give an error
         $this -> validate($request, [
             'title' => 'required|max:255',
             'description' => 'required',
-            'generic_category' =>  'required'
+            'generic_category' =>  'required',
+            'option_selected' => 'required',
+            'serial_num' => 'required_without:app_software',
+            'app_software' => 'required_without:serial_num',
+            'solution_desc' => 'required_if:option_selected,==,Solution',
         ]);
 
         // Gets the component details the user inputted
