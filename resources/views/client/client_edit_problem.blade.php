@@ -11,6 +11,9 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{ asset('css/message_alert.css')}}">
     <script>
         // needed this data so we can automatically select & load generic and specific category.
         const genericCategory = @json($genericCategory, JSON_PRETTY_PRINT);
@@ -81,7 +84,7 @@
                         <!-- Application software input -->
                         <div id="select-app-software">
                             <label for="app-software" class="label-default">Application Software</label> <br>
-                            <select name="app_software" id="app-software" class="select-default" >
+                            <select name="app_software" id="app-software" class="select-default" onchange="getAjax()">
                                 <option selected> - </option>
                                 @foreach($software as $option)
                                     @if($option->id == $problemlog->software_id)
@@ -100,7 +103,7 @@
                     <!-- Hardware input section -->
                     <div id="hardware-section">
                         <label for="serial-num" class="label-default">Serial Number</label> <br>
-                        <input type="text" name="serial_num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"-" }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"" }}">
+                        <input type="text" name="serial_num" id="hardware-input" onchange="getAjax()" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"-" }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:"" }}">
                     </div>
 
                 </div>
@@ -189,38 +192,7 @@
 
 
             <div id="recommended-solution-section">
-                <!-- Place guidance for the user here, what to do when they come to solution section -->
-
-                <!-- Displaying all the records they have registered in the system -->
-                <div class="scrolltable-x">
-                    <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
-                        scroll feature so they view all the fields in the table  -->
-
-                    <table class="normal-table">
-                        <tr>
-                            <th>  </th> <!-- this columns is for the checkbox so the user is able to select any solution that could have helped them -->
-                            <th style="width:10%" > Problem ID </th>
-                            <th style="width:40%"> Problem Title </th>
-                            <th> Equipment </th>
-                            <th> Solution </th>
-                        </tr>
-
-                        @foreach($logs as $solution)
-                            @php($last = $solution->notes->last())
-                            <tr>
-                                <td><input type="checkbox" name="solution_num" value="{{ $last->id }}" class="solution-checkbox"/></td>
-                                <td> {{ $solution->id }} </td>
-                                <td> {{ $solution->title}} </td>
-                                @if($solution->software_id != null && $solution->hardware_id != null) <td> {{ $solution->software->name }} & {{ $solution->hardware->name }}</td>
-                                @elseif($solution->software_id != null) <td> {{ $solution->software->name }} </td>
-                                @else <td> {{ $solution->hardware->name }} </td>
-                                @endif
-                                <td> @if(!empty($last)){{ $last->solution }}@endif </td>
-                            </tr>
-                        @endforeach
-                    </table>
-
-                </div>
+            {{-- this will be rendered via ajax --}}
             </div>
 
             <div id="assign-specialist-section" class="container-hide">
@@ -238,14 +210,49 @@
                     <option value="Medium">Medium</option>
                     <option value="High">High</option>
                 </select>
+
+                <br><br>
+                 <!-- Submit button for form -->
+                <button id="query-submit-btn" class="btn-primary" type="submit" name="submit"> Submit  &#8594; </button>
+
             </div>
-
-
-            <!-- Submit button for form -->
-            <button id="query-submit-btn" class="btn-primary" type="submit" name="submit"> Submit  &#8594; </button>
 
         </form>
     </div>
+
+    <script>
+
+        function getAjax(){
+
+            $.ajax({
+                url: '{{ route('custom_solutions') }}',
+                type: 'POST',
+                headers : {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                datatype : "json",
+                data: {
+                    software : $( '#app-software' ).val(),
+                    hardware : $( '#hardware-input' ).val(),
+                },
+                success: function(response){
+                    console.log(response);
+                    $( '#recommended-solution-section' ).html(response['html']);
+                }
+            })
+        }
+
+        $(document).ready(getAjax());
+
+        // This stops enter submitting form
+        $('form input').keydown(function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    </script>
 
     <script src="{{ asset('js/client/register.js')}}"></script>
 

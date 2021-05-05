@@ -70,7 +70,7 @@ class ClientProblemEditController extends Controller
             $problemlog->solved_at = Carbon::now();
             $problemlog->employee_id = auth()->user()->employee->id;
             ProblemNote::create([
-                'solution' => ProblemNote::where('id',$request->solution_num)->get()->first()->solution,
+                'solution' => $request->solution_desc,
                 'problem_log_id' => $problemlog->id,
                 'description' => ""
             ]);
