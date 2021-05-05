@@ -50,7 +50,7 @@ class ClientProblemEditController extends Controller
         //update serial num
         if($request->serial_num != null){
             $hardware = Hardware::where('serial_num',$request->serial_num)->first();
-            if($hardware->count()){
+            if($hardware != null){
                 $problemlog->hardware_id = $hardware->id;
             }
         }
