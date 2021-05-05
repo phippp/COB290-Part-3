@@ -20,7 +20,7 @@ class VerifySolutionController extends Controller
 
     public function index(ProblemLog $problemlog){
 
-        $problemHistory = ProblemNote::where('problem_log_id', $problemlog->id)->get();
+        $problemHistory = ProblemNote::where('problem_log_id', $problemlog->id)->first();
 
 
         return view('client.client_verify_solution', [

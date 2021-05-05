@@ -46,7 +46,7 @@
 
                 <!-- Input field for Solution -->
                 <label for="solution" class="label-default"> Solution </label> <br>
-                <textarea name="solution" id="query-solution-input" class="large-text-input">{{ $problemlog->description }}</textarea>
+                <textarea name="solution" id="query-solution-input" class="large-text-input">{{ $problemHistory->solution }}</textarea>
 
             </div>
         </div>
