@@ -23,7 +23,14 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                //overwritten redirect when logged in
+                if(auth()->user()->employee->job->type == "Specialist"){
+                    return redirect()->route('specialist');
+                } else if(auth()->user()->employee->job->type == "User"){
+                    return redirect()->route('client');
+                } else if(auth()->user()->employee->job->type == "Analyst"){
+                    return redirect()->route('analyst');
+                }
             }
         }
 
