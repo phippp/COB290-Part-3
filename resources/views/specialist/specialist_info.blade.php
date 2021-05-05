@@ -19,7 +19,7 @@
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
 
         <div class="heading-flex-end">
-                <h2 class="page-title"> Device View </h2>
+                <h2 class="page-title"> Specialists </h2>
         </div>
         <hr class="page-title-hr">
 
