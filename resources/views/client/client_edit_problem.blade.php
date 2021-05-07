@@ -67,7 +67,7 @@
                         <div id="select-os">
                             <label for="operating-system" class="label-default">Operating system</label> <br>
                             <select name="operating_system" id="os-system" class="select-default" >
-                                <option selected> - </option>
+                                <option selected value="-"> - </option>
                                 @foreach($operatingSystems as $option)
                                     @if($option->id == $problemlog->operating_system_id)
                                         <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
@@ -85,7 +85,7 @@
                         <div id="select-app-software">
                             <label for="app-software" class="label-default">Application Software</label> <br>
                             <select name="app_software" id="app-software" class="select-default" onchange="getAjax()">
-                                <option selected> - </option>
+                                <option selected value="-"> - </option>
                                 @foreach($software as $option)
                                     @if($option->id == $problemlog->software_id)
                                         <option value = "{{$option->id}}" selected> {{$option->name}} </option>
