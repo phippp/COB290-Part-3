@@ -18,9 +18,11 @@ class SpecialistDevicesController extends Controller
     }
 
     public function index(){
-        return view('specialist.specialist_devices', ['navTitle'=>'dashboard',
-        'hardware' => Hardware::get(),
-        'software' => Software::get()
+        return view('specialist.specialist_devices', 
+        [
+            'navTitle'=>'devices',
+            'hardware' => Hardware::get(),
+            'software' => Software::get(),
         ]);
     }
 }

@@ -88,7 +88,7 @@ nav{
 
 nav a, .sidebar-nav-container a  ,#nav-logout {
     /* this applies style to all the navigation links */
-    color: #1d1d1d;
+    color: #606060;
     padding: 0.5em;
     margin: 0px 5px;
     text-decoration: none;
@@ -109,7 +109,9 @@ nav a, .sidebar-nav-container a  ,#nav-logout {
 
 .nav-link-active{
     /* this is applied to one of the navigation link to highlight the page we are on */
-    font-weight: 500;
+    color: #111;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 
@@ -122,7 +124,7 @@ nav a, .sidebar-nav-container a  ,#nav-logout {
 
 /* The styles changes the colour on the navigation link we are hovering over*/
 nav a:hover, #nav-logout:hover {
-    color: #5d5d5d;
+    color: #1d1d1d;
 }
 
 .drop-down-nav a:hover, nav form:hover{
@@ -206,6 +208,7 @@ nav a:hover, #nav-logout:hover {
     }
 
     #nav-state-icon{
+        cursor: pointer;
         display: flex;
         align-items: center;
     }
@@ -271,6 +274,7 @@ nav a:hover, #nav-logout:hover {
     justify-content:space-between;
     align-items:center;
     flex-wrap:wrap;
+    gap: 1rem;
 }
 
 #problem-id-info h4{
@@ -647,8 +651,8 @@ nav a:hover, #nav-logout:hover {
     text-align: center;
     font-size: 1rem;
     background-color: transparent;
-    border: 0.8px solid #0077FF;
-    color: #0077FF;
+    border: 0.8px solid #005ec7;
+    color: #005ec7;
     cursor: pointer;
 }
 
@@ -660,7 +664,7 @@ nav a:hover, #nav-logout:hover {
     text-align: center;
     border: none;
     font-size: 1rem;
-    background-color: #0077FF;
+    background-color: #005ec7;
     color: white;
     cursor:pointer;
     outline: 0;
@@ -716,7 +720,7 @@ nav a:hover, #nav-logout:hover {
     padding: 0.5rem;
     border-radius: 0.5rem;
     min-width: 8rem;
-    background-color: #1F8B24;
+    background-color: #0b7710;
     color: white;
     font-size: 1rem;
     border: none;
@@ -806,14 +810,39 @@ nav a:hover, #nav-logout:hover {
     border-radius: 0px;
 }
 
-/* Colour coding cells in the table */
-.problem-status-verify{
-    background: #ffe9d1;
+
+/* Table style with heading on the left column and data on the right */
+#hardware-table-summary th{
+    border-bottom: none;
+    padding: 5px 10px;
 }
 
-.problem-status-verify:hover{
-    background: #ffbc81;
+
+/* Colour coding cells in the table */
+.problem-status-verify{
+    background: #e0f2f1;
 }
+
+.problem-status-solved{
+    background: rgb(66 185 131 / 60%);
+}
+
+.importance-low{
+    background: #ffccbc;
+    /* background: rgb(129 212 250 / 30%); */
+}
+
+.importance-medium{
+    background: #ffab91;
+    /* background: rgb(255 167 38 / 40%); */
+}
+
+.importance-high{
+    background: #ff8a65;
+    /* background: rgb(255 138 101 / 50%); */
+}
+
+
 
 /* Employee info table */
 

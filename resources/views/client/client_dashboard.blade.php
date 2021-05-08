@@ -2,6 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/message_alert.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
@@ -105,8 +106,8 @@
                     </div> <!-- end of other-attribute-container -->
 
                     <div id="filter-apply-container">
-                        <button id="apply-filter-button" name="applyFilter" onclick="getAjax()"> Apply </button>
-                        <button id="reset-filter-button" name="resetFilter" onclick="clearForm()"> Reset Filter </button>
+                        <button class="btn-primary" name="applyFilter" onclick="getAjax()"> Apply </button>
+                        <button class="btn-primary-inverse" name="resetFilter" onclick="clearForm()"> Reset Filter </button>
                     </div>
                     <br><br>
                 </div> <!-- end of display-filter section | a grid component -->
@@ -157,7 +158,7 @@
                             <td class="problem-status-@if($problemlog->status != 'In queue'){{strtolower($problemlog->status)}}@endif">
                                 {{ $problemlog->status }}
                             </td>
-                            <td> {{ $problemlog->importance }} </td>
+                            <td class="importance-{{strtolower($problemlog->importance)}}"> {{ $problemlog->importance }} </td>
                         </tr>
                     @endforeach
                     </table>
@@ -180,9 +181,14 @@
 
 
                 @else
+                <div class="information-container" >
+                    <span> &#x1F6C8 </span>
                     <div>
-                        No problems reported.
+                        <b> No problems have been reported by you </b>
+                        <br>
+                        <p> If you would like to report a problem, then please  <a href="{{ route('registerProblem') }}"> click here </a></p>
                     </div>
+                </div> <br>
                 @endif
 
                 <!--

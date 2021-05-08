@@ -88,6 +88,7 @@ Route::post('/register', [RegisterProblemController::class, 'store']);
 // Analyst Controller
 Route::get('/analyst', [AnalystController::class, 'index'])->name('analyst');
 Route::get('/analyst/logfile', [AnalystController::class, 'logfile'])->name('analyst_logfile');
+Route::post('/analyst/logfile', [AnalystController::class, 'logfile'])->name('analyst_logfile_download');
 Route::get('/analyst/equipment', [AnalystController::class, 'equipment'])->name('analyst_equipment');
 Route::get('/analyst/training', [AnalystController::class, 'training'])->name('analyst_training');
 

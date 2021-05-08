@@ -31,8 +31,11 @@ class SpecialistInfoController extends Controller
                 ->groupBy('employees.id')
                 ->paginate(5);
 
-        return view('specialist.specialist_info', ['navTitle'=>'dashboard',
-        'specialists' => $specialists
-        ]);
+        return view('specialist.specialist_info', 
+            [
+                'navTitle'=>'specialists',
+                'specialists' => $specialists
+            ]
+        );
     }
 }

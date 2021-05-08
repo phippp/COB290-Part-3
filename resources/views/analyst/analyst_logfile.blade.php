@@ -114,6 +114,13 @@
                         scroll feature so they view all the fields in the table  -->
 
                 </div>
+            </div><br>
+
+            <div id="download-data">
+                <form action="{{ route('analyst_logfile_download') }}" method="post">
+                    @csrf
+                    <button type="submit" name="download_logfile" class="btn-secondary">  &darr; Download </button>
+                </form>
             </div>
         </div>
     </div>
