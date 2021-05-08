@@ -27,7 +27,9 @@ class SpecialistController extends Controller
         })->paginate(5);
         //Now displays any jobs that a specialist was ever assigned to
 
-        $specialist_cases = ProblemLog::where('employee_id',auth()->user()->employee->id)->get();
+        $specialist_cases = ProblemLog::with('trackers')->whereHas('trackers',function($query){
+            $query->where('employee_id',auth()->user()->employee->id);
+        })->get();
         $cases_today = ProblemLog::with('trackers')->whereHas('trackers',function($query){
                             $query->where('employee_id',auth()->user()->employee->id);
                         })
@@ -40,13 +42,13 @@ class SpecialistController extends Controller
                         ->where('status', '<>', 'Solved')
                         ->count();
         $low_importance = $specialist_cases
-                        ->where('importance', 'low')
+                        ->where('importance', 'Low')
                         ->count();
         $medium_importance = $specialist_cases
-                        ->where('importance', 'medium')
+                        ->where('importance', 'Medium')
                         ->count();
         $high_importance = $specialist_cases
-                        ->where('importance', 'high')
+                        ->where('importance', 'High')
                         ->count();
 
         return view('specialist.specialist_dashboard',
