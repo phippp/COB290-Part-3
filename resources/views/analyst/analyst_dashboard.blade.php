@@ -189,7 +189,7 @@
                 maintainAspectRatio: false,
 
                 data: {
-                    labels: ['Specialist required','Solved by client',],
+                    labels: ['Solved by client','Specialist required',],
                     datasets: [
                         {
                             label: 'Problem Reported',

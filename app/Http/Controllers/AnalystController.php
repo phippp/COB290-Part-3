@@ -55,11 +55,14 @@ class AnalystController extends Controller
         // VS 
         // the problem being assigned to a specialist
         $registerOptionSelected = ProblemLog::selectRaw("specialist_assigned, COUNT(id) as 'frequency'")
-                            ->whereDate("created_at", '>=', $date6MonthFromNow)
-                            ->groupBy('specialist_assigned')
-                            ->get();
+                                    ->whereDate("created_at", '>=', $date6MonthFromNow)
+                                    ->groupBy('specialist_assigned')
+                                    ->orderBy('specialist_assigned')
+                                    ->get();
 
         $registerOptionSelected = $registerOptionSelected->pluck("frequency")->toArray();
+
+        // dd($registerOptionSelected);
 
 
 
