@@ -145,7 +145,7 @@ class RegisterProblemController extends Controller
                 'status' => "In queue",
                 'importance' => $request->importance_level,
                 'solved_at' => null,
-                'employee_id' => $id,
+                'employee_id' => $specialistID[0]->employee_id,
                 'client_id' => $id
             ]);
 
