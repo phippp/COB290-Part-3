@@ -83,10 +83,9 @@ class RegisterProblemController extends Controller
                                 where e.id = :employee_id', ['employee_id' => $id]);
 
         // Find the correct problem id (generic or specific)
-        // Currently gets the problem type, not it's id
         $spec = $request->specific_category;
-        $spec = substr($spec, 0, strpos($spec, '.')+1);
-        if($spec == "-") {
+        $isDash = substr($spec, 0, strpos($spec, '.')+1);
+        if($isDash == "-") {
             $probName = $request->generic_category;
             $pID = DB::select('select id from problems
                                 where problem_type = :problem', ['problem' => $probName]);
