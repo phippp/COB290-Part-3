@@ -159,6 +159,13 @@ class RegisterProblemController extends Controller
                 'reason' => "Automatically assigned",
                 'problem_log_id' => $logID[0]->id
             ]);
+            
+            // Create problem note entry 
+            ProblemNote::create([
+                'description' => $request->description,
+                'solution' => null,
+                'problem_log_id' => $logID[0]->id
+            ]);
         }
 
         // If there is an available and appropriate solution for them that they have selected
