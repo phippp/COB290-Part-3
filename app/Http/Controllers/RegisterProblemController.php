@@ -144,7 +144,7 @@ class RegisterProblemController extends Controller
                 'description' => $request->description,
                 'status' => "In queue",
                 'importance' => $request->importance_level,
-                'solved_at' => '2000-01-01 01:01:01',
+                'solved_at' => null,
                 'employee_id' => $id,
                 'client_id' => $id
             ]);
@@ -158,8 +158,8 @@ class RegisterProblemController extends Controller
                 'reason' => "Automatically assigned",
                 'problem_log_id' => $logID[0]->id
             ]);
-            
-            // Create problem note entry 
+
+            // Create problem note entry
             ProblemNote::create([
                 'description' => $request->description,
                 'solution' => null,

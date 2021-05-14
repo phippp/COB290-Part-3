@@ -104,20 +104,19 @@
                                 <th> Name </th>
                                 <th> Version </th>
                             </tr>
-                            <tr>
-                                @foreach ($software as $sw)
+
+                            @foreach ($software as $sw)
                                 <tr>
                                     <td>{{ $sw->id }}</td>
                                     <td>{{ $sw->name }}</td>
                                     <td>{{ $sw->version }}</td>
                                 </tr>
-                            </tr>
                             @endforeach
                         </table>
                     </div>
                 </div>
-            </div>        
-        
+            </div>
+
         </div>
 
     </div>

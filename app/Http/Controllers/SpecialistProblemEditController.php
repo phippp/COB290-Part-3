@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use App\Models\OperatingSystem;
 use App\Models\SpecialistTracker;
 use App\Http\Controllers\Controller;
-use DB;
 
 class SpecialistProblemEditController extends Controller
 {
@@ -130,7 +129,7 @@ class SpecialistProblemEditController extends Controller
             $problemlog->status = "Verify";
             $problemlog->solved_at = Carbon::now();
             $problemlog->employee_id = auth()->user()->employee->id;
-            
+
             ProblemNote::create([
                 'solution' => $request->solution,
                 'problem_log_id' => $problemlog->id,
