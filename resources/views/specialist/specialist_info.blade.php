@@ -25,13 +25,13 @@
                 <div id="search-by-form">
                     <label for="type">Search By:</label>
                     <select name="type" id="search-type">
-                        <option value="specialistID">Specialist ID</option>
+                        <option value="id">Specialist ID</option>
                         <option value="name">Name</option>
                         <option value="branch">Branch ID</option>
-                        <option value="city">City / Country</option>
+                        <option value="location">City / Country</option>
                     </select>
                     <input type="text" name="" id="search-input">
-                    <button onclick="getAjax()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
+                    <button onclick="updateSpecialist()"> <img src="{{ asset('images/search_icon.svg') }}" alt="Search" srcset=""> </button>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                     <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
                         scroll feature so they view all the fields in the table  -->
 
-                    <table class="normal-table">
+                    <table class="normal-table" id="spec-table">
                         <tr>
                             <th> Specialist ID </th>
                             <th> Name </th>
@@ -62,21 +62,10 @@
                         @endforeach
                     </table>
                 </div>
-
-                <div class="table-property-container">
-                        <div class="pagination">
-                            @if (!$specialists->onFirstPage())
-                                <a href="{{ $specialists->previousPageUrl() }}"> &#x276E </a>
-                            @endif
-                            <span id="page-number">{{ $specialists->currentPage() }}</span>
-                            <span> / {{ $specialists->lastPage() }}</span>
-                            @if ($specialists->hasMorePages())
-                                <a href="{{ $specialists->nextPageUrl() }}"> &#x276F </a>
-                            @endif
-                        </div>
-                    </div>
             </div>
         </div>
+
+        <script src="{{ asset('js/specialist/specialists.js')}}"></script>
 
     </div>
 @endsection
