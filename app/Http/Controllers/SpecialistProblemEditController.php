@@ -130,8 +130,12 @@ class SpecialistProblemEditController extends Controller
             $problemlog->status = "Verify";
             $problemlog->solved_at = Carbon::now();
             $problemlog->employee_id = auth()->user()->employee->id;
-            DB::update('update problem_notes set solution = :sol where problem_log_id = :pID',
-                ['sol' => $request->solution, 'pID' => $problemlog->id]);
+            
+            ProblemNote::create([
+                'solution' => $request->solution,
+                'problem_log_id' => $problemlog->id,
+                'description' => ""
+            ]);
         }
 
         //update importance
