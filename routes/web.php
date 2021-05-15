@@ -42,8 +42,7 @@ Route::get('/client/{problemlog:id}/viewworked', [ClientProblemOverviewControlle
 Route::get('/client/{problemlog:id}/viewdidnotwork', [ClientProblemOverviewController::class, 'solutionDidNotWork'])->whereNumber('id')->name('client_problem_view_did_not_work');
 
 Route::get('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'index'])->whereNumber('id')->name('client_problem_edit');
-Route::post('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'store']);
-
+Route::post('/client/{problemlog:id}/edit', [ClientProblemEditController::class, 'store'])->whereNumber('id')->name('client_problem_update_existing');
 Route::get('/client/{problemlog:id}/verify', [VerifySolutionController::class, 'index'])->whereNumber('id')->name('client_verify_solution');
 
 Route::get('/client', [ClientController::class, 'index'])->name('client');
@@ -83,7 +82,7 @@ Route::post('/specialist/profile/availability/edit/{Holiday:id}',[SpecialistProf
 Route::get('/logbook', [SpecialistLogbookController::class, 'index'])->name('logbook');
 
 Route::get('/register', [RegisterProblemController::class, 'index'])->name('registerProblem');
-Route::post('/register', [RegisterProblemController::class, 'store']);
+Route::post('/register', [RegisterProblemController::class, 'store'])->name('validateRegisterProblem');
 
 // Analyst Controller
 Route::get('/analyst', [AnalystController::class, 'index'])->name('analyst');

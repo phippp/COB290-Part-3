@@ -3,6 +3,7 @@
 @section('style')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/message_alert.css')}}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         body{
@@ -221,9 +222,12 @@
                 </div>
 
                 @else
-                    <div>
-                        No problems reported.
-                    </div>
+                    <div class="information-container" >
+                        <span> &#x1F6C8 </span>
+                        <div>
+                            <b> No cases have been assigned to you. </b>
+                        </div>
+                    </div> <br>
                 @endif
 
 

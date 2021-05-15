@@ -9,6 +9,9 @@ function displayAppropriateInputField(btnClicked){
 
     // this is useful in the backend to track what option they have chosen and based on that we only have to check certain value
     const optionTracker = document.querySelector('#option-selected') 
+
+    // this is for error cover up when user switches
+    const errorNoSolutionSelected = document.querySelector("#solution-error-register");
     
     if(btnClicked == "Solution"){
         // If the 'Provide Solution' button is clicked, we only show the solution section
@@ -17,6 +20,13 @@ function displayAppropriateInputField(btnClicked){
         specialistSection.classList.add('container-hide')
         btnSpecialist.classList.remove('toggle-selected')
         optionTracker.value = "Solution"
+
+        // error
+        if(errorNoSolutionSelected != null){
+            errorNoSolutionSelected.classList.remove("container-hide")
+        }
+
+
     } else if (btnClicked == "Specialist"){
         // If the 'Assign Specialist' button is clicked, we will not show the problem ID section
         solutionSection.classList.add('container-hide')
@@ -24,6 +34,11 @@ function displayAppropriateInputField(btnClicked){
         specialistSection.classList.remove('container-hide')
         btnSpecialist.classList.add('toggle-selected')
         optionTracker.value = "Specialist"
+
+        // error cover up, 
+        if(errorNoSolutionSelected != null){
+            errorNoSolutionSelected.classList.add("container-hide")
+        }
     }
 }
 
@@ -57,8 +72,8 @@ function reloadCategoryInfo(){
     var specificField = document.querySelector('#specific-category')
     
     // this variable will store what will be rendered on the browser
-    generalHTML = '<option selected> - </option>' 
-    specificHTML = '<option selected> - </option>' 
+    generalHTML = '<option value="" selected> - </option>' 
+    specificHTML = '<option value="" selected> - </option>' 
 
     for(category in genericCategory){
         categoryName = genericCategory[category]
@@ -99,7 +114,7 @@ function getSpecificCategoryBasedOnGeneric(){
     }
 
     // now that the generic field exist, we need to generate html code to output the specific category
-    specificHTML = '<option selected> - </option>'
+    specificHTML = '<option value="" selected> - </option>'
     for(category in specificList){
         categoryName = specificList[category]
         specificHTML += '<option value="' + categoryName  +  'selected>' +   categoryName  +'</option>'

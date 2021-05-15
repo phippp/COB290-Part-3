@@ -26,7 +26,10 @@
                 Check if the logged in specialist has the privilege to edit this problem. Only specialist that is currently assigned should be able to edit this problem
              -->
             @php
-            $specialistAssigned =  $problemlog->trackers->sortByDesc('created_at')->first()->employee_id
+            $specialistAssigned = null;
+            if($problemlog->trackers->sortByDesc('created_at')->first() != null){
+                $specialistAssigned =  $problemlog->trackers->sortByDesc('created_at')->first()->employee_id;
+            }
             @endphp
             @if($specialistAssigned != null && $specialistAssigned == auth()->user()->employee_id)
                 <a href="{{route('specialist_edit_problem',$problemlog)}}" id="edit-overview-btn">
@@ -277,8 +280,8 @@
                         @foreach($problemlog->notes as $note)
 
                             <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
-                                <h4 id="modified-info"> Last edited @ {{ $note->created_at }} by Team 9 (ID:9)</h4>
-                                <h4 id="pervious-description-title"> Description </h4>
+                                <h4 id="modified-info"> Last edited @ {{ $note->created_at }} </h4>
+                                <h4 id="pervious-description-title"> Notes </h4>
                                 <textarea readonly class="pervious-description"> {{ $note->description }} </textarea>
                                 <h4 id="pervious-solution-title"> Solution </h4>
                                 <textarea readonly class="pervious-solution"> {{ $note->solution}} </textarea>
@@ -399,7 +402,7 @@
                                 <tr>
                                     <th> Specialist ID </th>
                                     <th> Specialist Name </th>
-                                    <th> Assigned By </th>
+                                    <th> Date Assigned </th>
                                     <th> Reason </th>
                                 </tr>
 
@@ -408,7 +411,7 @@
                                     <tr>
                                         <td> {{ $specialistAssigned->employee_id }} </td>
                                         <td> {{ $specialistAssigned->specialist->forename . ' ' .  $specialistAssigned->specialist->surname  }} </td>
-                                        <td> Not available from DB </td>
+                                        <td> {{ $specialistAssigned->created_at->format('d/m/Y g:ia') }} </td>
                                         <td> {{ $specialistAssigned->reason }} </td>
                                     </tr>
 

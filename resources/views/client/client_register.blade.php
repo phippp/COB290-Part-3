@@ -26,7 +26,7 @@
 
 
         <!-- Creating a form section so we can retrieve their input in the backend once it is submitted -->
-        <form action="#" method="post">
+        <form action="{{ route('validateRegisterProblem') }}" method="post">
             @csrf
             <!-- ########################################################################### -->
             <!-- Hardware and Software section -->
@@ -42,9 +42,13 @@
                         <div id="select-os">
                             <label for="operating_system" class="label-default">Operating system</label> <br>
                             <select name="operating_system" id="os-system" class="select-default" >
-                            <option selected> - </option>
+                            <option value="" selected> - </option>
                             @foreach($operatingSystems as $option)
-                                <option value = "{{ $option->id }}"> {{ $option->operating_system_name }} </option>
+                                @if ( old('operating_system') == $option->id )
+                                    <option value = "{{ $option->id }}" selected> {{ $option->operating_system_name }} </option>
+                                @else
+                                    <option value = "{{ $option->id }}"> {{ $option->operating_system_name }} </option>
+                                @endif
                             @endforeach
                             </select>
                         </div>
@@ -53,21 +57,41 @@
                         <div id="select-app-software">
                             <label for="app_software" class="label-default">Application Software</label> <br>
                             <select name="app_software" id="app-software" class="select-default" onchange="getAjax()">
-                                <option selected value = ""> - </option>
+                                <option value="" selected> - </option>
                                 @foreach($software as $option)
-                                    <option value = "{{ $option->id }}"> {{ $option->name }} </option>
+                                    @if ( old('app_software') == $option->id )
+                                    <option value = "{{ $option->id }}" selected> {{ $option->name }} </option>
+                                    @else
+                                        <option value = "{{ $option->id }}"> {{ $option->name }} </option>
+                                    @endif
+                    
                                 @endforeach
                             </select>
                         </div>
                     </div>
+                    @error('app_software')
+                        <div style = "color:red; font-size: small">
+                            {{$message}}
+                        </div>
+                    @enderror
+                    @error('operating_system')
+                        <div style = "color:red; font-size: small">
+                           {{$message}}
+                        </div>
+                    @enderror
 
                     <h4 class="italic-light"><em> OR </em></h4>
 
                     <!-- Hardware input section -->
                     <div id="hardware-section">
                         <label for="serial_num" class="label-default">Serial Number</label> <br>
-                        <input type="text" name="serial_num" id="hardware-input" class="small-text-input" onchange="getAjax()">
+                        <input type="text" name="serial_num" id="hardware-input" class="small-text-input" value="{{old('serial_num') }}" onchange="getAjax()">
                     </div>
+                    @error('serial_num')
+                        <div style = "color:red; font-size: small">
+                           {{$message}}
+                        </div>
+                    @enderror
                 </div>
             </div>
 
@@ -80,8 +104,8 @@
 
                 <div class="input-group-content">
                     <!-- Input field for title -->
-                    <label for="title" class="label-default"> Title <span class="required-field">*</span> </label> <br>
-                    <input type="text" name="title" id="query-title-input"class="small-text-input" > <br>
+                    <label for="title" class="label-default" > Title <span class="required-field">*</span> </label> <br>
+                    <input type="text" name="title" id="query-title-input"class="small-text-input" placeholder="Give your problem a title" value="{{ old('title') }}" maxlength="255"> <br>
                     <!-- Ensuring title field is filled -->
                     @error('title')
                         <div style = "color:red; font-size: small">
@@ -93,7 +117,7 @@
                     <!-- Input field for Description -->
                     <label for="description" class="label-default">Description <span class="required-field">*</span></label> <br>
                     <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
-                    <textarea name="description" id="query-description-input" class="large-text-input">{{old('description')}}</textarea>
+                    <textarea name="description" id="query-description-input" class="large-text-input" placeholder="Describe your problem in detail ....">{{old('description')}}</textarea>
                     <!-- Ensuring description field is filled -->
                     @error('description')
                     <div style = "color:red; font-size: small" >
@@ -118,9 +142,14 @@
                         <div id="generic-categorization-container">  <!-- this div is CSS flex child   -->
                             <label for="generic_category" class="label-default">General category <span class="required-field">*</span> </label> <br>
                             <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
-                                <option selected> - </option>
+                                <option value="" selected> - </option>
                                 @foreach($genericCategory as $thisCategory)
-                                    <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+
+                                    @if ( old('generic_category') == $thisCategory )
+                                        <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
+                                    @else
+                                        <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -128,13 +157,23 @@
                         <div id="specific-categorization-container">
                             <label for="specific_category" class="label-default"> Specific category</label> <br>
                             <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
-                            <option selected> - </option>
+                            <option value="" selected> - </option>
                             @foreach($specificCategory as $thisCategory)
-                                <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                @if ( old('specific_category') == $thisCategory )
+                                    <option value="{{ $thisCategory }}" selected> {{ $thisCategory }}</option>
+                                @else
+                                    <option value="{{ $thisCategory }}"> {{ $thisCategory }}</option>
+                                @endif
                             @endforeach
                             </select>
                         </div>
                     </div>
+                    @error('generic_category')
+                        <div style = "color:red; font-size: small">
+                            {!! $message !!}
+                        </div>
+                    @enderror
+                    
 
                     <button type="button" id="reset-category-list" class="btn-secondary" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
                 </div>
@@ -153,6 +192,15 @@
             </div>
             <br>
 
+
+            @error('solution_desc')
+                <div id="solution-error-register">
+                    <div style = "color:red; font-size: small">
+                        {{ $message }}
+                    </div>
+                    <br>
+                </div>
+            @enderror
 
             <div id="recommended-solution-section">
                 {{-- Anything here will be rendered by solution.blade.php --}}
@@ -199,7 +247,6 @@
                     hardware : $( '#hardware-input' ).val(),
                 },
                 success: function(response){
-                    console.log(response);
                     $( '#recommended-solution-section' ).html(response['html']);
                 }
             })

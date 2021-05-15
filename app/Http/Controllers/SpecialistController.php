@@ -5,9 +5,11 @@ use Carbon\Carbon;
 
 use App\Models\Employee;
 use App\Models\ProblemLog;
+use App\Models\SpecialistTracker;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class SpecialistController extends Controller
 {

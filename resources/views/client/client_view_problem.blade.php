@@ -202,30 +202,6 @@
                 <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
                 <textarea name="description" id="query-description-input" class="large-text-input" readonly>{{ $problemlog->description }}</textarea>
 
-                <!-- Only render the stuff below if description/solution has been modified from their initial input -->
-                <!-- View history of description and solution btn  -->
-
-                @if($problemlog->notes->count())
-
-                    <button type="button" class="btn-secondary" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
-
-                    <div class="pervious-info-container container-hide" id="pervious-history-container"> <!-- This is container which will show all the pervious description and solution -->
-
-                        @foreach($problemlog->notes as $note)
-
-                            <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
-                                <h4 id="modified-info"> Last edited @ {{ $note->created_at }} by Team 9 (ID:9)</h4>
-                                <h4 id="pervious-description-title"> Description </h4>
-                                <textarea readonly class="pervious-description"> {{ $note->description }} </textarea>
-                                <h4 id="pervious-solution-title"> Solution </h4>
-                                <textarea readonly class="pervious-solution"> {{ $note->solution}} </textarea>
-                            </div> <hr>
-
-                        @endforeach
-
-                    </div>
-
-                @endif
             </div>
 
         </div>
@@ -246,8 +222,8 @@
                         <!-- BACKEND: show this div if the problem has been assigned to a specialist and no solution is provided  -->
                         <textarea name="solution" class="large-text-input" readonly> {{ $note->solution }} </textarea>
                         <?php $solution = true; ?>
-                        @break
                     @endif
+                    @break
 
                 @endforeach
 

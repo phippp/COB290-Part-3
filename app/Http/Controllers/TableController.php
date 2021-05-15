@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ProblemLog;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TableController extends Controller
 {
@@ -57,6 +58,23 @@ class TableController extends Controller
             $logs->whereHas('trackers',function($query) use ($request) {
                 $query->where('employee_id',$request->user_id);
             });
+
+            /*
+            // this will get only the cases that are currently assigned to the specialist
+            $getSpecialistCases = DB::select(
+                "SELECT a.problem_log_id 
+                FROM specialist_trackers a 
+                INNER JOIN 
+                    ( SELECT max(c.created_at) as 'created_at', c.problem_log_id FROM specialist_trackers c GROUP BY problem_log_id ) 
+                b 
+                ON a.problem_log_id = b.problem_log_id 
+                AND b.created_at = a.created_at 
+                WHERE employee_id = ?", 
+                [$request->user_id]
+            );
+
+            $logs->whereIn('id', array_column($getSpecialistCases, "problem_log_id"));
+            */
         }
 
         $logs = $logs->paginate(5);

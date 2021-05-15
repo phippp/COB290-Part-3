@@ -12,6 +12,7 @@ use App\Models\ProblemNote;
 use Illuminate\Http\Request;
 use App\Models\OperatingSystem;
 use App\Models\SpecialistTracker;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
 
@@ -22,109 +23,233 @@ class ClientProblemEditController extends Controller
         $this->middleware(['auth','check.user']);
     }
 
-    public function store(Request $request, ProblemLog $problemlog){
+    public function store(Request $request, ProblemLog $problemlog){        
+        $this -> validate($request, 
+            [
+                'serial_num' => 'required_without:app_software,operating_system',
+                'app_software' => 'required_without:serial_num|required_with:operating_system',
+                'operating_system' => 'required_with:app_software',
+                'title' => 'required|max:255',
+                'description' => 'required',
+                'generic_category' =>  'required',
+            ],[
+                'app_software.required_without' => "Application Software & Operating System fields is required when Serial Number is not provided",
+                "operating_system.required_with" => "The operating system field is required when application software is present.",
+                'generic_category.required' => "The generic category field is required therefore please select a category that best suits your problem",
+            ]
+        );
 
-        $this->validate($request, [
-            'title' => 'required|max:255',
-            'description' => 'required',
-            'generic_category' =>  'required',
-            'option_selected' => 'required',
-            'serial_num' => 'required_without:app_software',
-            'app_software' => 'required_without:serial_num',
-            'solution_num' => 'required_if:option_selected,==,Solution',
-        ]);
 
-        $problemlog->description = $request->description;
-        $problemlog->title = $request->title;
 
-        //update OS
-        if($request->operating_system != "-"){
-            $problemlog->operating_system_id = $request->operating_system;
-        }
-
-        //update software
-        if($request->app_software != "-"){
-            $problemlog->operating_system_id = $request->operating_system;
-        }
-
-        //update serial num
-        if($request->serial_num != null){
-            $hardware = Hardware::where('serial_num',$request->serial_num)->first();
-            if($hardware != null){
-                $problemlog->hardware_id = $hardware->id;
+       // If hardware is provided, then check if it exist in database else throw an error
+        if(!empty($request->serial_num)) {
+            try{
+                // checking if it exists
+                $hardwareID = Hardware::where("serial_num", $request->serial_num)->firstOrFail();
+                $problemlog->hardware_id = $hardwareID->id;
+            } catch(ModelNotFoundException $exception){
+                // hardware does not exist in the database
+                return back()->withErrors(array("serial_num" => "Serial number is not valid"))->withInput();
             }
         }
 
-        //update categories
-        if($request->specific_category != "-"){
-            $category = Problem::where('problem_type',$request->specific_category)->first();
-            $problemlog->problem_id = $category->id;
-        } else {
-            $category = Problem::where('problem_type',$request->generic_category)->first();
-            $problemlog->problem_id = $category->id;
-        }
-
-        if($request->option_selected == "Solution"){
-            //create solution
-            $problemlog->status = "Verify";
-            $problemlog->solved_at = Carbon::now();
-            $problemlog->employee_id = auth()->user()->employee->id;
-            ProblemNote::create([
-                'solution' => $request->solution_desc,
-                'problem_log_id' => $problemlog->id,
-                'description' => ""
-            ]);
-
-        } else {
-            //find the best specialist to assign
-            $specialists = Employee::has('specialist');
-
-            //checks same location
-            if($request->location_type != "anywhere"){
-                $specialists->where('branch_id',auth()->user()->employee->branch_id);
+        // Checks if the software selected by the user exists in the database. (Just a safety check in-case the user modifies the option from front-end -> inspect element)
+        $appSoftwareInput = $request->app_software;
+        $osInput = $request->operating_system;
+        if( ! (empty($appSoftwareInput) && empty($osInput) )){
+            try{
+                // checking if it exists
+                $softwareID = Software::findOrFail($appSoftwareInput);
+                $problemlog->software_id = $softwareID->id;
+            } catch(ModelNotFoundException $exception){
+                // application software does not exist in the database
+                return back()->withErrors(array("app_software" => "Please provide a valid application software"))->withInput();
             }
 
-            //checks if they have the skills
-            $specialists->whereHas('specialistSkills',function($query) use ($request){
-                $query->where('problem_id',$request->generic_category);
-            })->orWhereHas('specialistSkills',function($query) use ($request){
-                $query->where('problem_id',$request->specific_category);
+            try{
+                // checking if operating system  exists in db.
+                $osID = OperatingSystem::findOrFail($appSoftwareInput);
+                $problemlog->operating_system_id = $osID->id;
+            } catch(ModelNotFoundException $exception){
+                // operating system does not exist in the database
+                return back()->withErrors(array("operating_system" => "Please provide a valid operating system"))->withInput();
+            }
+        }
+
+        // title and description
+        if($problemlog->title != $request->title ||$problemlog->description != $request->description ){
+            $problemlog->title = $request->title;
+            $problemlog->description = $request->description;
+            $problemlog->status = "In queue";
+        }
+
+
+        // category check
+        $specCategoryID = null;
+        $genericCategoryID = null;
+        if($request->specific_category != null) {
+            try{
+                // checking if it exists
+                $specCategoryID = Problem::where( "problem_type",$request->specific_category)->firstOrFail();
+                $genericCategoryID = $specCategoryID->problem_id;
+                $specCategoryID = $specCategoryID->id;
+                $problemlog->problem_id = $specCategoryID;
+            } catch(ModelNotFoundException $exception){
+                // application software does not exist in the database
+                return back()->withErrors(array("generic_category" => "Please provide a valid specific category"))->withInput();
+            }
+        }
+        else {
+            try{
+                $genericCategoryID = Problem::where( "problem_type", $request->generic_category)->firstOrFail();
+                $genericCategoryID = $genericCategoryID->id;
+                $problemlog->problem_id = $genericCategoryID;
+            } catch(ModelNotFoundException $exception){
+                // application software does not exist in the database
+                return back()->withErrors(array("generic_category" => "Please provide a valid generic category"))->withInput();
+            }
+        }
+
+        
+
+       // check if the user has selected any option from solution table
+       if(isset($request->submitSol)){
+           if(!empty($request->solution_desc)){
+               // get if previous notes exist based on the problem id
+               // check if the solution is different otherwise insert a new row in the table
+               $existingProblemNote = ProblemNote::where("problem_log_id", $problemlog->id);
+               if($existingProblemNote->exists()){
+                   $existingProblemNote = $existingProblemNote->get()->reverse()->first();
+                   if($existingProblemNote->solution != $request->solution_desc){
+                        // add new row in the table
+                        ProblemNote::create([
+                            'description' => "",
+                            'solution' => $request->solution_desc,
+                            'problem_log_id' => $problemlog->id
+                        ]);
+
+                        // mark the problem as solved
+                        $problemlog->status = "Solved";
+                        $problemlog->solved_at = Carbon::now();
+                        $problemlog->employee_id = auth()->user()->employee_id;
+                   }
+                } else {
+                   // insert a new row in the table
+                    ProblemNote::create([
+                        'description' => "",
+                        'solution' => $request->solution_desc,
+                        'problem_log_id' => $problemlog->id
+                    ]);
+                    // mark the problem as solved
+                    $problemlog->status = "Solved";
+                    $problemlog->solved_at = Carbon::now();
+                    $problemlog->employee_id = auth()->user()->employee_id;
+
+                }
+
+           }
+       }
+
+
+       if(isset($request->submitSpec)){
+           // getting list of all specialist
+           $specialists = Employee::has('specialist'); 
+
+           if($request->specialist_location != "anywhere") {
+               // Checks if we need to filter based on their location
+               $specialists->where('branch_id',auth()->user()->employee->branch_id);
+           }
+
+            // filters out specialist that have the required skills
+            $specialists->whereHas('specialistSkills',function($query) use($genericCategoryID){
+                $query->where('problem_id',$genericCategoryID );
+            })->orWhereHas('specialistSkills',function($query) use($specCategoryID){
+                $query->where('problem_id',$specCategoryID);
             });
 
-            $specialists = $specialists->get();
+            $specialists = $specialists->get(); // this will get all the specialist left after filtering
+            $availableSpecialist = array();
 
-            $spec_id = null;
-
-            if($specialists->count() < 0){
-                //check if any available
+            if($specialists->count() == 0){
+                // no specialist exists with those requirement therefore, we will use all the specialist that we have in the system
+                $availableSpecialist = Employee::has('specialist')->get();
+                $availableSpecialist = array_column($availableSpecialist->toArray(), "id");
+            } else {
+                // if we found specialists that matches the requirement and we need to do the following check
+                // > check if any available
+                // > get the specialist with least worked load 
                 foreach($specialists as $s){
-                    if($s->specialist_is_available){
-                        $spec_id = $s->id;
-                        break;
+                    if($s->specialist->is_available){
+                        array_push($availableSpecialist, $s->id);
                     }
                 }
-                //if not assign first
-                if($spec_id == null){
-                    $spec_id = $specialists->first()->id;
+                
+                //if no specialist are "available" then we include just have select the specialist who is unavailable with the least work load
+                if($availableSpecialist == null){
+                    $availableSpecialist = array_column($specialists->toArray(), "id");
                 }
-            } else {
-                $current = $problemlog->trackers->last();
-                $spec_id = Employee::has('specialist')->where('id','<>',$current->specialist->id)->get()->first()->id;
             }
 
-            //create tracker
+            // now that we got list of specialist to select from
+            // perquisite : getting  information required to select the specialist with the least work load
+            $ongoingLogIDs = ProblemLog::select("id")->where("status", "<>", "Solved")->where("specialist_assigned", 1)->get()->toArray();  
+            $ongoingLogIDs = array_column($ongoingLogIDs, "id");
+            
+            $availableSpecialist  = implode(",", $availableSpecialist);
+            $ongoingLogIDs = implode(',', $ongoingLogIDs); 
+        
+
+            // explanation:: 
+            // 1. we have subquery which gets the maximum date of created_at based on the problem id
+            // 2. Next we use the maximum date and problem id to identify the latest / current specialist assigned to the problem
+            // 3. This query will return as the the number of current job assigned to a particular employee 
+            $leastWorkLoadSpecialists = DB::select("SELECT COUNT(a.id) as 'workload', a.employee_id
+            FROM specialist_trackers a 
+            INNER JOIN 
+                ( 
+                    SELECT max(c.created_at) as 'created_at', c.problem_log_id  
+                    FROM specialist_trackers c 
+                    WHERE c.problem_log_id IN ($ongoingLogIDs) 
+                    GROUP BY problem_log_id 
+                ) 
+            b 
+            ON a.problem_log_id = b.problem_log_id 
+            AND b.created_at = a.created_at
+            WHERE a.employee_id IN ($availableSpecialist)
+            GROUP BY a.employee_id
+            ORDER BY count(a.id) ASC",
+            );
+
+            $spec_id = null;
+            // checking if there are specialist which were currently have no jobs, because the sql will only get specialist that have a ongoing jobs.
+            $freeSpecialist = array_diff( explode(",", $availableSpecialist) , array_column($leastWorkLoadSpecialists, "employee_id") );
+            if(count($freeSpecialist)){
+                $spec_id = intval(current($freeSpecialist));
+            } else {
+                $spec_id = current($leastWorkLoadSpecialists)->employee_id;
+            }
+
+            // Insert into specialist tracker
             SpecialistTracker::Create([
                 'employee_id' => $spec_id,
-                'reason' => 'Requested by client',
+                'reason' => "Automatically assigned",
                 'problem_log_id' => $problemlog->id
             ]);
 
+            ProblemNote::create([
+                'description' => "",
+                'solution' => "",
+                'problem_log_id' => $problemlog->id
+            ]);
+
+            $problemlog->status = "In queue";
             $problemlog->specialist_assigned = true;
-        }
+       }
 
-        $problemlog->save();
+       $problemlog->save();
 
-        return back();
+       return redirect()->route('client_problem_view', $problemlog->id);
+
 
     }
 

@@ -2,6 +2,7 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/message_alert.css')}}">
     <script>
         // needed this data so we can automatically select & load generic and specific category.
         const genericCategory = @json($genericCategory, JSON_PRETTY_PRINT);
@@ -16,7 +17,17 @@
     @include('specialist.specialist_navigation')
 
     <div class="page-container"> <!-- this class will center the content i.e align it horizontally and put max width-->
-
+        @if ($errors->any())
+            <div class="single-error-container">
+                <span> &#10006 </span>
+                <div id="call-reason-error-msg">
+                    <b> Please fix the issues below to make your desired changes to this problem </b>
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         <div class="heading-flex-end">
                 <h2 class="page-title"> Edit </h2>
         </div>
@@ -34,7 +45,7 @@
 
             <div class="problem-status ">
                 <div id="problem-status-title"> Problem Status </div>
-                <select name="query-status" class="select-default">
+                <select name="query_status" class="select-default">
                     <option value="In-Queue" {{ $problemlog->status == "In-Queue" ? "selected" : "" }} > In-Queue </option>
                     <option value="Verify" {{ $problemlog->status == "Verify" ? "selected" : "" }} > Verify </option>
                     <option value="Solved" {{ $problemlog->status == "Solved" ? "selected" : "" }} > Solved </option>
@@ -128,14 +139,14 @@
                 </div>
 
                 <div class="input-group-content">
-                    <button type="button" class="btn-secondary" id="add-call-btn" onclick="displayControllerForAddCall()">+ Add Call Records</button>
+                    <button type="button" class="btn-outline-orange" id="add-call-btn" onclick="displayControllerForAddCall()">+ Add Call Log</button>
                     @if($problemlog->calls->count())
                         <button type="button" class="btn-secondary" id="call-record-btn" onclick="callRecords()">&#x2706 View Call Records ({{$problemlog->calls->count()}})</button>
                     @endif
                     <div id="add-call" class="container-hide">
                         <br>
                         <h3 class="label-default"> Call Description </h3>
-                        <textarea name="call_description" id="call-description-input" class="large-text-input" placeholder="Please describe the call here."></textarea>
+                        <textarea name="call_description" id="call-description-input" class="large-text-input" placeholder="Please describe the call here.">{{old('call_description') }} </textarea>
                     </div>
 
                     @if($problemlog->calls->count())
@@ -187,7 +198,7 @@
                         <div id="select-os">
                             <label for="operating-system" class="label-default">Operating system</label> <br>
                             <select name="operating_system" id="os-system" class="select-default" >
-                                <option selected value="-"> - </option>
+                                <option value="" selected > - </option>
                                 @foreach($operatingSystems as $option)
                                     @if($option->id == $problemlog->operating_system_id)
                                         <option value = "{{$option->id}}" selected> {{$option->operating_system_name}} </option>
@@ -196,16 +207,13 @@
                                     @endif
                                 @endforeach
                             </select>
-
-
-                            <!-- <input type="text" name="operating-system" id="os-system" class="small-text-input" placeholder="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"-" }}" value="{{ ($problemlog->operating_system_id != null)?$problemlog->operatingSystem->operating_system_name:"" }}"> -->
                         </div>
 
                         <!-- Application software input -->
                         <div id="select-app-software">
                             <label for="app-software" class="label-default">Application Software</label> <br>
                             <select name="app_software" id="app-software" class="select-default" >
-                                    <option selected value="-"> - </option>
+                                    <option value="" selected> - </option>
                                     @foreach($software as $option)
                                     @if($option->id == $problemlog->software_id)
                                         <option value = "{{$option->id}}" selected> {{$option->name}} </option>
@@ -216,6 +224,16 @@
                             </select>
                         </div>
                     </div>
+                    @error('app_software')
+                        <div style = "color:red; font-size: small">
+                            {{$message}}
+                        </div>
+                    @enderror
+                    @error('operating_system')
+                        <div style = "color:red; font-size: small">
+                           {{$message}}
+                        </div>
+                    @enderror
 
                     <h4 class="italic-light"> <em> OR </em> </h4>
 
@@ -224,6 +242,12 @@
                         <label for="serial-num" class="label-default">Serial Number</label> <br>
                         <input type="text" name="serial_num" id="hardware-input" class="small-text-input" placeholder="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'-' }}" value="{{ ($problemlog->hardware_id != null)?$problemlog->hardware->serial_num:'' }}">
                     </div>
+
+                    @error('serial_num')
+                        <div style = "color:red; font-size: small">
+                           {{$message}}
+                        </div>
+                    @enderror
                 </div>
 
 
@@ -244,7 +268,7 @@
                         <div id="generic-categorization-container">
                             <label for="generic-category" class="label-default"> General category </label> <br>
                             <select name="generic_category" id="generic-category" class="select-default" onchange="getSpecificCategoryBasedOnGeneric()">
-                                <option selected> - </option>
+                                <option value="" selected> - </option>
                                 @foreach($genericCategory as $thisCategory)
                                     @if((
                                         $problemlog->problemType->problem_id != null &&
@@ -261,16 +285,11 @@
                             </select>
                         </div>
                         <!-- Ensuring generic category field is filled -->
-                        @error('generic_category')
-                            <div style = "color:red; font-size: small">
-                                {{$message}}
-                            </div>
-                        @enderror
 
                         <div id="specific-categorization-container">
                             <label for="specific-category" class="label-default"> Specific category</label> <br>
                             <select name="specific_category" id="specific-category" class="select-default" onchange="getGenericCategoryBasedOnSpecific()">
-                                <option selected> - </option>
+                                <option value="" selected> - </option>
                                 @foreach($specificCategory as $thisCategory)
                                     @if(
                                         $problemlog->problemType->problem_id != null &&
@@ -284,6 +303,11 @@
                             </select>
                         </div>
                     </div>
+                    @error('generic_category')
+                        <div style = "color:red; font-size: small">
+                            {{$message}}
+                        </div>
+                    @enderror
 
 
                     <button type="button" id="reset-category-list" class="btn-secondary" onclick="reloadCategoryInfo()"> &#x27F3 Reset options </button>
@@ -330,11 +354,11 @@
                         <button type="button" class="btn-secondary width-100" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
                         @endif
 
-                        <button type="button" class="btn-secondary width-100" id="edit-notes-btn" onclick="displayAddNotes()"> View/Edit notes </button>
+                        <button type="button" class="btn-outline-orange width-100" id="edit-notes-btn" onclick="displayAddNotes()"> View/Edit notes </button>
                     </div>
 
                     <div id="edit-notes-container" class="container-hide">
-                        <textarea name="specialist_notes" class="large-text-input" placeholder="Please write any additional notes"></textarea>
+                        <textarea name="specialist_notes" class="large-text-input" placeholder="Please write any additional notes">@if( $problemlog->notes->reverse()->first()->description != null ){{ $problemlog->notes->reverse()->first()->description }} @endif</textarea>
                     </div>
 
 
@@ -347,8 +371,8 @@
                             @foreach($problemlog->notes as $note)
 
                                 <div class="solution-description-msg"> <!-- This hold information about single change in description and solution -->
-                                    <h4 id="modified-info"> Last edited @ {{ $note->created_at }} by Team 9 (ID:9)</h4>
-                                    <h4 id="pervious-description-title"> Description </h4>
+                                    <h4 id="modified-info"> Last edited @ {{ $note->created_at }} </h4>
+                                    <h4 id="pervious-description-title"> Notes </h4>
                                     <textarea readonly class="pervious-description"> {{ $note->description }} </textarea>
                                     <h4 id="pervious-solution-title"> Solution </h4>
                                     <textarea readonly class="pervious-solution"> {{ $note->solution}} </textarea>
@@ -365,7 +389,18 @@
 
 
             </div>
-
+            @error('specialist')
+                <div style = "color:red; font-size: small">
+                    {{$message}}
+                </div>
+                <br>
+            @enderror
+            @error('specialist_reason')
+                <div style = "color:red; font-size: small">
+                    {{$message}}
+                </div>
+                <br>
+            @enderror
 
             <!-- ########################################################################### -->
             <!-- Option: choose a solution or allocate to a specialist -->
@@ -394,7 +429,7 @@
 
                 <label for="specialist-id" class="label-default"> Specialist ID </label> <br>
                 <input type="number" name="specialist_id" id="specialist-id-input" class="small-text-input" min="1" readonly>
-                <button type="button" id="edit-specialist-btn" class="btn-secondary" onclick="displayModifySpecialistSection()">
+                <button type="button" id="edit-specialist-btn" class="btn-outline-orange" onclick="displayModifySpecialistSection()">
                     &#x270E; Edit
                 </button>
 
@@ -403,10 +438,15 @@
                     <br><br>
                     <label for="specialist-reason" class="label-default">Reason for change in specialist <span class="required-field">*</span></label> <br>
                     <textarea name="specialist_reason" id="specialist-reason-input" class="large-text-input"></textarea>
-                    <br>
+                    <br><br>
+
+                    <label for="specialist_location" class="label-default"> Specialist location </label> <br>
+                    <select name="specialist_location" id="specialist-location" class="select-default" >
+                        <option value="anywhere"> Anywhere </option>
+                        <option value="near-you"> Near client </option>
+                    </select> <br><br>
 
                     <button type="button" class="btn-primary-inverse" onclick="validateSpecialistChange()"> Save changes </button>
-                    <button type="button" class="btn-secondary" onclick="displayRecommendedSpecialist()"> View Recommended Specialist  </button>
 
                     <div class="recommended-specialist-table container-hide scrolltable-x">
                         <br>
@@ -435,7 +475,7 @@
                             <tr>
                                 <th> Specialist ID </th>
                                 <th> Specialist Name </th>
-                                <th> Assigned By </th>
+                                <th> Date Assigned </th>
                                 <th> Reason </th>
                             </tr>
 
@@ -444,7 +484,7 @@
                                 <tr>
                                     <td> {{ $specialistAssigned->employee_id }} </td>
                                     <td> {{ $specialistAssigned->specialist->forename . ' ' .  $specialistAssigned->specialist->surname  }} </td>
-                                    <td> Not available from DB </td>
+                                    <td> {{ $specialistAssigned->created_at->format('d/m/Y g:ia') }} </td>
                                     <td> {{ $specialistAssigned->reason }} </td>
                                 </tr>
 

@@ -2,6 +2,17 @@
     <!-- The scorlltable-x is used if the table is to big for a given display to be fit so it will add the
         scroll feature so they view all the fields in the table  -->
     <input style="display: none" readonly type="number" name="hidden-page" id="hidden-page" value="{{ $problemlogs->currentPage() }}">
+    
+    @if(@count($problemlogs) == 0)
+        <div class="single-error-container">
+            <span> &#10006 </span>
+            <div id="call-reason-error-msg">
+                <b> No results found </b>
+                <p> <a href="#" onclick="clearForm()"> Click here </a> to reset the filter applied </p>
+            </div>
+        </div>
+
+    @else
 
     <table class="normal-table hover-cursor-on-table">
         <tr>
@@ -30,6 +41,7 @@
         </tr>
     @endforeach
     </table>
+    @endif
 </div>
 
 <!-- This section will handle pagination and the number of rows to show in a table -->

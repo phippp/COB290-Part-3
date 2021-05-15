@@ -675,7 +675,7 @@ nav a:hover, #nav-logout:hover {
 }
 
 
-.btn-secondary{
+.btn-secondary, .btn-outline-orange{
     margin: 10px 0px;
     padding: 0.4rem 1rem;
     font-size: 1rem;
@@ -693,6 +693,18 @@ nav a:hover, #nav-logout:hover {
     background-color: #6c757d;
     color: #ffffff;
 }
+
+.btn-outline-orange{
+    color: #e65100;
+    border: 1px solid #e65100;
+}
+
+.btn-outline-orange:hover{
+    background: #e65100;
+    color: #fff;
+}
+
+
 
 /* This styling is used in overview page */
 #edit-overview-btn{
