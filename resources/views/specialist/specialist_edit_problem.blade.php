@@ -351,14 +351,14 @@
 
                     <div class="flex" style="gap: 2%">
                         @if($problemlog->notes->count())
-                        <button type="button" class="btn-secondary width-100" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
+                            <button type="button" class="btn-secondary width-100" id="pervious-record-history-btn"  onclick="displayPerviousRecords()"> &#x276E View History ({{$problemlog->notes->count()}}) </button>
                         @endif
 
                         <button type="button" class="btn-outline-orange width-100" id="edit-notes-btn" onclick="displayAddNotes()"> View/Edit notes </button>
                     </div>
 
                     <div id="edit-notes-container" class="container-hide">
-                        <textarea name="specialist_notes" class="large-text-input" placeholder="Please write any additional notes">@if( $problemlog->notes->reverse()->first()->description != null ){{ $problemlog->notes->reverse()->first()->description }} @endif</textarea>
+                        <textarea name="specialist_notes" class="large-text-input" placeholder="Please write any additional notes">@if($problemlog->notes->count() && $problemlog->notes->reverse()->first()->description != ""){{ $problemlog->notes->reverse()->first()->description }} @endif</textarea>
                     </div>
 
 
@@ -415,7 +415,7 @@
                 <br>
                 <label for="solution" class="label-default">Solution <span class="required-field">*</span> </label> <br>
                 <!-- Don't leave any space between the opening and closing tag of textarea, those extra space are added in the text input, life is weird -->
-                <textarea name="solution" id="solution-input" class="large-text-input" >@if( $problemlog->notes->reverse()->first()->solution != null ){{ $problemlog->notes->reverse()->first()->solution }} @endif</textarea>
+                <textarea name="solution" id="solution-input" class="large-text-input" >@if( $problemlog->notes->count() ){{ $problemlog->notes->reverse()->first()->solution }} @endif</textarea>
                 <!-- Ensuring solution field is filled -->
                 @error('solution')
                     <div style = "color:red; font-size: small">
@@ -467,7 +467,7 @@
 
                 @if( $problemlog->trackers->count() > 0)
                     <br>
-                    <button type="button" class="btn-secondary" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Pervious Specialist </button>
+                    <button type="button" class="btn-secondary" id="specialist-record-btn" onclick="displaySpecialistRecords()"> View Previous Specialist </button>
 
                     <div id="specialist-record-container" class="scrolltable-x container-hide ">
 
