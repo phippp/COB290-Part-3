@@ -97,6 +97,8 @@ class SpecialistProblemEditController extends Controller
                 $specCategoryID = Problem::where( "problem_type",$request->specific_category)->firstOrFail();
                 $genericCategoryID = $specCategoryID->problem_id;
                 $specCategoryID = $specCategoryID->id;
+                $problemlog->problem_id = $specCategoryID;
+
             } catch(ModelNotFoundException $exception){
                 // application software does not exist in the database
                 return back()->withErrors(array("generic_category" => "Please provide a valid specific category"))->withInput();
@@ -106,6 +108,7 @@ class SpecialistProblemEditController extends Controller
             try{
                 $genericCategoryID = Problem::where( "problem_type", $request->generic_category)->firstOrFail();
                 $genericCategoryID = $genericCategoryID->id;
+                $problemlog->problem_id = $genericCategoryID;
             } catch(ModelNotFoundException $exception){
                 // application software does not exist in the database
                 return back()->withErrors(array("generic_category" => "Please provide a valid generic category"))->withInput();
