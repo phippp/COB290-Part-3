@@ -80,7 +80,7 @@ class ProblemLog extends Model
 
     public function currentSpecialist(){
         $last = $this->trackers->last();
-        return $last->specialist->forename. " " . $last->specialist->surname;
+        return ($last != null)? $last->specialist->forename. " " . $last->specialist->surname: "No specialist assigned";
     }
 
     public function calls(){
