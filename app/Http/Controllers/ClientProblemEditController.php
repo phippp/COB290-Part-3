@@ -20,11 +20,11 @@ class ClientProblemEditController extends Controller
 {
     // This controller enables a privileged user to edit problem.
     public function __construct(){
-        $this->middleware(['auth','check.user']);
+        $this->middleware(['auth','check.user','isClient']);
     }
 
-    public function store(Request $request, ProblemLog $problemlog){        
-        $this -> validate($request, 
+    public function store(Request $request, ProblemLog $problemlog){
+        $this -> validate($request,
             [
                 'serial_num' => 'required_without:app_software,operating_system',
                 'app_software' => 'required_without:serial_num|required_with:operating_system',
@@ -110,7 +110,7 @@ class ClientProblemEditController extends Controller
             }
         }
 
-        
+
 
        // check if the user has selected any option from solution table
        if(isset($request->submitSol)){
@@ -153,7 +153,7 @@ class ClientProblemEditController extends Controller
 
        if(isset($request->submitSpec)){
            // getting list of all specialist
-           $specialists = Employee::has('specialist'); 
+           $specialists = Employee::has('specialist');
 
            if($request->specialist_location != "anywhere") {
                // Checks if we need to filter based on their location
@@ -177,13 +177,13 @@ class ClientProblemEditController extends Controller
             } else {
                 // if we found specialists that matches the requirement and we need to do the following check
                 // > check if any available
-                // > get the specialist with least worked load 
+                // > get the specialist with least worked load
                 foreach($specialists as $s){
                     if($s->specialist->is_available){
                         array_push($availableSpecialist, $s->id);
                     }
                 }
-                
+
                 //if no specialist are "available" then we include just have select the specialist who is unavailable with the least work load
                 if($availableSpecialist == null){
                     $availableSpecialist = array_column($specialists->toArray(), "id");
@@ -192,28 +192,28 @@ class ClientProblemEditController extends Controller
 
             // now that we got list of specialist to select from
             // perquisite : getting  information required to select the specialist with the least work load
-            $ongoingLogIDs = ProblemLog::select("id")->where("status", "<>", "Solved")->where("specialist_assigned", 1)->get()->toArray();  
+            $ongoingLogIDs = ProblemLog::select("id")->where("status", "<>", "Solved")->where("specialist_assigned", 1)->get()->toArray();
             $ongoingLogIDs = array_column($ongoingLogIDs, "id");
-            
-            $availableSpecialist  = implode(",", $availableSpecialist);
-            $ongoingLogIDs = implode(',', $ongoingLogIDs); 
-        
 
-            // explanation:: 
+            $availableSpecialist  = implode(",", $availableSpecialist);
+            $ongoingLogIDs = implode(',', $ongoingLogIDs);
+
+
+            // explanation::
             // 1. we have subquery which gets the maximum date of created_at based on the problem id
             // 2. Next we use the maximum date and problem id to identify the latest / current specialist assigned to the problem
-            // 3. This query will return as the the number of current job assigned to a particular employee 
+            // 3. This query will return as the the number of current job assigned to a particular employee
             $leastWorkLoadSpecialists = DB::select("SELECT COUNT(a.id) as 'workload', a.employee_id
-            FROM specialist_trackers a 
-            INNER JOIN 
-                ( 
-                    SELECT max(c.created_at) as 'created_at', c.problem_log_id  
-                    FROM specialist_trackers c 
-                    WHERE c.problem_log_id IN ($ongoingLogIDs) 
-                    GROUP BY problem_log_id 
-                ) 
-            b 
-            ON a.problem_log_id = b.problem_log_id 
+            FROM specialist_trackers a
+            INNER JOIN
+                (
+                    SELECT max(c.created_at) as 'created_at', c.problem_log_id
+                    FROM specialist_trackers c
+                    WHERE c.problem_log_id IN ($ongoingLogIDs)
+                    GROUP BY problem_log_id
+                )
+            b
+            ON a.problem_log_id = b.problem_log_id
             AND b.created_at = a.created_at
             WHERE a.employee_id IN ($availableSpecialist)
             GROUP BY a.employee_id
