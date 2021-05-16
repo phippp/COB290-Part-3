@@ -45,12 +45,15 @@ class SpecialistController extends Controller
                         ->count();
         $low_importance = $specialist_cases
                         ->where('importance', 'Low')
+                        ->where('status', '<>', 'Solved')
                         ->count();
         $medium_importance = $specialist_cases
                         ->where('importance', 'Medium')
+                        ->where('status', '<>', 'Solved')
                         ->count();
         $high_importance = $specialist_cases
                         ->where('importance', 'High')
+                        ->where('status', '<>', 'Solved')
                         ->count();
 
         return view('specialist.specialist_dashboard',
