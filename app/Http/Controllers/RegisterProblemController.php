@@ -149,7 +149,7 @@ class RegisterProblemController extends Controller
 
             $specialists = $specialists->get(); // this will get all the specialist left after filtering
             $spec_id = null; // this will store the final specialist selected
-            
+            $availableSpecialist = array();
             if($specialists->count() > 0){
                 foreach($specialists as $s){
                     if($s->specialist->is_available){
