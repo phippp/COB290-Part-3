@@ -100,7 +100,7 @@ function getSpecificCategoryBasedOnGeneric(){
     var specificField = document.querySelector('#specific-category')
 
     // if the user chooses default option '-', then we show all the specific category (since this is the default behaviour of the system)
-    if (genericField.value === '-'){
+    if (genericField.value === ''){
         reloadCategoryInfo()
         return false;
     }
@@ -117,7 +117,7 @@ function getSpecificCategoryBasedOnGeneric(){
     specificHTML = '<option value="" selected> - </option>'
     for(category in specificList){
         categoryName = specificList[category]
-        specificHTML += '<option value="' + categoryName  +  'selected>' +   categoryName  +'</option>'
+        specificHTML += '<option value="' + categoryName  +  '">' +   categoryName  +'</option>'
     }
 
     // rendering the new specific list which is based on the generic list selected by the user
